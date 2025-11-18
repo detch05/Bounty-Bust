@@ -1,0 +1,684 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: "BountyBust Web API"
+
+externalDocs:
+  description: More info can be found here.
+  url: https://gitlab.up.pt/lbaw/lbaw2526/lbaw25146
+servers:
+  - url: http://lbaw.fe.up.pt
+    description: Production server
+tags:
+  - name: "M01: Account creation and accessibility"
+  - name: "M02: Bounties"
+  - name: "M03: Answers"
+  - name: "M04: Comments"
+  - name: "M05: Tags"
+  - name: "M06: Rating and award system"
+  - name: "M07: Search and filters"
+  - name: "M08: Platform regulation and information pages"
+  - name: "M09: Notification system"
+
+paths:
+  /login:
+    get:
+      operationId: R101
+      summary: "R101: Login Form"
+      description: "Get to the login form page. Access: PUB"
+      tags:
+        - "M01: Account creation and accessibility"
+      responses:
+        "200":
+          description: "Ok. Login Form"
+    post:
+      operationId: R102
+      summary: "R102: Login Action"
+      description: "Check submitted user credentials from Login form. Access: PUB"
+      tags:
+        - "M01: Account creation and accessibility"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        "302":
+          description: "Redirect after checking user credentials."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Correct credentials, redirecting to profile."
+                  value: "/users/{id}"
+                302Error:
+                  description: "User failed to connect, redirecting to login form."
+                  value: "/login"
+  /logout:
+    post:
+      operationId: R103
+      summary: "R103: Logout Action"
+      description: "Logout of the currently authenticated account. Access: USR,MOD,ADM"
+      tags:
+        - "M01: Account creation and accessibility"
+      responses:
+        "302":
+          description: "Redirect after logout"
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Successfully logging out, redirecting to homepage"
+                  value: "/"
+  /register:
+    get:
+      operationId: R104
+      summary: "R104: Register Form"
+      description: "Get register form page. Access: PUB"
+      tags:
+        - "M01: Account creation and accessability"
+      responses:
+        "200":
+          description: "Ok. Register Form"
+    post:
+      operationId: R105
+      summary: "R105: Register Action"
+      description: "Handle new user account creation form. Access: PUB"
+      tags:
+        - "M01: Account creation and accessability"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                profile_picture:
+                  type: string
+                  format: binary
+              required:
+                - username
+                - email
+                - password
+                - name
+      responses:
+        "302":
+          description: "Redirect after registering."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Successfully authenticated, redirecting to user profile."
+                  value: "/users/{id}"
+                302Failure:
+                  description: "Failed to authenticate, redirecting to register Form"
+                  value: "/login"
+  /users/{id}:
+    get:
+      operationId: R106
+      summary: "R106: View profile"
+      description: "Showcase accounty features through personal profile. Access: USR, MOD, ADM"
+      tags:
+        - "M01: Account creation and accessibility"
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          description: "Ok. Show User profile"
+  /users/{i}/edit:
+    get:
+      operationId: R107
+      summary: "R107: Edit Profile Form"
+      description: "Get the profile editing form for the authenticated user. Access: OWN, ADM"
+      tags:
+        - "M01: Account creation and accessibility"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Ok. Profile Edit Form"
+    post:
+      operationId: R108
+      summary: "R108: Edit Profile Action"
+      description: "Update user profile information submitted from the profile edit form. Access: OWN, ADM"
+      tags:
+        - "M01: Account creation and accessibility"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                name:
+                  type: string
+                bio:
+                  type: string
+                profile_picture:
+                  type: string
+                  format: binary
+              required:
+                - username
+                - email
+                - name
+      responses:
+        "302":
+          description: "Redirect after editing profile."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Profile successfully updated, redirecting to profile page."
+                  value: "/users/{id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to profile edit form."
+                  value: "/users/{id}/edit"
+  /bounties:
+    get:
+      operationId: "R201"
+      summary: "R201: List of Bounties"
+      description: "Display of all posted bounties. Access: PUB"
+      tags: 
+        - "M02: Bounties"
+      parameters:
+        - name: page
+          in: query
+          schema: 
+            type: integer
+            default: 1
+        - name: sort
+          in: query
+          schema: 
+            type: string
+            enum: [recent, rating,reward]
+            default: recent
+        - name: tag
+          in: query
+          schema:
+            type: string 
+      responses:
+        "200": 
+          description: "Bounties successfully retrieved."
+          content:
+            application/json: 
+              schema: 
+                type: array 
+                items:
+                  $ref: '#/components/schemas/Bounty'
+  /bounties/create:
+    post:
+      operationId: "R202"
+      summary: "R202: Create a new bounty"
+      description: "Process newly created bounty from creation form. Access: USR,MOD,ADM"
+      tags:
+        - "M02: Bounties"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                reward:
+                  type: number
+                media: 
+                  type: string
+                  format: binary
+              required: 
+                - title
+                - string 
+      responses:
+        "302":
+          description: "Redirect after creating bounty."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Bounty created successfully, redirecting to bounty page."
+                  value: "/bounties/{id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to creation form."
+                  value: "/bounties/create"
+    get:
+      operationId: "R203"
+      summary: "R203: Getting bounty create Form"
+      description: "Feching the form to create a new bounty. Access: USR, MOD, ADM."
+      tags:
+        - "M02: Bounties"
+      responses:
+        "200":
+          description: "Ok. Bounty creation form."
+  /bounties/{id}:
+    get:
+      operationId: "R204"
+      summary: "R204: Bounty Details"
+      description: "View the details of a bounty. Access: PUB"
+      tags:
+            - "M02: Bounties"
+      parameters:
+        - in: path 
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Ok. Returning bounty details."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bounty"
+        "404":
+          description: "Could not find Bounty with requested id."
+    delete:
+      operationId: "R205"
+      summary: "R205: Delete Bounty"
+      description: "Delete an existing bounty. Access: OWNER, MOD, ADM"
+      tags:
+        - "M02: Bounties"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after deleting bounty."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Bounty deleted successfully, redirecting to bounty list."
+                  value: "/bounties"
+                302Failure:
+                  description: "Failed to delete bounty, redirecting back to bounty page."
+                  value: "/bounties/{id}"
+        "404":
+          description: "Bounty not found."
+
+  /bounties/{id}/edit:
+    get:
+      operationId: "R206"
+      summary: "R206: Edit Bounty Form"
+      description: "Get the bounty editing form for the authenticated user. Access: OWNER, MOD, ADM"
+      tags:
+        - "M02: Bounties"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Bounty Edit Form"
+        "404":
+          description: "Bounty not found."
+    post:
+      operationId: "R207"
+      summary: "R207: Edit Bounty Action"
+      description: "Update bounty information submitted from the bounty edit form. Access: OWNER, MOD, ADM"
+      tags:
+        - "M02: Bounties"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: "ID of the bounty to edit"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                reward:
+                  type: number
+                media:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - description
+      responses:
+        "302":
+          description: "Redirect after editing bounty."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Bounty successfully updated, redirecting to bounty page."
+                  value: "/bounties/{id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to bounty edit form."
+                  value: "/bounties/{id}/edit"
+  /answers:
+    get:
+      operationId: "R301"
+      summary: "R301: List of Answers"
+      description: "Display all answers. Access: PUB"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - name: bounty_id
+          in: query
+          schema:
+            type: integer
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [recent, rating]
+            default: recent
+      responses:
+        "200":
+          description: "Answers successfully retrieved."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Answer'
+  /bounties/{bounty_id}/answers/create:
+     get:
+      operationId: "R302"
+      summary: "R302: Getting answer create Form"
+      description: "Fetching the form to create a new answer for a specific bounty. Access: USR, MOD, ADM."
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: bounty_id
+          required: true
+          schema:
+            type: integer
+          description: "ID of the bounty being answered"
+      responses:
+        "200":
+          description: "OK. Answer creation form."
+     post:
+      operationId: "R303"
+      summary: "R303: Create a new answer"
+      description: "Process newly created answer from creation form. Access: USR, MOD, ADM"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: bounty_id
+          required: true
+          schema:
+            type: integer
+          description: "ID of the bounty being answered"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                media:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - description
+      responses:
+        "302":
+          description: "Redirect after creating answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer created successfully, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to creation form."
+                  value: "/bounties/{bounty_id}/answers/create"
+  /answers/{id}:
+    get:
+      operationId: "R304"
+      summary: "R304: Answer Details"
+      description: "View the details of an answer. Access: PUB"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Returning answer details."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Answer"
+        "404":
+          description: "Could not find Answer with requested id."
+    delete:
+      operationId: "R305"
+      summary: "R305: Delete Answer"
+      description: "Delete an existing answer. Access: OWN, MOD, ADM"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after deleting answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer deleted successfully, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Failed to delete answer, redirecting back to answer page."
+                  value: "/answers/{id}"
+        "404":
+          description: "Answer not found."
+  /answers/{id}/edit:
+    get:
+      operationId: "R306"
+      summary: "R306: Edit Answer Form"
+      description: "Get the answer editing form for the authenticated user. Access: OWN, MOD, ADM"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Answer Edit Form"
+        "404":
+          description: "Answer not found."
+    post:
+      operationId: "R307"
+      summary: "R307: Edit Answer Action"
+      description: "Update answer information submitted from the edit form. Access: OWNER, MOD, ADM"
+      tags:
+        - "M03: Answers"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                media:
+                  type: string
+                  format: binary
+              required:
+                - title
+                - description
+      responses:
+        "302":
+          description: "Redirect after editing answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer successfully updated, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to answer edit form."
+                  value: "/answers/{id}/edit"
+components:
+  schemas:
+    Content:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        rating:
+          type: number
+          format: float
+          default: 0
+          minimum: 0
+          maximum: 5
+        user_id:
+          type: integer
+        version:
+          type: integer
+          default: 1
+        edit_date:
+          type: string
+          format: date
+      required:
+        - id
+        - date
+        - description
+        - rating
+        - user_id
+        - version
+        - edit_date
+    Bounty:
+      allOf:
+        - $ref: "#/components/schemas/Content"
+        - type: object
+          properties:
+            title:
+              type: string
+            media:
+              type: string
+              format: binary
+            reward:
+              type: number
+              default: 50
+              minimum: 1
+          required:
+            - title
+            - reward
+    Answer:
+      allOf:
+        - $ref: "#/components/schemas/Content"
+        - type: object
+          properties:
+            title:
+              type: string
+            media:
+              type: string
+              format: binary 
+
+
+
+          
