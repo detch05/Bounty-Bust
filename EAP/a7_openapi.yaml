@@ -617,6 +617,185 @@ paths:
                 302Failure:
                   description: "Invalid data, redirecting back to answer edit form."
                   value: "/answers/{id}/edit"
+
+  /bounties/{bountyId}/comments:
+    get:
+      operationId: "R401"
+      summary: "R401: Comments for a Bounty"
+      description: "Display of all comments. Access: PUB"
+      tags: 
+        - "M04: Comments"
+      parameters:
+        - name: page
+          in: query
+          schema: 
+            type: integer
+            default: 1
+      responses:
+        "200": 
+          description: "Comments successfully retrieved."
+          content:
+            application/json: 
+              schema: 
+                type: array 
+                items:
+                  $ref: '#/components/schemas/Comments'
+  /bounties/answers/{answerId}/comments:
+    get:
+      operationId: "R402"
+      summary: "R402: Comments for an Answer"
+      description: "Display of all comments. Access: PUB"
+      tags: 
+        - "M04: Comments"
+      parameters:
+        - name: page
+          in: query
+          schema: 
+            type: integer
+            default: 1
+      responses:
+        "200": 
+          description: "Comments successfully retrieved."
+          content:
+            application/json: 
+              schema: 
+                type: array 
+                items:
+                  $ref: '#/components/schemas/Comments'
+
+  /bounties/{bountyId}/comments/create:
+    post:
+      operationId: "R403"
+      summary: "R403: Create a new comment for a Bounty"
+      description: "Process newly created comment from creation form. Access: USR,MOD,ADM"
+      tags:
+        - "M04: Comments"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        "302":
+          description: "Redirect after creating comment."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Comment created successfully, redirecting to bounty page."
+                  value: "/bounties/{bountyId}"
+                302Failure:
+                  description: "Invalid data, redirecting back to bounty page."
+                  value: "/bounties/{bountyId}"
+
+  /bounties/answers/{answerId}/comments/create:
+    post:
+      operationId: "R404"
+      summary: "R404: Create a new comment for an Answer"
+      description: "Process newly created comment from creation form. Access: USR,MOD,ADM"
+      tags:
+        - "M04: Comments"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        "302":
+          description: "Redirect after creating comment."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Comment created successfully, redirecting to bounty page."
+                  value: "/bounties/{bountyId}"
+                302Failure:
+                  description: "Invalid data, redirecting back to bounty page."
+                  value: "/bounties/{bountyId}"
+
+  /bounties/comments/{comment_id}/edit:
+    post:
+      operationId: "R405"
+      summary: "R405: Edit a comment for a Bounty"
+      description: "Update comment information submitted from the edit form. Access: OWN, MOD, ADM"
+      tags:
+        - "M04: Comments"
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+      responses:
+        "302":
+          description: "Redirect after editing comment."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Comment successfully updated, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to bounty page."
+                  value: "/bounties/{bounty_id}"
+
+  /bounties/comments/{comment_id}/delete:
+    post:
+      operationId: "R406"
+      summary: "R406: Delete a comment for a Bounty"
+      description: "Delete an existing comment. Access: OWN, MOD, ADM"
+      tags:
+        - "M04: Comments"
+      parameters:
+        - in: path
+          name: comment_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after deleting comment."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Comment deleted successfully, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Failed to delete comment, redirecting back to bounty page."
+                  value: "/bounties/{bounty_id}"
+
 components:
   schemas:
     Content:
