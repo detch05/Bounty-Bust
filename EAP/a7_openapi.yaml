@@ -664,9 +664,24 @@ paths:
                   $ref: '#/components/schemas/Comments'
 
   /bounties/{bountyId}/comments/create:
-    post:
+    get:
       operationId: "R403"
-      summary: "R403: Create a new comment for a Bounty"
+      summary: "R403: Comment creation form"
+      description: "Get the comment creation form for the authenticated user. Access: USR, MOD, ADM"
+      tags:
+        - "M04: Comments"
+      parameters:
+        - in: path
+          name: bountyId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Commment Create Form"
+    post:
+      operationId: "R404"
+      summary: "R404: Create a new comment for a Bounty"
       description: "Process newly created comment from creation form. Access: USR,MOD,ADM"
       tags:
         - "M04: Comments"
@@ -697,9 +712,24 @@ paths:
                   value: "/bounties/{bountyId}"
 
   /bounties/answers/{answerId}/comments/create:
+    get:
+      operationId: "R405"
+      summary: "R405: Comment creation form"
+      description: "Get the comment creation form for the authenticated user. Access: USR, MOD, ADM"
+      tags:
+        - "M04: Comments"
+      parameters:
+        - in: path
+          name: answerId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Commment create Form"
     post:
-      operationId: "R404"
-      summary: "R404: Create a new comment for an Answer"
+      operationId: "R406"
+      summary: "R406: Create a new comment for an Answer"
       description: "Process newly created comment from creation form. Access: USR,MOD,ADM"
       tags:
         - "M04: Comments"
@@ -730,6 +760,23 @@ paths:
                   value: "/bounties/{bountyId}"
 
   /bounties/comments/{comment_id}/edit:
+    get:
+      operationId: "R407"
+      summary: "R407: Comment edit form"
+      description: "Get the comment edit form for the authenticated user. Access: USR, MOD, ADM"
+      tags:
+        - "M04: Comments"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Commment Edit Form"
+        "404":
+          description: "Answer not found."
     post:
       operationId: "R405"
       summary: "R405: Edit a comment for a Bounty"
@@ -795,6 +842,577 @@ paths:
                 302Failure:
                   description: "Failed to delete comment, redirecting back to bounty page."
                   value: "/bounties/{bounty_id}"
+  /tags:
+    get:
+      operationId: "R501"
+      summary: "R501: List of Tags"
+      description: "Display of all tags. Access: PUB"
+      tags:
+        - "M05: Tags"
+      responses:
+        "200":
+          description: "Tags successfully retrieved."
+          content:
+            application/json:
+              schema:
+              type : array
+              items:
+                $ref: '#/components/schemas/Tag'
+          
+  /tags/{Id}:
+    get:
+      operationId: "R502"
+      summary: "R502: Tag Details"
+      description: "Display the details of a specific tag. Access: PUB"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Tag details successfully retrieved."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+              
+  /tags/create:
+    get:
+      operationId: "R503"
+      summary: "R503: Tag creation form"
+      description: "Get the tag creation form for the authenticated user. Access: ADM"
+      tags:
+        - "M05: Tags"
+      responses:
+        "200":
+          description: "OK. Tag Create Form"
+    post:
+      operationId: "R504"
+      summary: "R504: Create a new tag"
+      description: "Process newly created tag from creation form. Access: ADM"
+      tags:
+        - "M05: Tags"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+      responses:
+        "302":
+          description: "Redirect after creating tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag created successfully, redirecting to tag list."
+                  value: "/tags"
+                302Failure:
+                  description: "Invalid data, redirecting back to creation form."
+                  value: "/tags/create"
+  /tags/{Id}/delete:
+    post:
+      operationId: "R505"
+      summary: "R505: Delete Tag"
+      description: "Delete an existing tag. Access: ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after deleting tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag deleted successfully, redirecting to tag list."
+                  value: "/tags"
+                302Failure:
+                  description: "Failed to delete tag, redirecting back to tag page."
+                  value: "/tags/{Id}"
+  /tags/{Id}/edit:
+    get:
+      operationId: "R506"
+      summary: "R506: Edit Tag Form"
+      description: "Get the tag editing form for the authenticated user. Access: ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "OK. Tag Edit Form"
+        "404":
+          description: "Tag not found."
+    post:
+      operationId: "R507"
+      summary: "R507: Edit Tag Action"
+      description: "Update tag information submitted from the tag edit form. Access: ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+      responses:
+        "302":
+          description: "Redirect after editing tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag successfully updated, redirecting to tag page."
+                  value: "/tags/{Id}"
+                302Failure:
+                  description: "Invalid data, redirecting back to tag edit form."
+                  value: "/tags/{Id}/edit"
+  /tags/{Id}/follow:
+    post:
+      operationId: "R508"
+      summary: "R508: Follow Tag"
+      description: "Follow an existing tag. Access: USR, MOD, ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after following tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag followed successfully, redirecting to tag page."
+                  value: "/tags/{Id}"
+                302Failure:
+                  description: "Failed to follow tag, redirecting back to tag page."
+                  value: "/tags/{Id}"
+    delete:
+      operationId: "R509"
+      summary: "R509: Unfollow Tag"
+      description: "Unfollow an existing tag. Access: USR, MOD, ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - name: Id
+          in: path
+          required: true
+          schema: 
+            type: integer
+      responses:
+        "200":
+          description: "Tag unfollowed successfully."
+  /users/{userId}/tags:
+    get:
+      operationId: "R510"
+      summary: "R510: List of followed Tags by User"
+      description: "Display of all tags followed by a user. Access: USR, MOD, ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Tags successfully retrieved."
+          content:
+            application/json:
+              schema:
+              type : array
+              items:
+                $ref: '#/components/schemas/Tag'
+  /tags/{Id}/bounties:
+    get:
+      operationId: "R511"
+      summary: "R511: List of Bounties for a Tag"
+      description: "Display of all bounties associated with a tag. Access: PUB"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Bounties successfully retrieved."
+          content:
+            application/json:
+              schema:
+              type : array
+              items:
+                $ref: '#/components/schemas/Bounty'
+  /bounties/{Id}/tags:
+    get:
+      operationId: "R512"
+      summary: "R512: Add Tags to a Bounty"
+      description: "Add a new tag to a bounty. Access: OWN, MOD, ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after following tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag added successfully, redirecting to bounty page."
+                  value: "/bounties/{id}"
+                302Failure:
+                  description: "Failed to add tag, redirecting back to bounty page."
+                  value: "/bounties/{Id}"
+  /bounties/{bountyId}/tags/{tagId}:
+    delete:
+      operationId: "R513"
+      summary: "R513: Remove Tag from a Bounty"
+      description: "Remove an existing tag from a bounty. Access: OWN, MOD, ADM"
+      tags:
+        - "M05: Tags"
+      parameters:
+        - in: path
+          name: bountyId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: tagId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after removing tag."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Tag removed successfully, redirecting to bounty page."
+                  value: "/bounties/{bountyId}"
+                302Failure:
+                  description: "Failed to remove tag, redirecting back to bounty page."
+                  value: "/bounties/{bountyId}"
+  /bounties/{Id}/upvote:
+    post:
+      operationId: "R601"
+      summary: "R601: Upvote a Bounty"
+      description: "Upvote an existing bounty. Access: USR, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after upvoting bounty."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Bounty upvoted successfully, redirecting to bounty page."
+                  value: "/bounties/{Id}"
+                302Failure:
+                  description: "Failed to upvote bounty, redirecting back to bounty page."
+                  value: "/bounties/{Id}"
+
+  /bounties/{Id}/downvote:
+    post:
+      operationId: "R602"
+      summary: "R602: Downvote a Bounty"
+      description: "Downvote an existing bounty. Access: USR, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after downvoting bounty."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Bounty downvoted successfully, redirecting to bounty page."
+                  value: "/bounties/{Id}"
+                302Failure:
+                  description: "Failed to downvote bounty, redirecting back to bounty page."
+                  value: "/bounties/{Id}"
+
+  /answers/{Id}/upvote:
+    post:
+      operationId: "R603"
+      summary: "R603: Upvote an Answer"
+      description: "Upvote an existing answer. Access: USR, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after upvoting answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer upvoted successfully, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Failed to upvote answer, redirecting back to bounty page."
+                  value: "/bounties/{bounty_id}"
+  /answers/{Id}/downvote:
+    post:
+      operationId: "R604"
+      summary: "R604: Downvote an Answer"
+      description: "Downvote an existing answer. Access: USR, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after downvoting answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer downvoted successfully, redirecting to bounty page."
+                  value: "/bounties/{bounty_id}"
+                302Failure:
+                  description: "Failed to downvote answer, redirecting back to bounty page."
+                  value: "/bounties/{bounty_id}"
+  /comments/{Id}/upvote:
+    post:
+      operationId: "R605"
+      summary: "R605: Upvote a Comment"
+      description: "Upvote an existing comment. Access: USR, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after upvoting comment."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Comment upvoted successfully, redirecting to previous page."
+                  value: "/previous_page"
+                302Failure:
+                  description: "Failed to upvote comment, redirecting back to previous page."
+                  value: "/previous_page"
+  /bounties/{Id}/reward:
+    post:
+      operationId: "R606"
+      summary: "R606: Reward an Answer"
+      description: "Reward an answer for a bounty. Access: OWN, MOD, ADM"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: answer_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "302":
+          description: "Redirect after rewarding answer."
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: "Answer rewarded successfully, redirecting to bounty page."
+                  value: "/bounties/{Id}"
+                302Failure:
+                  description: "Failed to reward answer, redirecting back to bounty page."
+                  value: "/bounties/{Id}"
+  /leaderboard:
+    get:
+      operationId: "R607"
+      summary: "R607: Leaderboard"
+      description: "Display the leaderboard of top users based on rewards earned. Access: PUB"
+      tags:
+        - "M06: Rating and award system"
+      responses:
+        "200":
+          description: "Leaderboard successfully retrieved."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/LeaderboardUser"
+              example:
+                total: 3
+                data:
+                  - userId: 1
+                    name: "JohnDoe"
+                    points: 5400
+                  - userId: 4
+                    name: "Maria"
+                    points: 4300
+                  - userId: 21
+                    name: "CubeDev"
+                    points: 3290
+  /users/{id}/badges:
+    get:
+      operationId: "R608"
+      summary: "R608: User Badges"
+      description: "Display all badges earned by a user. Access: PUB"
+      tags:
+        - "M06: Rating and award system"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: "Badges successfully retrieved."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Badge"
+              example:
+                - id: 1
+                  name: "First Question"
+                  type: "bronze"
+                - id: 4
+                  name: "Helpful Answer"
+                  type: "silver"
+  /badges:
+    get:
+      operationId: "R609"
+      summary: "R609: List of Badges"
+      description: "Display all available badges. Access: PUB"
+      tags:
+        - "M06: Rating and award system"
+      responses:
+        "200":
+          description: "Badges successfully retrieved."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Badge"
+              example:
+                - id: 1
+                  name: "First Question"    
+                  type: "bronze"
+                - id: 2
+                  name: "Popular Question"
+                  type: "silver"
+                - id: 3
+                  name: "Master Contributor"
+                  type: "gold"
+  
+
 
 components:
   schemas:
@@ -857,7 +1475,40 @@ components:
             media:
               type: string
               format: binary 
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        ##color:
+          ##type: string
 
+    LeaderboardUser:
+      type: object
+      properties:
+        userId:
+          type: integer
+        name:
+          type: string
+        points:
+          type: integer
+      required: [userId, name, points]
+
+    Badge:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum: [bronze, silver, gold]
+      required: [id, name, type]
 
 
           
