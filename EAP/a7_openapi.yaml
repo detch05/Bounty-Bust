@@ -639,7 +639,7 @@ paths:
               schema: 
                 type: array 
                 items:
-                  $ref: '#/components/schemas/Comments'
+                  $ref: '#/components/schemas/Content'
   /bounties/answers/{answerId}/comments:
     get:
       operationId: "R402"
@@ -661,7 +661,7 @@ paths:
               schema: 
                 type: array 
                 items:
-                  $ref: '#/components/schemas/Comments'
+                  $ref: '#/components/schemas/Content'
 
   /bounties/{bountyId}/comments/create:
     get:
@@ -816,9 +816,9 @@ paths:
                   value: "/bounties/{bounty_id}"
 
   /bounties/comments/{comment_id}/delete:
-    post:
+    delete:
       operationId: "R406"
-      summary: "R406: Delete a comment for a Bounty"
+      summary: "R406: Delete Comment"
       description: "Delete an existing comment. Access: OWN, MOD, ADM"
       tags:
         - "M04: Comments"
@@ -1412,7 +1412,6 @@ paths:
                   name: "Master Contributor"
                   type: "gold"
   
-
 
 components:
   schemas:
