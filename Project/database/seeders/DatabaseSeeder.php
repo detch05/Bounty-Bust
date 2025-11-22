@@ -2,34 +2,36 @@
 
 namespace Database\Seeders;
 
+use Eloquent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Runs database/thingy-seed.sql as-is.
-     * The SQL reads current_setting('app.schema', true) and defaults to 'thingy'.
+    /*
+     * Run the database seeds (MediaLibrary example).
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        // Get schema name from environment (e.g., .env or .env.testing)
-        $schema = env('DB_SCHEMA');
+        Eloquent::unguard();
 
-        // Load the raw SQL file
-        $path = base_path('database/thingy-seed.sql');
-        $sql = file_get_contents($path);
+        DB::unprepared(file_get_contents('resources/sql/create_schema.sql'));
+        $this->command->info('DB: Schema created');
 
-        // If DB_SCHEMA is set, expose it to the SQL script
-        // (the script reads it via current_setting('app.schema', true))
-        if ($schema !== null) {
-            DB::statement("SELECT set_config('app.schema', ?, false)", [$schema]);
-        }
+        DB::unprepared(file_get_contents('resources/sql/create_db.sql'));
+        $this->command->info('DB: Database created');
 
-        // Run the SQL script
-        DB::unprepared($sql);
+        DB::unprepared(file_get_contents('resources/sql/indexes.sql'));
+        $this->command->info('DB: Performance indexes created');
 
-        // Show a message in the Artisan console
-        $this->command?->info('Database seeded using schema: ' . ($schema ?? 'thingy (default)'));
+        DB::unprepared(file_get_contents('resources/sql/triggers.sql'));
+        $this->command->info('DB: Triggers created');
+
+        DB::unprepared(file_get_contents('resources/sql/udfs.sql'));
+        $this->command->info('DB: Udfs created');
+        $this->command->info('DB: Database seeded!');
     }
-}
+    }
+

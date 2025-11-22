@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="container my-5 justify-content-start">
         <div class="row">
@@ -14,5 +15,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -1,7 +1,31 @@
-body{
+body {
     background-color: var(--background-color);
-    > *{
+    > * {
         font-family: var(--body-font);
     }
 }
 
+.logo {
+    max-height: 80px;
+    width: auto;
+}
+
+.form-links {
+    margin-right: 1em;
+    a {
+        font-weight: bold;
+        padding: 0.5em;
+        &:first-child {
+            &:hover {
+                color: var(--terciary-color);
+            }
+        }
+        &:nth-child(2) {
+            border: 1px solid var(--secondary-color);
+            &:hover {
+                background-color: var(--secondary-color);
+                color: var(--terciary-color);
+            }
+        }
+    }
+}
