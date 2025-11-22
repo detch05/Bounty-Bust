@@ -1,9 +1,9 @@
-<div class="container">
-  <footer>
+<footer class="bg-dark text-white">
+  <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <p>&copy; 2025 BountyBust</p>
+      <div class="col-12 text-center py-3">
+        <p class="mb-0">&copy; 2025 BountyBust</p>
       </div>
     </div>
-  </footer>
-</div>
+  </div>
+</footer>

@@ -22,7 +22,7 @@
     <section id="content">
         @yield('content')
     </section>
-
+    
     @include('layouts.footer')
     @include('layouts.scripts')
 </body>
