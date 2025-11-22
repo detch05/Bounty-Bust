@@ -1,0 +1,11 @@
+:root{
+    --primary-color:#7c0909;
+    --secondary-color: #c0a356;
+    --terciary-color: #0D546B;
+    --card-color: #FFF3d1;
+    --background-color: white;
+
+    --logo-font: 'Rye', serif;
+    --heading-font: 'Rancho', cursive;
+    --body-font: 'Inter', sans-serif;  
+}

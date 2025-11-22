@@ -1,0 +1,12 @@
+body{
+    background-color: var(--background-color);
+    > *{
+        font-family: var(--body-font);
+    }
+}
+
+footer{
+    color: white;
+    background-color: black;
+    text-align: center;
+}
