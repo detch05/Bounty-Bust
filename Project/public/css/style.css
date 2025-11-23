@@ -10,6 +10,10 @@ body {
     width: auto;
 }
 
+header ul.navbar-nav li:last-child i:hover{
+    color: var(--primary-color);
+}
+
 .form-links {
     margin-right: 1em;
     a {

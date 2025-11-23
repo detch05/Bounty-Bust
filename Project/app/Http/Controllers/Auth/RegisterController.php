@@ -69,7 +69,7 @@ class RegisterController extends Controller
         $request->session()->regenerate();
 
         // Redirect to cards page with a success message.
-        return redirect('/')->withSuccess('Ok. Redirecting after successful registration.');
+        return redirect('/')->withSuccess('Registration completed successfully! Get ready to explore BountyBust.');
     }
 
     protected function makeName(string $firstName, string $lastName): string

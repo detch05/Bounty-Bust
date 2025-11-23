@@ -25,6 +25,8 @@ main{
     button{
         background-color: var(--terciary-color);
         border:none;
+        margin-top: 1em;
+        width: 100%;
     }
 }
 
@@ -43,6 +45,15 @@ main{
         display:inline-block;
         margin:0 auto;
         font-weight: 600;
+    }
+}
+
+#rememberMe{
+    display: flex;
+    align-items: center;
+    >label{
+        font-size: 0.9em;
+        color:black;
     }
 }
 
