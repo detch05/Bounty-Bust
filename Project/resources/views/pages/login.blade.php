@@ -1,22 +1,27 @@
 @extends('layouts.app')
 
+@section('styles')
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+
 
 @section('content')
-    
-    <div class="container justify-content-center d-flex flex-column align-items-center w-50 min-vh-100 gap-3">
+
+    <div id="login" class="container justify-content-center d-flex flex-column m-3 gap-3 ">
         <h2>Welcome Back Bounty Hunter!</h2>
         <form>
             @csrf
-            <div class="form-group d-flex flex-column">
+            <div class="form-group d-flex flex-column ">
                 <label for="exampleFormControlInput1">Username</label>
-                <input type="text" name="username">
+                <input type="text" name="username" maxlength="40" required>
             </div>
             <div class="form-group d-flex flex-column">
                 <label for="exampleFormControlInput1">Password</label>
-                <input type="password" name="password">
+                <input type="password" name="password" maxlength="50" required>
             </div>
         </form>
-         <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <p>Don't have an account? </p>
+        <a href="\register">Join us</a>
     </div>
 
 @endsection

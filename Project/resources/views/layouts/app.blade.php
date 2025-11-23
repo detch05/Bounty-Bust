@@ -18,11 +18,11 @@
     <header>
         @include('layouts.navbar')
     </header>
-
-    <section id="content">
-        @yield('content')
-    </section>
-    
+    <main>
+        <section id="content">
+            @yield('content')
+        </section>
+    </main>
     @include('layouts.footer')
     @include('layouts.scripts')
 </body>

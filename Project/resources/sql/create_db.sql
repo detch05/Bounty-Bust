@@ -6,10 +6,10 @@ CREATE TABLE users(
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  username VARCHAR(40) UNIQUE NOT NULL,
  email VARCHAR(60) UNIQUE NOT NULL,
- password VARCHAR(50) NOT NULL,
+ password VARCHAR(255) NOT NULL, -- Increase this because of hashing
  bio TEXT,
  location VARCHAR(50),
- name VARCHAR(40) NOT NULL,
+ name VARCHAR(60) NOT NULL,
  profile_picture TEXT,
  points INT DEFAULT 100 CHECK (points >0)
 );
