@@ -11,11 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
+    use Notifiable;
     // Disable default created_at and updated_at timestamps for this model.
     public $timestamps  = false;
+    public $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +27,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
+        'location',
+        'bio',
+        'points',
+        'profile_picture',
     ];
 
     /**
@@ -42,28 +46,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to a specific type.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            // Ensures password is always hashed automatically when set.
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts =
+    [
+        'id' => 'integer',
+        'email' => 'string',
+        'name' => 'string',
+        'username' => 'string',
+        'location' => 'string',
+        'bio' => 'string',
+        'points' => 'integer',
+        'profile_picture' => 'string',
+    ];
 
-    /**
-     * Get the cards owned by this user.
-     *
-     * Defines a one-to-many relationship:
-     * a user can have multiple cards.
-     */
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Card::class);
-    }
+    
 }
