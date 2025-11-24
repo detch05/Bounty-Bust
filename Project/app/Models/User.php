@@ -57,5 +57,10 @@ class User extends Authenticatable
         'profile_picture' => 'string',
     ];
 
+
+    public function showProfile($id){
+        $profile= User::findorFail($id);
+        return view('pages.profile',compact('profile'));
+    }
  
 }

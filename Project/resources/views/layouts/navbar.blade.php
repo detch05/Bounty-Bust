@@ -1,5 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-between align-items-center ">
+        <button class="btn btn-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#contentNav"
+            aria-expanded="false" aria-controls="sidebar">
+            ☰ 
+        </button>
 
         @include('partials.logo')
 
@@ -32,7 +36,7 @@
             </ul>
         @else
             <div class="form-links d-flex align-items-center gap-3 me-4">
-                <a class="nav-link " href="\login" >SignIn</a>
+                <a class="nav-link " href="\login">SignIn</a>
                 <a class="nav-link" href="\register">Join</a>
             </div>
         @endauth

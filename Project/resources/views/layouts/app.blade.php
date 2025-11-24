@@ -18,7 +18,6 @@
     <header>
         @include('layouts.navbar')
     </header>
-    @include('partials.popup')
     <main>
         <section id="content">
             @yield('content')

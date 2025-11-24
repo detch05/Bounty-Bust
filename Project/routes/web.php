@@ -17,3 +17,7 @@ Route::get('/register',[StaticController::class,'register']);
 Route::post('/register',[RegisterController::class,'register']);
 
 Route::post('/logout',[LogoutController::class,'logout']);
+
+
+Route::get('/users/{id}',[StaticController::class,'profile'])->name('profile');
+
