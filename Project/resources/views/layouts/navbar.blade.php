@@ -3,13 +3,23 @@
 
         @include('partials.logo')
 
-        <form class="search" role="search">
-            <div>
-                <i class="bi bi-search"></i>
-                <input placeholder="Search BountyBust..." type="text" maxlength="150" method="get">
-
+        <form class="d-flex mx-auto" action="{{ route('bounties.index') }}" method="GET">
+            <div class="input-group" style="max-width: 400px;"> 
+                <span class="input-group-text">
+                    <i class="bi bi-search"></i> 
+                </span>
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="form-control" 
+                    placeholder="Search Bounty..." 
+                    aria-label="Search Bounty"
+                    value="{{ request('q') }}"
+                >
             </div>
         </form>
+
+        
 
         @auth
             <ul class="navbar-nav d-flex align-items-center gap-1 me-3">

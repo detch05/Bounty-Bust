@@ -20,8 +20,12 @@
                     <!-- Search and Filter Section -->
                     <div class="mb-4">
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Search bounties..." id="searchInput">
+                            <div class="col-md-3">
+                                <select class="form-select" id="sortSelect">
+                                    <option value="recent">Security</option>
+                                    <option value="reward">Java</option>
+                                    <option value="popular">Linux</option>
+                                </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="sortSelect">
@@ -120,9 +124,9 @@
                             <h4 class="mt-3">No bounties found</h4>
                             <p class="text-muted mb-0">Check back later or create your own bounty to get started!</p>
                             @auth
-                                <a href="{{ route('bounties.create') }}" class="btn btn-primary mt-3">
+                                {{--<a href="{{ route('bounties.create') }}" class="btn btn-primary mt-3">
                                     Create the First Bounty
-                                </a>
+                                </a>--}}
                             @endauth
                         </div>
                     @endif
