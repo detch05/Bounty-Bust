@@ -1,9 +1,1 @@
-<section id="message">
-    @if(session()->has('success'))
-        <article class="success">{{ session('success') }}</article>
-    @endif
-
-    @if(session()->has('error'))
-        <article class="error">{{ session('error') }}</article>
-    @endif
-</section>
+<!-- HERE TO IMPLEMENT ERROR POPUPS AND SUCCESSFUL REDIRECTS WITH JS AND SOME CSS IF NEEDED -->
