@@ -12,11 +12,11 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">Tags</h1>
                         @auth
-                            @if(auth()->user()->isAdmin())
+                            {{--@if(auth()->user()->isAdmin())
                                 <a href="{{ route('tags.create') }}" class="btn btn-primary">
                                     <i class="bi bi-plus-circle"></i> Create Tag
                                 </a>
-                            @endif
+                            @endif--}}
                         @endauth
                     </div>
 
@@ -82,15 +82,15 @@
                                                 <i class="bi bi-eye"></i> View
                                             </a>--}}
                                             @auth
-                                                @if(auth()->user()->isFollowingTag($tag->id))
+                                                {{--@if(auth()->user()->isFollowingTag($tag->id))
                                                     <button class="btn btn-sm btn-danger" onclick="unfollowTag({{ $tag->id }})">
                                                         <i class="bi bi-star-fill"></i> Following
                                                     </button>
-                                                @else
+                                                @elsẹ--}}
                                                     <button class="btn btn-sm btn-outline-success" onclick="followTag({{ $tag->id }})">
                                                         <i class="bi bi-star"></i> Follow
                                                     </button>
-                                                @endif
+                                                {{--@endif--}}
                                             @endauth
                                         </div>
                                     </div>

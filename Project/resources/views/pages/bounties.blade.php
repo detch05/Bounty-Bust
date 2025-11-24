@@ -11,9 +11,9 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">Bounties</h1>
                         @auth
-                            <a href="{{ route('bounties.create') }}" class="btn btn-primary">
+                            {{--<a href="{{ route('bounties.create') }}" class="btn btn-primary">
                                 <i class="bi bi-plus-circle"></i> Create Bounty
-                            </a>
+                            </a>--}}
                         @endauth
                     </div>
 
