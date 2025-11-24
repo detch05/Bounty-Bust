@@ -7,3 +7,33 @@ body{
 }
 
 
+
+#mainFeatures{
+    padding-bottom: 0.4em;
+    border-bottom: 2px solid var(--secondary-color);
+    margin-bottom: 0.5em;
+}
+
+
+#contentNav{
+    font-family: var(--heading-font);
+    a{
+        font-size: 1.3em;
+        color:black;
+    }
+
+    >nav >section{
+        >div{
+            padding-left: 1em;
+            border-radius: 5px;
+            &:hover{
+                background-color: rgb(216, 101, 101)
+            }
+        }
+        div:has(>.nav-link.active){
+            background-color: var(--terciary-color);
+        }
+    }
+}
+
+

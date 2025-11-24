@@ -3,28 +3,33 @@
 @section('content')
     <div class="container-fluid">
         <div class="row ">
-            <aside class="col col-md-2 bg-light border-end min-vh-100 p-3">
+            <aside class="col col-md-2 border-end min-vh-100 ms-3 p-3" id="contentNav">
                 <nav class="nav flex-column">
                     <section id="mainFeatures">
-                        <div>
-                            <i></i>
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-house-door-fill fs-4"></i>
+                            <a class="nav-link" href="/">Home</a>
                         </div>
-                        <div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-bullseye fs-4"></i>
                             <a class="nav-link" href="#">Bounties</a>
                         </div>
-                        <div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-tags-fill fs-4"></i>
                             <a class="nav-link" href="#">Tags</a>
                         </div>
                     </section>
-                    <section id="AboutUs">
-                        <div>
-                            <a class="nav-link active" aria-current="page" href="#">Tour</a>
+                    <section id="misc">
+                        <div class="d-flex align-items-center">
+                           <i class="bi bi-question-circle-fill fs-4"></i>
+                            <a class="nav-link" aria-current="page" href="#">Tour</a>
                         </div>
-                        <div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-briefcase-fill fs-4"></i>
                             <a class="nav-link" href="#">About Us</a>
                         </div>
-                        <div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-envelope-fill fs-4"></i>
                             <a class="nav-link" href="#">Contacts</a>
                         </div>
                     </section>
