@@ -8,11 +8,11 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <i class="bi bi-bullseye fs-4"></i>
-                    <a class="nav-link" href="#">Bounties</a>
+                    <a class="nav-link" href="{{ route('bounties.index') }}">Bounties</a>
                 </div>
                 <div class="d-flex align-items-center">
                     <i class="bi bi-tags-fill fs-4"></i>
-                    <a class="nav-link" href="#">Tags</a>
+                    <a class="nav-link" href="{{ route('tags.index') }}">Tags</a>
                 </div>
             </section>
             <section id="misc">

@@ -41,7 +41,7 @@ INSERT INTO bounty_tag (bounty_id, tag_id) VALUES
 (5, 5);
 
 ---
-## 1. Novos Usuários e Tags
+
 
 -- 1. NOVOS USERS (5 novos usuários com dados completos)
 INSERT INTO users (username, email, password, name, bio, location, points) VALUES
@@ -59,7 +59,7 @@ INSERT INTO tag (name, description, color) VALUES
 ('Linux', 'Administration and usage of Linux systems', '#333333');
 
 ---
-## 2. 15 Novas Bounties (IDs 6 a 20)
+
 
 -- Content para Bounties (IDs 6 a 20)
 INSERT INTO content (description, user_id, date) VALUES
@@ -98,7 +98,7 @@ INSERT INTO bounty (id_content, title, media, reward) VALUES
 (20, 'Effective JUnit Unit Testing in Java', NULL, 95);
 
 ---
-## 3. Respostas Adicionais (3 para cada Bounty Inicial)
+
 
 -- Content para as 15 novas respostas (IDs 21 a 35)
 INSERT INTO content (description, user_id, date) VALUES
@@ -142,7 +142,7 @@ INSERT INTO answer (id_content, title, media, is_correct, bounty_id) VALUES
 (35, 'Flow from Output to Input', NULL, FALSE, 5);
 
 ---
-## 4. Comentários e Interações
+
 
 -- Content para Comentários (IDs 36 a 41)
 INSERT INTO content (description, user_id, date) VALUES
@@ -163,7 +163,6 @@ INSERT INTO comment (id_content, bounty_id, answer_id, parent_id) VALUES
 (41, 3, 27, 37); -- Resposta ao comentário 37 (Parent ID = 37)
 
 ---
-## 5. Relacionamentos e Notificações
 
 -- BOUNTY_TAG (Associação das novas bounties a tags)
 -- (Incluindo novos IDs para as novas tags: JavaScript(6), Java(7), Security(8), Linux(9))
