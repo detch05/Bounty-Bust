@@ -9,6 +9,15 @@ class Bounty extends Model
 {
     protected $table = 'bounty'; 
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'id_content', 
+        'title', 
+        'media', 
+        'reward'
+    ];
+
     // CORREÇÃO 1: Define a chave primária correta
     protected $primaryKey = 'id_content'; 
 
@@ -17,5 +26,10 @@ class Bounty extends Model
     public function content()
     {
         return $this->hasOne(Content::class, 'id', 'id_content');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'bounty_tag', 'bounty_id', 'tag_id');
     }
 }

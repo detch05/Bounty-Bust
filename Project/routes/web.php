@@ -23,3 +23,6 @@ Route::post('/logout',[LogoutController::class,'logout']);
 Route::get('/bounties', [BountiesController::class, 'index'])->name('bounties.index');
 
 Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
+
+Route::get('bounties/create', [BountiesController::class, 'create'])->name('bounties.create')->middleware('auth');
+Route::post('bounties/store', [BountiesController::class, 'store'])->name('bounties.store')->middleware('auth');

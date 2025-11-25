@@ -56,7 +56,7 @@
                                                 <h5 class="card-title mb-2">{{ $bounty->title }}</h5>
                                                 <small class="text-muted">
                                                     <i class="bi bi-person-circle"></i>
-                                                    {{ $bounty->content->user->name ?? 'Anonymous' }}
+                                                    {{ $bounty->content->user->name ?? 'Anonymous' }} 
                                                 </small>
                                             </div>
                                             <span class="badge bg-success fs-6">{{ $bounty->reward }} pts</span>

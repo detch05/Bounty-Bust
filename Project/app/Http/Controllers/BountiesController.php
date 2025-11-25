@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bounty;
+use App\Models\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BountiesController extends Controller
 {
@@ -37,5 +39,44 @@ class BountiesController extends Controller
         return view('pages.bounties', [
             'bounties' => $bounties
         ]);
+    }
+
+
+    public function create()
+    {
+        return view('pages.create_bounty');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => ['required', 'string', 'max:60'],
+            'description' => ['required', 'string', 'max:10000'], // Campo Content
+            'reward' => ['required', 'numeric', 'min:1', 'max:200'],
+            //'media' => ['nullable', 'string'],
+        ], [
+        // Array de mensagens personalizadas
+        'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
+        'reward.min' => 'A recompensa mínima deve ser 1.', 
+        ]);
+        
+        $content = Content::create([
+            'description' => $request->description,
+            'user_id' => Auth::id(), // ID do utilizador logado
+            'version' => 1,          // Primeira versão
+            'rating' => 0,           // Rating inicial
+        ]);
+        
+        $bounty = new Bounty();
+        
+        // CAMPOS DA TABELA BOUNTY:
+        $bounty->id_content = $content->id; // CHAVE CRÍTICA: ID do Content recém-criado
+        $bounty->title = $request->title;
+        $bounty->media = /*$request->media ??*/ null; 
+        $bounty->reward = $request->reward;
+        
+        $bounty->save();
+        
+        return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
     }
 }

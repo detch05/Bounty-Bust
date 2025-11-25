@@ -3,8 +3,9 @@
 namespace App\Models;
 
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Content;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
@@ -57,5 +58,9 @@ class User extends Authenticatable
         'profile_picture' => 'string',
     ];
 
+    public function content()
+    {
+        return $this->hasMany(Content::class, 'user_id', 'id');
+    }
  
 }
