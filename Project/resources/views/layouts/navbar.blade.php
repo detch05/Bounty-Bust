@@ -1,9 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-between align-items-center ">
+        <button class="btn btn-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#contentNav"
+            aria-expanded="false" aria-controls="sidebar">
+            ☰ 
+        </button>
 
         @include('partials.logo')
 
-        <form class="d-flex mx-auto" action="{{ route('bounties.index') }}" method="GET">
+        <form class="d-flex d-none d-md-block mx-auto" action="{{ route('bounties.index') }}" method="GET">
             <div class="input-group" style="max-width: 400px;"> 
                 <span class="input-group-text">
                     <i class="bi bi-search"></i> 
@@ -28,7 +32,7 @@
                     <a class="nav-link" href="#"><i class="bi bi-bell-fill fs-5"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi bi-person-lines-fill fs-5"></i></a>
+                    <a class="nav-link" href="{{ route('profile', ['id' => auth()->id()]) }}"><i class="bi bi-person-lines-fill fs-5"></i></a>
                 </li>
 
                 <li class="nav-item">
@@ -42,7 +46,7 @@
             </ul>
         @else
             <div class="form-links d-flex align-items-center gap-3 me-4">
-                <a class="nav-link " href="\login" >SignIn</a>
+                <a class="nav-link " href="\login">SignIn</a>
                 <a class="nav-link" href="\register">Join</a>
             </div>
         @endauth

@@ -6,10 +6,11 @@ use App\Http\Controllers\BountiesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserController;
 
 
 
-Route::get('/',[StaticController::class,'index']);
+Route::get('/',[StaticController::class,'index'])->name('homepage');
 
 Route::get('/login',[StaticController::class,'login']);
 Route::post('/login',[LoginController::class,'authenticate']);
@@ -26,3 +27,10 @@ Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
 
 Route::get('bounties/create', [BountiesController::class, 'create'])->name('bounties.create')->middleware('auth');
 Route::post('bounties/store', [BountiesController::class, 'store'])->name('bounties.store')->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    Route::delete('/account/delete',[UserController::class,'userDeleteAccount'])->name('account.destroy');
+});
+
+Route::get('/users/{id}',[UserController::class,'showProfile'])->name('profile');
+
+

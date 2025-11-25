@@ -3,6 +3,8 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use App\Models\Content;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,6 +35,7 @@ class User extends Authenticatable
         'bio',
         'points',
         'profile_picture',
+        'created_at',
     ];
 
     /**
@@ -56,8 +59,13 @@ class User extends Authenticatable
         'bio' => 'string',
         'points' => 'integer',
         'profile_picture' => 'string',
+        'created_at' => 'datetime',
     ];
 
+      public function getDate(): string
+    {
+        return "Joined on " . Carbon::parse($this->created_at)->format('F j, Y');
+    }
     public function content()
     {
         return $this->hasMany(Content::class, 'user_id', 'id');

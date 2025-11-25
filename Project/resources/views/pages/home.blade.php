@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-          @include('partials.aside')
+        <div class="row">
+                @include('partials.aside')
+        </div>
     </div>
 @endsection
