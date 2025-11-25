@@ -3,10 +3,8 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <aside class="col-md-2"> 
-                @include('partials.aside') 
-            </aside>         
-            <main class="col-md-10">
+            @include('partials.aside')       
+            <div class="col-12 col-md-9">
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">Bounties</h1>
@@ -120,7 +118,7 @@
                         </nav>
                     @else
                         <div class="alert alert-info text-center py-5" role="alert">
-                            <i class="bi bi-info-circle fs-3"></i>
+                            <i class="bi bi-info-circle fs-3"></i><a class="nav-link" href="{{ route('tags.index') }}">Tags</a>
                             <h4 class="mt-3">No bounties found</h4>
                             <p class="text-muted mb-0">Check back later or create your own bounty to get started!</p>
                             @auth
@@ -131,7 +129,7 @@
                         </div>
                     @endif
                 </div>
-            </main>
+            </div>
         </div>
     </div>
 @endsection

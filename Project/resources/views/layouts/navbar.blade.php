@@ -26,8 +26,8 @@
         
 
         @auth
-            <ul class="navbar-nav d-flex align-items-center gap-1 me-3">
-                <a href="{{ route('bounties.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Create</a>
+            <ul class="navbar-nav d-flex flex-column flex-sm-row flex-nowrap align-items-center gap-1 me-3">
+                <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Create</button>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-bell-fill fs-5"></i></a>
                 </li>
