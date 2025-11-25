@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
+@auth
 @php 
 $user = Auth::user();
 $user_bounties = $user->bounties;
 @endphp
+@endauth
 
 @section('content')
     <div class="container-fluid">
