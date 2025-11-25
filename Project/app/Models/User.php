@@ -3,8 +3,9 @@
 namespace App\Models;
 
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
@@ -32,6 +33,7 @@ class User extends Authenticatable
         'bio',
         'points',
         'profile_picture',
+        'created_at',
     ];
 
     /**
@@ -55,12 +57,11 @@ class User extends Authenticatable
         'bio' => 'string',
         'points' => 'integer',
         'profile_picture' => 'string',
+        'created_at' => 'datetime',
     ];
 
-
-    public function showProfile($id){
-        $profile= User::findorFail($id);
-        return view('pages.profile',compact('profile'));
+      public function getDate(): string
+    {
+        return "Joined on " . Carbon::parse($this->created_at)->format('F j, Y');
     }
- 
 }

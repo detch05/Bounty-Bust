@@ -11,7 +11,8 @@ CREATE TABLE users(
  location VARCHAR(50),
  name VARCHAR(60) NOT NULL,
  profile_picture TEXT,
- points INT DEFAULT 100 CHECK (points >0)
+ points INT DEFAULT 100 CHECK (points >0),
+ create_at TEXT DEFAULT (DATE('now'))
 );
 
 CREATE TABLE admin(

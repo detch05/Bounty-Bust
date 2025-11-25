@@ -57,7 +57,7 @@ class RegisterController extends Controller
             'bio' => $request->bio,
             'location' => $request->location,
         ]);
-
+        
         $user->points = 100;
         $user->save();
 

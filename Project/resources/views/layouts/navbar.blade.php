@@ -7,7 +7,7 @@
 
         @include('partials.logo')
 
-        <form class="search" role="search">
+        <form class="search d-none d-md-block" role="search">
             <div>
                 <i class="bi bi-search"></i>
                 <input placeholder="Search BountyBust..." type="text" maxlength="150" method="get">
@@ -16,13 +16,13 @@
         </form>
 
         @auth
-            <ul class="navbar-nav d-flex align-items-center gap-1 me-3">
+            <ul class="navbar-nav d-flex flex-column flex-sm-row flex-nowrap align-items-center gap-1 me-3">
                 <button class="btn btn-primary"><i class="bi bi-plus-circle"></i> Create</button>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-bell-fill fs-5"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi bi-person-lines-fill fs-5"></i></a>
+                    <a class="nav-link" href="{{ route('profile', ['id' => auth()->id()]) }}"><i class="bi bi-person-lines-fill fs-5"></i></a>
                 </li>
 
                 <li class="nav-item">
