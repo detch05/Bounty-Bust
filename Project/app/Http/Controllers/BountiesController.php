@@ -79,4 +79,38 @@ class BountiesController extends Controller
         
         return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
     }
+
+    public function getBounty($id)
+    {
+        $bounty = Bounty::with('content')->findOrFail($id);
+        return $bounty;
+    }
+
+    public function editBounty($id){
+        $bounty= $this->getBounty($id);
+        return view('pages.edit_bounty', compact('bounty'));
+    }
+
+    public function update($id,Request $request){
+        $this->validate($request,[
+            'title' => ['required', 'string', 'max:60'],
+            'description' => ['required', 'string', 'max:10000'], 
+            'reward' => ['required', 'numeric', 'min:1', 'max:200'],
+        ]);
+
+        $bounty = Bounty::with('content')->findOrFail($id);
+
+        $bounty->title = $request->title;
+        $bounty->reward = $request->reward;
+        $bounty->save();
+
+        $bounty->content->description = $request->description;
+        $bounty->content->version += 1;             
+        $bounty->content->edit_date = now();       
+        $bounty->content->save();
+
+        return redirect()->route('bounties.index', $bounty->id_content)->with('success', 'Bounty updated successfully!');
+    }
+
+    
 }

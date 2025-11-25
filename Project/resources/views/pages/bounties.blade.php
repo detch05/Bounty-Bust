@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@php 
+$user = Auth::user();
+$user_bounties = $user->bounties;
+@endphp
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -103,9 +108,14 @@
                                                 <i class="bi bi-calendar"></i>
                                                 {{ $bounty->content->date}}
                                             </small>
+                                            @if ($user_bounties->contains('id_content',$bounty->id_content))
                                             {{--<a href="{{ route('bounties.show', $bounty->id_content) }}" class="btn btn-sm btn-outline-primary">
                                                 View
                                             </a>̣--}}
+                                            <div>
+                                                <i></i>
+                                            </div>
+                                            @if (Auth()->check())
                                         </div>
                                     </div>
                                 </div>

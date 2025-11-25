@@ -69,5 +69,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Content::class, 'user_id', 'id');
     }
+
+    public function bounties(){
+        return $this->hasOneThrough(
+            User::class,      
+            Content::class,   
+            'id',             
+            'id_content',    
+            'user_id'         
+        );
+
+    }
  
 }

@@ -22,6 +22,7 @@ Route::post('/register',[RegisterController::class,'register']);
 Route::post('/logout',[LogoutController::class,'logout']);
 
 Route::get('/bounties', [BountiesController::class, 'index'])->name('bounties.index');
+Route::get('bounties/{id}/edit', [BountiesController::class, 'edit'])->name('bounties.edit');
 
 Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
 

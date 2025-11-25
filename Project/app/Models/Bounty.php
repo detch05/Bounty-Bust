@@ -32,4 +32,15 @@ class Bounty extends Model
     {
         return $this->belongsToMany(Tag::class, 'bounty_tag', 'bounty_id', 'tag_id');
     }
+
+    public function user(){
+        return $this->hasOneThrough(
+            User::class,      
+            Content::class,   
+            'id',             
+            'id',            
+            'id_content',     
+            'user_id'         
+        );
+    }
 }
