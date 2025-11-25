@@ -23,7 +23,14 @@ Route::post('/register',[RegisterController::class,'register']);
 Route::post('/logout',[LogoutController::class,'logout']);
 
 Route::get('/bounties', [BountiesController::class, 'index'])->name('bounties.index');
-Route::get('bounties/{id}/edit', [BountiesController::class, 'edit'])->name('bounties.edit');
+Route::middleware(['auth'])->get('/bounties/{id}/edit', [BountiesController::class, 'editBounty'])->name('bounties.edit');
+Route::middleware(['auth'])->put('/bounties/{id}', [BountiesController::class, 'update'])->name('bounties.update');
+
+Route::middleware(['auth'])->group(function () {
+    Route::delete('/bounties/{id}/delete', [BountiesController::class,'destroy'])->name('bounties.destroy');
+});
+
+
 
 Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
 

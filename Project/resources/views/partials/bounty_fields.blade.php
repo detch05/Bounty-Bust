@@ -33,4 +33,4 @@ $reward = $reward ?? '';
     @enderror
 </div>
 
-<button type="submit" class="btn btn-primary"> {{ ($isEdit ?? false) ? 'Update Profile' : 'Submit' }}</button>
+<button type="submit" class="btn btn-primary"> {{ ($isEdit ?? false) ? 'Edit Bounty' : 'Submit' }}</button>

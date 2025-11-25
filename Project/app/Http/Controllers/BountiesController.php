@@ -121,4 +121,12 @@ class BountiesController extends Controller
             'bounty' => $bounty
         ]);
     }
+
+
+    public function destroy($id){
+        $bounty = Bounty::with('content')->findOrFail($id);
+        $bounty->delete();
+
+        return redirect()->route('bounties.index')->with('success', 'Bounty deleted successfully.');
+    }
 }

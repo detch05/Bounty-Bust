@@ -5,18 +5,17 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <h1>Edit Bounty</h1>
-                
-                <form action="{{ route('bounties.edit') }}" method="POST">
+                <form action="{{ route('bounties.update', $bounty->id_content) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    @include('partials.bounty_fields',[
+                    @include('partials.bounty_fields', [
                         'isEdit' => true,
                         'title' => $bounty->title,
                         'description' => $bounty->description,
                         'reward' => $bounty->reward,
                     ])
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 @endsection
