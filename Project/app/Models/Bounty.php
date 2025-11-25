@@ -43,4 +43,12 @@ class Bounty extends Model
             'user_id'         
         );
     }
+
+
+    public function answers()
+    {
+         return $this->hasMany(Answer::class, 'bounty_id', 'id_content');
+    }
+
+   
 }

@@ -13,11 +13,6 @@ $user_bounties = $user->bounties;
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">Bounties</h1>
-                        @auth
-                            {{--<a href="{{ route('bounties.create') }}" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Create Bounty
-                            </a>--}}
-                        @endauth
                     </div>
 
                     <!-- Search and Filter Section -->
@@ -108,14 +103,9 @@ $user_bounties = $user->bounties;
                                                 <i class="bi bi-calendar"></i>
                                                 {{ $bounty->content->date}}
                                             </small>
-                                            @if ($user_bounties->contains('id_content',$bounty->id_content))
-                                            {{--<a href="{{ route('bounties.show', $bounty->id_content) }}" class="btn btn-sm btn-outline-primary">
+                                            <a href="{{ route('bounties.show', $bounty->id_content) }}" class="btn btn-sm btn-outline-primary">
                                                 View
-                                            </a>̣--}}
-                                            <div>
-                                                <i></i>
-                                            </div>
-                                            @if (Auth()->check())
+                                            </a>̣
                                         </div>
                                     </div>
                                 </div>
