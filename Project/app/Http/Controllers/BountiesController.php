@@ -79,4 +79,13 @@ class BountiesController extends Controller
         
         return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
     }
+
+    public function show(Bounty $bounty)
+    {
+        $bounty->load(['content', 'answers.content']);
+
+        return view('pages.show_bounty', [
+            'bounty' => $bounty
+        ]);
+    }
 }

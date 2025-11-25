@@ -32,4 +32,9 @@ class Bounty extends Model
     {
         return $this->belongsToMany(Tag::class, 'bounty_tag', 'bounty_id', 'tag_id');
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'bounty_id', 'id_content');
+    }
 }
