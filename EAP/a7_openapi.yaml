@@ -89,7 +89,7 @@ paths:
       summary: "R104: Register Form"
       description: "Get register form page. Access: PUB"
       tags:
-        - "M01: Account creation and accessability"
+         - "M01: Account creation and accessibility"
       responses:
         "200":
           description: "Ok. Register Form"
@@ -98,7 +98,7 @@ paths:
       summary: "R105: Register Action"
       description: "Handle new user account creation form. Access: PUB"
       tags:
-        - "M01: Account creation and accessability"
+       - "M01: Account creation and accessibility"
       requestBody:
         required: true
         content:
