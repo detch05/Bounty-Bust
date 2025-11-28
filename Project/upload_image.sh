@@ -22,7 +22,7 @@
 set -euo pipefail
 
 # Replace with your group's image name
-IMAGE_NAME=gitlab.up.pt:5050/lbaw/lbaw2025/lbaw25146
+IMAGE_NAME=gitlab.up.pt:5050/lbaw/lbaw2526/lbaw25146
 
 # Ensure that dependencies are available
 composer install
