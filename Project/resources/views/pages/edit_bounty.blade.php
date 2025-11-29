@@ -11,7 +11,7 @@
                     @include('partials.bounty_fields', [
                         'isEdit' => true,
                         'title' => $bounty->title,
-                        'description' => $bounty->description,
+                        'description' => $bounty->content->description,
                         'reward' => $bounty->reward,
                     ])
                     </form>

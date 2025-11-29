@@ -89,7 +89,7 @@ paths:
       summary: "R104: Register Form"
       description: "Get register form page. Access: PUB"
       tags:
-        - "M01: Account creation and accessability"
+         - "M01: Account creation and accessibility"
       responses:
         "200":
           description: "Ok. Register Form"
@@ -98,7 +98,7 @@ paths:
       summary: "R105: Register Action"
       description: "Handle new user account creation form. Access: PUB"
       tags:
-        - "M01: Account creation and accessability"
+       - "M01: Account creation and accessibility"
       requestBody:
         required: true
         content:
@@ -855,9 +855,9 @@ paths:
           content:
             application/json:
               schema:
-              type : array
-              items:
-                $ref: '#/components/schemas/Tag'
+                type : array
+                items:
+                  $ref: '#/components/schemas/Tag'
           
   /tags/{Id}:
     get:
@@ -1070,9 +1070,9 @@ paths:
           content:
             application/json:
               schema:
-              type : array
-              items:
-                $ref: '#/components/schemas/Tag'
+                type : array
+                items:
+                  $ref: '#/components/schemas/Tag'
   /tags/{Id}/bounties:
     get:
       operationId: "R511"
@@ -1092,9 +1092,9 @@ paths:
           content:
             application/json:
               schema:
-              type : array
-              items:
-                $ref: '#/components/schemas/Bounty'
+                type : array
+                items:
+                  $ref: '#/components/schemas/Bounty'
   /bounties/{Id}/tags:
     get:
       operationId: "R512"
