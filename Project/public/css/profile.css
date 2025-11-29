@@ -1,0 +1,65 @@
+#profile {
+    h2{
+        font-family: var(--logo-font);
+    }
+    > div {
+        border: 1px solid var(--sand-color);
+        border-radius: 0.5em 0.5em 0 0;
+        border-bottom: none;
+    }
+    > div:last-child {
+        border-radius: 0 0 0.5em 0.5em;
+        border-bottom: 1px solid var(--sand-color);
+        .profile_main {
+            border-inline-start: 1px solid var(--sand-color);
+        }
+    }
+    h4{
+       font-weight: 600;
+       font-size: 1.8em; 
+       color: var(--terciary-color);
+       font-family: var(--heading-font);
+    }
+}
+
+#profile_header {
+    nav {
+        button {
+            background-color: white;
+            font-weight: 600;
+        }
+
+        button:first-child {
+            border: 2px solid var(--terciary-color);
+            color: var(--terciary-color);
+            &:hover {
+                background-color: #86cee6
+            }
+        }
+
+        >form >button{
+            border: 2px solid var(--primary-color);
+            color:var(--primary-color);
+            &:hover{
+                background-color: rgb(221, 104, 104);
+            }
+        }
+    }
+}
+
+.name_container {
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.activity{
+    a{
+        border: 1px solid var(--wood-color);
+        color: var(--wood-color);
+        &:hover{
+            background-color: var(--wood-color);
+            color: white;
+            border: 1px solid var(--wood-color);
+        }
+    }
+
+}
