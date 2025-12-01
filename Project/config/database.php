@@ -74,7 +74,7 @@ return [
             'prefix' => '',
             'schema' => 'lbaw25146',
             'prefix_indexes' => true,
-            'search_path' => env('DB_SCHEMA', 'public'),
+            'search_path' => env('DB_SCHEMA', 'lbaw25146'),
             'sslmode' => 'prefer',
         ],
     ],

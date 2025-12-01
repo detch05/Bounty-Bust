@@ -59,6 +59,7 @@ class User extends Authenticatable
         'points' => 'integer',
         'profile_picture' => 'string',
         'created_at' => 'datetime',
+        'user_role' => 'integer',
     ];
 
       public function getDate(): string

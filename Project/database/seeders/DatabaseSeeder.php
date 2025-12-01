@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
         DB::unprepared(file_get_contents('resources/sql/create_db.sql'));
         $this->command->info('DB: Database created');
 
+        DB::unprepared(file_get_contents('resources/sql/populate.sql'));
+        $this->command->info('DB: Database populated');
+
         DB::unprepared(file_get_contents('resources/sql/indexes.sql'));
         $this->command->info('DB: Performance indexes created');
 

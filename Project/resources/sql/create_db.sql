@@ -2,6 +2,11 @@
 -- SQL Script -- 
 -- Drop tables were removed as we are going to drop the whole schema seperately -- 
 
+CREATE TABLE roles( -- role is also a taken postgreSQL, issues found with this
+    role_id INT PRIMARY KEY,
+    name VARCHAR(30) UNIQUE NOT NULL
+);
+
 CREATE TABLE users(
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  username VARCHAR(40) UNIQUE NOT NULL,
@@ -12,17 +17,9 @@ CREATE TABLE users(
  name VARCHAR(60) NOT NULL,
  profile_picture TEXT,
  points INT DEFAULT 100 CHECK (points >0),
- create_at TEXT DEFAULT (DATE('now'))
-);
-
-CREATE TABLE admin(
- user_id INT PRIMARY KEY,
- FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE moderator(
- user_id INT PRIMARY KEY,
- FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+ create_at TEXT DEFAULT (DATE('now')),
+ user_role INT NOT NULL DEFAULT 1,
+ FOREIGN KEY (user_role) REFERENCES roles(role_id)
 );
 
 
@@ -94,11 +91,12 @@ tag_id INT NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
 PRIMARY KEY (user_id,tag_id)
 );
 
-CREATE TABLE tag_management(
-admin_id INT NOT NULL REFERENCES admin(user_id) ON DELETE CASCADE,
-tag_id INT NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
-PRIMARY KEY (admin_id,tag_id)
+CREATE TABLE tag_management(   -- The check on id will be handled in the backend--
+    admin_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    tag_id INT NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
+    PRIMARY KEY (admin_id, tag_id)
 );
+
 
 CREATE TABLE user_rate(
 user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,

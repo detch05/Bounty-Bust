@@ -28,6 +28,12 @@
                 <a class="nav-link" href="#">Contacts</a>
             </div>
         </section>
+        <section id="adminPanel">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-tools fs-4"></i>
+                <a class="nav-link" href="#">Admin Panel</a>
+            </div>
+        </section>
     </nav>
 </aside>
 
