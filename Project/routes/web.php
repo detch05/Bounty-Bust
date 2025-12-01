@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\StaticController;
@@ -13,7 +14,7 @@ use App\Http\Controllers\UserController;
 
 Route::get('/',[StaticController::class,'index'])->name('homepage');
 
-Route::get('/login',[StaticController::class,'login']);
+Route::get('/login',[StaticController::class,'login'])->name('login');
 Route::post('/login',[LoginController::class,'authenticate']);
 
 
@@ -45,3 +46,9 @@ Route::get('/users/{id}',[UserController::class,'showProfile'])->name('profile')
 
 
 Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store');
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function(){
+    Route::get('/',[AdminController::class,'panel'])->name('dashboard');
+
+});

@@ -26,7 +26,7 @@ class TagsController extends Controller
         $tags = $tagsQuery->paginate(10);
         
         // 5. Retorna a View
-        return view('pages.tags', [
+        return view('pages.content.tag.tags', [
             'tags' => $tags
         ]);
     }

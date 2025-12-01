@@ -13,4 +13,9 @@ class Role extends Model
     public static $IS_USER = 1;
     public static $IS_MODERATOR = 2;
     public static $IS_ADMIN = 3;
+
+
+    public function users(){
+        return $this->hasMany(User::class,'user_role','role_id');
+    }
 }

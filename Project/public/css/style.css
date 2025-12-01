@@ -25,9 +25,9 @@ header ul.navbar-nav li:last-child i:hover{
             }
         }
         &:nth-child(2) {
-            border: 1px solid var(--secondary-color);
+            border: 1px solid var(--sand-color);
             &:hover {
-                background-color: var(--secondary-color);
+                background-color: var(--sand-color);
                 color: var(--terciary-color);
             }
         }

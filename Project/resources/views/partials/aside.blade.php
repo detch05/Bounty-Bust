@@ -31,7 +31,7 @@
         <section id="adminPanel">
             <div class="d-flex align-items-center">
                 <i class="bi bi-tools fs-4"></i>
-                <a class="nav-link" href="#">Admin Panel</a>
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Panel</a>
             </div>
         </section>
     </nav>
