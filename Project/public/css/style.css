@@ -10,7 +10,7 @@ body {
     width: auto;
 }
 
-header ul.navbar-nav li:last-child i:hover{
+header ul.navbar-nav li:last-child i:hover {
     color: var(--primary-color);
 }
 
@@ -31,5 +31,19 @@ header ul.navbar-nav li:last-child i:hover{
                 color: var(--terciary-color);
             }
         }
+    }
+}
+
+.profileIcon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profilePreview{
+    a{
+        text-decoration: none;
+        
     }
 }

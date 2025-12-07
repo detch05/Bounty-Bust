@@ -1,7 +1,7 @@
 -- === INSERTS PARA POPULAÇÃO MASSIVA (BASE DE DADOS REVISADA) ==
 INSERT INTO roles (role_id,name) VALUES
 (1,'user'),
-(2,'moderator'),
+(2,'mod'),
 (3,'admin');
 
 -- 0. DADOS INICIAIS (Ajustados para incluir 'bio' e 'location')

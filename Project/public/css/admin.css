@@ -1,14 +1,47 @@
-
-
-h2:first-child{
+h2:first-child {
     font-family: var(--heading-font);
-    font-size:2.4em;
+    font-size: 2.4em;
     color: var(--primary-color);
-    ~ p{
-        >span{
+    ~ p {
+        > span {
             font-family: var(--heading-font);
             font-size: 1.5em;
             color: var(--terciary-color);
         }
+    }
+}
+
+#admin_content {
+    border: 1px solid goldenrod;
+    border-radius: 0.25em;
+}
+
+.user_card {
+    .profilePreview > a {
+        p:first-child {
+            color: var(--secondary-color);
+        }
+    }
+
+    .user_role {
+        width: 10ch;
+        font-family: var(--heading-font);
+        font-size: 1.1em;
+        border-radius: 12.5%;
+        text-align: center;
+       
+        color: white; 
+        &.user {
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+        }
+        &.admin {
+            border: 1px solid var(--terciary-color);
+            background-color: var(--terciary-color);
+        }
+    }
+
+    div > i:first-child {
+        color: rgba(255, 0, 0, 0.705);
     }
 }
