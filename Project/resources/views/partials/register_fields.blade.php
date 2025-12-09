@@ -1,11 +1,11 @@
-@php 
+@php
 
-$firstName = $firstName ?? '';
-$lastName = $lastName ?? '';
-$username = $username ?? '';
-$email = $email ?? '';
-$location = $location ?? '';
-$bio = $bio ?? '';
+    $firstName = $firstName ?? '';
+    $lastName = $lastName ?? '';
+    $username = $username ?? '';
+    $email = $email ?? '';
+    $location = $location ?? '';
+    $bio = $bio ?? '';
 
 @endphp
 <div class="row">
@@ -16,7 +16,7 @@ $bio = $bio ?? '';
 
     <div class="form-group col-md-6 d-flex flex-column">
         <label for="lastName">Last name</label>
-        <input type="text" name="lastName" maxlength="30" value="{{ old('lastName',$lastName) }}" required>
+        <input type="text" name="lastName" maxlength="30" value="{{ old('lastName', $lastName) }}" required>
     </div>
 </div>
 <div class="form-group d-flex flex-column">
@@ -47,6 +47,15 @@ $bio = $bio ?? '';
     <label for="bio">Bio</label>
     <textarea name="bio" rows="10" cols="30" maxlength="300" placeholder="Write something about you!"
         required></textarea>
+</div>
+
+<div class="form-group d-flex flex-column mb-3 mt-3">
+    <label for="profilePicture">Profile Picture</label>
+    <input type="file" id="imageSelection" name="profilePicture">
+</div>
+
+<div class="imagePreview d-flex justify-content-center">
+    <img id="preview" src="" alt="Image preview" width="200" height="200">
 </div>
 
 <button type="submit" class="btn btn-primary">Submit</button>

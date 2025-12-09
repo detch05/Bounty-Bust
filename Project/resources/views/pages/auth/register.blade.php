@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 
 
 @section('content')
 
     <div id="register" class="container justify-content-center d-flex flex-column gap-3 ">
         <h2>Welcome to Bounty Bust!</h2>
-        <form method="POST" action="/register">
+        <form method="POST" action="/register" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="form-group col-md-6 d-flex flex-column">
@@ -47,8 +47,17 @@
 
             <div class="form-group d-flex flex-column">
                 <label for="bio">Bio</label>
-                <textarea name="bio" rows="10" cols="30" maxlength="300"
-                    placeholder="Write something about you!" required></textarea>
+                <textarea name="bio" rows="10" cols="30" maxlength="300" placeholder="Write something about you!"
+                    required></textarea>
+            </div>
+
+            <div class="form-group d-flex flex-column mb-3 mt-3">
+                <label for="profilePicture">Profile Picture</label>
+                <input type="file" id="imageSelection" name="profilePicture">
+            </div>
+
+            <div class="imagePreview">
+                <img id="preview" src="" alt="Image preview" width="200" height="200">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -56,3 +65,7 @@
     </div>
 
 @endsection
+
+
+@section('scripts')
+<script src="{{ asset('js/forms.js') }}"></script>

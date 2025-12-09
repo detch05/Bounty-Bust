@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
+use App\Models\User;
 use Illuminate\View\View;
 
-use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
+use Intervention\Image\Encoders\JpegEncoder;
+
+
+use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\ResizeModifier;
 
 class RegisterController extends Controller
 {
@@ -44,6 +49,7 @@ class RegisterController extends Controller
             'password' => 'required|min:5|max:50|confirmed',
             'bio' => 'nullable|string|max:500',
             'location' => 'nullable|string|max:50',
+            'profilePicture' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $fullName = $this->makeName($request->firstName, $request->lastName);
@@ -57,8 +63,26 @@ class RegisterController extends Controller
             'bio' => $request->bio,
             'location' => $request->location,
         ]);
-        
+
         $user->points = 100;
+
+        // Profile Picture Handling 
+        $profilePicture = $request->file('profilePicture');
+        $imageName = $user->id . '.jpg';
+        $imgPath = public_path('img/users');
+
+        $manager = new ImageManager(new Driver());
+        $img = $manager->read($profilePicture->getRealPath());
+
+        $shortSide = min($img->width(), $img->height());
+
+        $img = $img->modify( new CropModifier($shortSide, $shortSide, position: 'center'));
+        $img = $img->modify(new ResizeModifier(400, 400));
+
+        $img = $img->encode(new JpegEncoder(quality: 90));
+        $img->save($imgPath . '/' . $imageName);
+
+
         $user->save();
 
         // Attempt login for the newly registered user.
@@ -77,6 +101,6 @@ class RegisterController extends Controller
         // No whitespaces should be presented in each of the fields
         $str1 = trim($firstName);
         $str2 = trim($lastName);
-        return  preg_replace('/\s+/', ' ', "$str1 $str2");
+        return preg_replace('/\s+/', ' ', "$str1 $str2");
     }
 }

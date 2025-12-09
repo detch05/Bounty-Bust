@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 
 
@@ -21,6 +22,12 @@ class UserController extends Controller
         $user = User::find($id);
         if(empty($user)){
             return redirect(route('homepage'));
+        }
+
+        // DELETE OF PROFILE PICTURE NOT WORKING SEE LATER 
+        $deletePFP = public_path('img/users/' . $id . '.jpg');
+        if(File::exists($deletePFP)){
+            File::delete($deletePFP);
         }
 
         $user->delete();

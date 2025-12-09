@@ -6,7 +6,7 @@ INSERT INTO roles (role_id,name) VALUES
 
 -- 0. DADOS INICIAIS (Ajustados para incluir 'bio' e 'location')
 INSERT INTO users (username, email, password, "name", bio, location, points, user_role) VALUES
-('alice', 'alice@example.com', '$2a$10$hashed_pw_1_secure', 'Alice Martins', 'Senior Developer focused on Databases and Performance.', 'Lisbon, Portugal', 150, 3),
+('alice', 'alice@example.com', '$2a$10$hashed_pw_1_secure', 'Alice Martins', 'Senior Developer focused on Databases and Performance.', 'Lisbon, Portugal', 150, 3);
 
 INSERT INTO users (username, email, password, "name", bio, location, points) VALUES
 ('bruno', 'bruno@example.com', '$2a$10$hashed_pw_2_secure', 'Bruno Silva', 'Python enthusiast and machine learning amateur.', 'Porto, Portugal', 120),

@@ -1,4 +1,1 @@
-@foreach ($tags as $tag)
-
-
-@endforeach
+<p>HELLO WORLD</p>

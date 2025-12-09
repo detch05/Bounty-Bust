@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     // Disable default created_at and updated_at timestamps for this model.
-    public $timestamps  = false;
+    public $timestamps = false;
     public $table = 'users';
 
     /**
@@ -49,20 +49,20 @@ class User extends Authenticatable
     ];
 
     protected $casts =
-    [
-        'id' => 'integer',
-        'email' => 'string',
-        'name' => 'string',
-        'username' => 'string',
-        'location' => 'string',
-        'bio' => 'string',
-        'points' => 'integer',
-        'profile_picture' => 'string',
-        'created_at' => 'datetime',
-        'user_role' => 'integer',
-    ];
+        [
+            'id' => 'integer',
+            'email' => 'string',
+            'name' => 'string',
+            'username' => 'string',
+            'location' => 'string',
+            'bio' => 'string',
+            'points' => 'integer',
+            'profile_picture' => 'string',
+            'created_at' => 'datetime',
+            'user_role' => 'integer',
+        ];
 
-      public function getDate(): string
+    public function getDate(): string
     {
         return "Joined on " . Carbon::parse($this->created_at)->format('F j, Y');
     }
@@ -71,23 +71,40 @@ class User extends Authenticatable
         return $this->hasMany(Content::class, 'user_id', 'id');
     }
 
-    public function bounties(){
-        return $this->hasOneThrough(
-            User::class,      
-            Content::class,   
-            'id',             
-            'id_content',    
-            'user_id'         
+
+    public function answers()
+    {
+        return $this->hasManyThrough(
+            Answer::class,
+            Content::class,
+            'user_id',
+            'id_content',
+            'id',
+            'id'
         );
 
     }
-
-    public function role(){
-        return $this->belongsTo(Role::class,'user_role','role_id');
+    public function bounties()
+    {
+        return $this->hasManyThrough(
+            Bounty::class,
+            Content::class,
+            'user_id',
+            'id_content',
+            'id',
+            'id'
+        );
     }
 
-    public function hasRole($role){
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'user_role', 'role_id');
+    }
+
+    public function hasRole($role)
+    {
         return $this->role && $this->role->name === $role;
-    } 
- 
+    }
+
 }

@@ -36,7 +36,7 @@ class BountiesController extends Controller
         $bounties = $bountiesQuery->paginate(15); 
         
         // 7. Retorna a View
-        return view('pages.bounties', [
+        return view('pages.content.bounty.bounties', [
             'bounties' => $bounties
         ]);
     }
@@ -44,7 +44,7 @@ class BountiesController extends Controller
 
     public function create()
     {
-        return view('pages.create_bounty');
+        return view('pages.content.bounty.create_bounty');
     }
 
     public function store(Request $request)
@@ -88,7 +88,7 @@ class BountiesController extends Controller
 
     public function editBounty($id){
         $bounty= $this->getBounty($id);
-        return view('pages.edit_bounty', compact('bounty'));
+        return view('pages.content.bounty.edit_bounty', compact('bounty'));
     }
 
     public function update($id,Request $request){
@@ -117,7 +117,7 @@ class BountiesController extends Controller
     {
         $bounty->load(['content', 'answers.content']);
 
-        return view('pages.show_bounty', [
+        return view('pages.content.bounty.show_bounty', [
             'bounty' => $bounty
         ]);
     }
