@@ -4,15 +4,16 @@ INSERT INTO roles (role_id,name) VALUES
 (2,'mod'),
 (3,'admin');
 
--- 0. DADOS INICIAIS (Ajustados para incluir 'bio' e 'location')
+-- 0. DADOS INICIAIS (Ajustados para incluir 'bio' e 'location') PASSWORD: 123456
 INSERT INTO users (username, email, password, "name", bio, location, points, user_role) VALUES
-('alice', 'alice@example.com', '$2a$10$hashed_pw_1_secure', 'Alice Martins', 'Senior Developer focused on Databases and Performance.', 'Lisbon, Portugal', 150, 3);
+('alice', 'alice@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Alice Martins', 'Senior Developer focused on Databases and Performance.', 'Lisbon, Portugal', 150, 3),
+('oDiscordMod', 'discordmod@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Discord Mod', 'Professional Discord Mod', 'Leiria, Portugal', 300, 2);
 
 INSERT INTO users (username, email, password, "name", bio, location, points) VALUES
-('bruno', 'bruno@example.com', '$2a$10$hashed_pw_2_secure', 'Bruno Silva', 'Python enthusiast and machine learning amateur.', 'Porto, Portugal', 120),
-('carla', 'carla@example.com', '$2a$10$hashed_pw_3_secure', 'Carla Gomes', 'UX/UI specialist and WebDev advocate.', 'Coimbra, Portugal', 100),
-('daniel', 'daniel@example.com', '$2a$10$hashed_pw_4_secure', 'Daniel Sousa', 'Full-stack JS developer and open-source contributor.', 'Faro, Portugal', 200),
-('eva', 'eva@example.com', '$2a$10$hashed_pw_5_secure', 'Eva Costa', 'AI Researcher with a focus on Deep Learning.', 'Madrid, Spain', 180);
+('bruno', 'bruno@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Bruno Silva', 'Python enthusiast and machine learning amateur.', 'Porto, Portugal', 120),
+('carla', 'carla@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Carla Gomes', 'UX/UI specialist and WebDev advocate.', 'Coimbra, Portugal', 100),
+('daniel', 'daniel@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Daniel Sousa', 'Full-stack JS developer and open-source contributor.', 'Faro, Portugal', 200),
+('eva', 'eva@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Eva Costa', 'AI Researcher with a focus on Deep Learning.', 'Madrid, Spain', 180);
 
 INSERT INTO tag (name, description, color) VALUES
 ('SQL', 'Questions about SQL syntax and optimization', '#e1e1e1'),

@@ -39,6 +39,10 @@ h2:first-child {
             border: 1px solid var(--terciary-color);
             background-color: var(--terciary-color);
         }
+        &.mod{
+            border: 1px solid var(--secondary-color);
+            background-color: var(--secondary-color);
+        }
     }
 
     div > i:first-child {

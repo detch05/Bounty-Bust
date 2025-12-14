@@ -17,6 +17,14 @@ class UserController extends Controller
         return view('pages.profile',compact('user'));
     }
 
+    public function editProfileForm($id){
+        $User= User::findorFail($id);
+        $parsed_name = explode(' ',trim($User->name),2);
+        $firstName = $parsed_name[0];
+        $lastName = $parsed_name[1];
+        return view('pages.edit_profile',compact('User','firstName','lastName'));
+    }
+
 
     public function destroy($id) {
         $user = User::find($id);

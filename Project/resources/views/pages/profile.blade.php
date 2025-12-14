@@ -34,7 +34,7 @@
 
                             @if (Auth::id() == $user->id)
                                 <nav class="mt-3 d-flex flex-column align-items-center gap-1">
-                                    <button type="button" class="p-1">Edit Profile</button>
+                                    <a href="{{ route('profile.edit',$user->id) }}" class="p-1">Edit Profile</a>
                                     <form action="{{ route('account.destroy') }}" method="POST"
                                         onsubmit="return confirm('Are you sure of deleting your account?');">
                                         @csrf

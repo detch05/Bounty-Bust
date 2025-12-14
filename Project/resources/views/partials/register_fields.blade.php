@@ -29,24 +29,31 @@
 </div>
 
 <div class="form-group d-flex flex-column">
-    <label for="password">Password</label>
-    <input type="password" name="password" maxlength="50" required>
+    <label for="password">{{ $isEdit ? 'CurrentPassword' : 'Password' }}</label>
+    <input type="password" name="password" maxlength="50" {{ $isEdit ? '' : 'required' }} placeholder="{{ $isEdit ? 'Enter your current password' : ''}}" id="{{ $isEdit ? '' : 'checkMe' }}">
 </div>
 
-<div class="form-group d-flex flex-column">
-    <label for="password_confirmation">Confirm password</label>
-    <input type="password" name="password_confirmation" maxlength="50" required>
+@if ($isEdit)
+    <div class="form-group d-flex flex-column">
+        <label for="new_password">New Password</label>
+        <input type="password" name="new_password" maxlength="50" id="checkMe">
+    </div>
+@endif
+
+<div class="mb-0 form-check d-flex align-items-center" id="checkField">
+    <input type="checkbox" class="form-check-input" id="check">
+    <label class="form-check-label mb-0" for="check">Check me out</label>
 </div>
 
 <div class="form-group d-flex flex-column">
     <label for="location">Location</label>
-    <input type="text" name="location" maxlength="50">
+    <input type="text" name="location" maxlength="50" value="{{ old('location',$location) }}">
 </div>
 
 <div class="form-group d-flex flex-column">
     <label for="bio">Bio</label>
     <textarea name="bio" rows="10" cols="30" maxlength="300" placeholder="Write something about you!"
-        required></textarea>
+        required>{{ old('bio', $bio) }}</textarea>
 </div>
 
 <div class="form-group d-flex flex-column mb-3 mt-3">
@@ -58,4 +65,9 @@
     <img id="preview" src="" alt="Image preview" width="200" height="200">
 </div>
 
-<button type="submit" class="btn btn-primary">Submit</button>
+<div class="d-flex align-items-center gap-3">
+    <a href="{{ $isEdit ? route('profile',$userId) : route('homepage')}}" class="btn btn-secondary">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+

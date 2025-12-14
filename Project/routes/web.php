@@ -44,7 +44,11 @@ Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
 Route::middleware(['auth'])->group(function () {
     Route::delete('/account/delete',[UserController::class,'userDeleteAccount'])->name('account.destroy');
 });
-Route::get('/users/{id}',[UserController::class,'showProfile'])->name('profile');
+
+Route::middleware(['auth'])->prefix('users')->group(function(){
+    Route::get('/{id}',[UserController::class,'showProfile'])->name('profile');
+    Route::get('/{id}/edit',[UserController::class,'editProfileForm'])->name('profile.edit');
+});
 
 // ANSWERS
 

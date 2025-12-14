@@ -24,14 +24,15 @@
 
 #profile_header {
     nav {
-        button {
+        button,a {
             background-color: white;
             font-weight: 600;
         }
 
-        button:first-child {
+        a {
             border: 2px solid var(--terciary-color);
             color: var(--terciary-color);
+            text-decoration: none;
             &:hover {
                 background-color: #86cee6
             }

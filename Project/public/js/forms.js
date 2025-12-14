@@ -14,3 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+const checkMe = document.getElementById('check');
+const password = document.getElementById('checkMe');
+
+checkMe.addEventListener('change',() =>{
+    password.type= checkMe.checked ? 'text' : 'password';
+})

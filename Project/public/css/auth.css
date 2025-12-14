@@ -6,7 +6,8 @@ main {
 }
 
 #login,
-#register {
+#register,
+#editProfile {
     padding: 2em;
     background-color: antiquewhite;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -23,12 +24,20 @@ main {
     input {
         margin: 0.25em 0.5em;
     }
-    button {
+    button{
         background-color: var(--terciary-color);
         border: none;
-        margin-top: 1em;
-        width: 100%;
     }
+
+    button,a{
+        width: 100%;
+        margin-top: 2em; 
+    }
+}
+
+#checkField > label {
+    font-size: 0.9em;
+    color: black;
 }
 
 #login {
@@ -64,7 +73,8 @@ input::placeholder {
     text-align: center;
 }
 
-#register {
+#register,
+#editProfile {
     margin: 2em 0;
     padding: 2em 3em;
 }
