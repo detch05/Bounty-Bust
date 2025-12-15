@@ -115,7 +115,8 @@ class BountiesController extends Controller
     
     public function show(Bounty $bounty)
     {
-        $bounty->load(['content', 'answers.content']);
+        // Eager load answers with their content and the content's user
+        $bounty->load(['content', 'answers.content.user']);
 
         return view('pages.content.bounty.show_bounty', [
             'bounty' => $bounty

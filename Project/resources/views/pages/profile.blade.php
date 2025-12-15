@@ -72,8 +72,8 @@
                         <section class="activity mt-2">
                             <h4>Activity</h4>
                             <nav class="userOwned d-flex gap-3 ms-3 mb-3">
-                                <a class="btn btn-outline-secondary btn-sm" href="#">Bounties</a>
-                                <a class="btn btn-outline-secondary btn-sm" href="#">Answers</a>
+                                <a class="btn btn-outline-secondary btn-sm" href="{{ route('profile.bounties', $user->id) }}">Bounties</a>
+                                <a class="btn btn-outline-secondary btn-sm" href="{{ route('profile.answers', $user->id) }}">Answers</a>
                                 <a class="btn btn-outline-secondary btn-sm" href="#">Saved</a>
                             </nav>
 
