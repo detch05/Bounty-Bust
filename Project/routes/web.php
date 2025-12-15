@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->prefix('users')->group(function(){
     Route::get('/{id}',[UserController::class,'showProfile'])->name('profile');
     Route::get('/{id}/edit',[UserController::class,'editProfileForm'])->name('profile.edit');
+    Route::put('/{id}',[UserController::class,'update'])->name('profile.update');
 });
 
 // ANSWERS

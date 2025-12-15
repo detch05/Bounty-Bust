@@ -6,7 +6,7 @@
 @section('content')
     <div id="editProfile" class="container justify-content-center d-flex flex-column gap-3 ">
         <h2>Edit Profile</h2>
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update', $User->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             @include('partials.register_fields', [

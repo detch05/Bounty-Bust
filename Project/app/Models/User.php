@@ -5,8 +5,15 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Content;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\ResizeModifier;
 
 
 
@@ -69,6 +76,35 @@ class User extends Authenticatable
     public function content()
     {
         return $this->hasMany(Content::class, 'user_id', 'id');
+    }
+
+    public function handlePFP(UploadedFile $uploadedFile)
+    {
+        $imageName = $this->id . '.jpg';
+        $imgPath = public_path('img/users');
+
+        if (file_exists($imgPath . '/' . $imageName)) {
+            unlink($imgPath . '/' . $imageName);
+        }
+
+        $manager = new ImageManager(new Driver());
+        $img = $manager->read($uploadedFile->getRealPath());
+
+        $shortSide = min($img->width(), $img->height());
+        $img = $img->modify(new CropModifier($shortSide, $shortSide, position: 'center'));
+        $img = $img->modify(new ResizeModifier(400, 400));
+        $img = $img->encode(new JpegEncoder(quality: 90));
+        $img->save($imgPath . '/' . $imageName);
+
+        return $imageName;
+    }
+
+      protected function makeName(string $firstName, string $lastName): string
+    {
+        // No whitespaces should be presented in each of the fields
+        $str1 = trim($firstName);
+        $str2 = trim($lastName);
+        return preg_replace('/\s+/', ' ', "$str1 $str2");
     }
 
 
