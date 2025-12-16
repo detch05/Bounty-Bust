@@ -40,15 +40,30 @@ $reward = $reward ?? '';
         $initialTags = old('tags', isset($bounty) && method_exists($bounty, 'tags') ? $bounty->tags->pluck('id')->toArray() : []);
     @endphp
 
-    <div id="tag-input" class="border rounded p-2">
-        <div id="tag-chips" class="d-flex flex-wrap gap-2 mb-2"></div>
+    <style>
+        /* Small local styles to make the tag picker match site style */
+        .bounty-tags { background: transparent; }
+        .bounty-tags .tag-chip { display:inline-flex; align-items:center; gap:6px; padding: .25rem .45rem; border-radius:999px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); font-weight:600; border: 1px solid rgba(0,0,0,0.04); cursor: pointer; }
+        .bounty-tags .tag-chip.light { color: #222; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+        .bounty-tags .list-group-item { cursor:pointer; }
+        /* ensure suggestions dropdown has white background for better contrast */
+        .bounty-tags #tagSuggestions { background: #fff; color: #212529; }
+        .bounty-tags #tagSuggestions .list-group-item { background: #fff; color: #212529; }
+        .bounty-tags .input-group .form-control { min-height:42px; padding-left:2.5rem; }
+        .bounty-tags .input-group.position-relative .search-icon { position:absolute; left:.75rem; top:50%; transform:translateY(-50%); color:#6c757d; pointer-events:none; }
+    </style>
 
-        <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input id="tagSearch" type="text" class="form-control" placeholder="Search your tags" autocomplete="off">
+    <div id="tag-input" class="border rounded p-2 bounty-tags">
+        <div class="d-flex align-items-center mb-2">
+            <div id="tag-chips" class="d-flex flex-wrap gap-1"></div>
         </div>
 
-        <div id="tagSuggestions" class="list-group mt-2 d-none" style="max-height:200px; overflow:auto;"></div>
+        <div class="input-group position-relative">
+            <input id="tagSearch" type="text" class="form-control" placeholder="Search your tags" autocomplete="off">
+            <i class="bi bi-search search-icon" aria-hidden="true"></i>
+        </div>
+
+        <div id="tagSuggestions" class="list-group mt-2 d-none rounded shadow-sm" style="max-height:200px; overflow:auto;"></div>
     </div>
 
     {{-- Hidden container for selected tag inputs (submitted as tags[]) --}}
@@ -72,19 +87,36 @@ $reward = $reward ?? '';
 
             function createChip(tag){
                 const span = document.createElement('span');
+                // Use badge styling consistent with the site
                 span.className = 'badge rounded-pill d-inline-flex align-items-center';
-                span.style.backgroundColor = tag.color || '#6c757d';
+                span.style.backgroundColor = tag.color || '#0d6efd';
                 span.style.color = '#fff';
-                span.style.padding = '0.45rem 0.6rem';
+                span.style.padding = '0.35rem 0.6rem';
                 span.innerHTML = `<span class="me-2">${tag.name}</span>`;
 
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'btn-close btn-close-white btn-sm ms-1';
-                btn.setAttribute('aria-label', 'Remove');
-                btn.addEventListener('click', function(){ removeTag(tag.id); });
+                    // pick style depending on background luminance
+                    try {
+                        const col = tag.color || '#0d6efd';
+                        const isLight = (c => {
+                            if(!c || c[0] !== '#') return false;
+                            const r = parseInt(c.substr(1,2),16);
+                            const g = parseInt(c.substr(3,2),16);
+                            const b = parseInt(c.substr(5,2),16);
+                            const lum = 0.2126*r + 0.7152*g + 0.0722*b;
+                            return lum > 200;
+                        })(col);
+                        if(isLight){
+                            span.classList.add('light');
+                        }
+                    } catch(e) {}
 
-                span.appendChild(btn);
+                    // make whole chip clickable to remove
+                    span.addEventListener('click', function(){ removeTag(tag.id); });
+
+                    // improve accessible keyboard interaction
+                    span.setAttribute('role','button');
+                    span.setAttribute('tabindex','0');
+                    span.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); removeTag(tag.id); } });
                 return span;
             }
 
@@ -104,6 +136,7 @@ $reward = $reward ?? '';
                     inp.value = tag.id;
                     hiddenContainer.appendChild(inp);
                 }
+                // hidden inputs updated; no visual counter needed
             }
 
             function addTag(id){
