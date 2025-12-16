@@ -27,11 +27,11 @@ body{
             padding-left: 1em;
             border-radius: 5px;
             &:hover{
-                background-color: rgb(216, 101, 101)
+                background-color: rgb(161, 161, 161);
             }
         }
         div:has(>.nav-link.active){
-            background-color: var(--terciary-color);
+            background-color: var(--sand-color);
         }
     }
 }

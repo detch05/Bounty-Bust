@@ -55,7 +55,7 @@ class UserController extends Controller
         $user->name = $fullName;
 
         if ($request->filled('new_password')) {
-            if (!Hash::check($request->password, $user->password)) {
+            if (!Hash::check($request->password, $user->password) || Hash::check($request->new_password, $user->password)) {
                 return back()->withErrors([
                     'password' => 'Current password is incorrect.',
                 ]);

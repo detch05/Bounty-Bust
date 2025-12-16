@@ -7,7 +7,8 @@ main {
 
 #login,
 #register,
-#editProfile {
+#editProfile,
+#Bounty {
     padding: 2em;
     background-color: antiquewhite;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -79,15 +80,23 @@ input::placeholder {
     padding: 2em 3em;
 }
 
-.imagePreview {
+.imagePreview,.bountyImagePreview {
     width: 100%;
     border: 2px dashed rgb(225, 220, 220);
     background-color: whitesmoke;
     margin: 0 auto;
-    max-width: 200px;
-    aspect-ratio: 1/1;
     img {
         display: none;
         object-fit: cover;
     }
+}
+
+.imagePreview{
+    max-width: 200px;
+    aspect-ratio: 1/1;
+}
+
+.bountyImagePreview{
+    max-width: 320px;
+    aspect-ratio: 4/3;
 }

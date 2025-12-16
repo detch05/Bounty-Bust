@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h1>Edit Bounty</h1>
-                <form action="{{ route('bounties.update', $bounty->id_content) }}" method="POST">
+    <div class="container my-3">
+        <div class="row justify-content-center" id="Bounty">
+                <h2>Edit Bounty</h2>
+                <form action="{{ route('bounties.update', $bounty->id_content) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     @include('partials.bounty_fields', [
@@ -15,7 +18,12 @@
                         'reward' => $bounty->reward,
                     ])
                     </form>
-                </div>
             </div>
         </div>
 @endsection
+
+
+@section('scripts')
+<script src="{{ asset('js/forms.js') }}"></script>
+@endsection
+  

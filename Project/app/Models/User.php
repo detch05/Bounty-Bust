@@ -12,8 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
-use Intervention\Image\Modifiers\CropModifier;
-use Intervention\Image\Modifiers\ResizeModifier;
+
 
 
 
@@ -90,11 +89,9 @@ class User extends Authenticatable
         $manager = new ImageManager(new Driver());
         $img = $manager->read($uploadedFile->getRealPath());
 
-        $shortSide = min($img->width(), $img->height());
-        $img = $img->modify(new CropModifier($shortSide, $shortSide, position: 'center'));
-        $img = $img->modify(new ResizeModifier(400, 400));
-        $img = $img->encode(new JpegEncoder(quality: 90));
-        $img->save($imgPath . '/' . $imageName);
+       
+        $img->cover(400,400,'center');
+        $img->encode(new JpegEncoder(quality: 90))->save($imgPath . '/' . $imageName);
 
         return $imageName;
     }

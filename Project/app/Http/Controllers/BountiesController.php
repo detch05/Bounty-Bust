@@ -53,7 +53,7 @@ class BountiesController extends Controller
             'title' => ['required', 'string', 'max:60'],
             'description' => ['required', 'string', 'max:10000'], // Campo Content
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
-            //'media' => ['nullable', 'string'],
+            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
         // Array de mensagens personalizadas
         'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
@@ -74,8 +74,12 @@ class BountiesController extends Controller
         $bounty->title = $request->title;
         $bounty->media = /*$request->media ??*/ null; 
         $bounty->reward = $request->reward;
-        
+
         $bounty->save();
+
+        if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
         
         return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
     }
@@ -96,6 +100,7 @@ class BountiesController extends Controller
             'title' => ['required', 'string', 'max:60'],
             'description' => ['required', 'string', 'max:10000'], 
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
+            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
         ]);
 
         $bounty = Bounty::with('content')->findOrFail($id);
@@ -109,6 +114,10 @@ class BountiesController extends Controller
         $bounty->content->edit_date = now();       
         $bounty->content->save();
 
+        if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
+
         return redirect()->route('bounties.index', $bounty->id_content)->with('success', 'Bounty updated successfully!');
     }
 
@@ -121,7 +130,6 @@ class BountiesController extends Controller
             'bounty' => $bounty
         ]);
     }
-
 
     public function destroy($id){
         $bounty = Bounty::with('content')->findOrFail($id);
