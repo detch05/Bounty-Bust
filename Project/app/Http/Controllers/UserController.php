@@ -99,4 +99,28 @@ class UserController extends Controller
 
         return redirect()->route('homepage')->with('success', 'Your account has been deleted.');
     }
+
+    /**
+     * Show paginated list of bounties for a user.
+     */
+    public function bounties($id)
+    {
+        $user = User::findOrFail($id);
+        // use the relationship and eager-load content
+        $bounties = $user->bounties()->with('content')->paginate(12);
+
+        return view('pages.profile_bounties', compact('user', 'bounties'));
+    }
+
+    /**
+     * Show paginated list of answers for a user.
+     */
+    public function answers($id)
+    {
+        $user = User::findOrFail($id);
+        // answers() is hasManyThrough to Answer model; eager-load content and bounty
+        $answers = $user->answers()->with(['content', 'bounty'])->paginate(12);
+
+        return view('pages.profile_answers', compact('user', 'answers'));
+    }
 }

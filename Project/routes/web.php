@@ -49,6 +49,9 @@ Route::middleware(['auth'])->prefix('users')->group(function(){
     Route::get('/{id}',[UserController::class,'showProfile'])->name('profile');
     Route::get('/{id}/edit',[UserController::class,'editProfileForm'])->name('profile.edit');
     Route::put('/{id}',[UserController::class,'update'])->name('profile.update');
+    // User-specific lists
+    Route::get('/{id}/bounties', [UserController::class, 'bounties'])->name('profile.bounties');
+    Route::get('/{id}/answers', [UserController::class, 'answers'])->name('profile.answers');
 });
 
 // ANSWERS

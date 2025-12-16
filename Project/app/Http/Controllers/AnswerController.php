@@ -21,14 +21,12 @@ class AnswerController extends Controller
 
         $content = Content::create([
             'description' => $validatedData['description'],
+            'user_id' => Auth::id(),
         ]);
 
         $answer = Answer::create([
-            //'title' => $validatedData['title'],
-            //'media' => $validatedData['media'],
             'id_content' => $content->id,
             'bounty_id' => $validatedData['bounty_id'],
-            'user_id' => Auth::id(),
         ]);
         
         return redirect()->route('bounties.show', ['bounty' => $validatedData['bounty_id']]);

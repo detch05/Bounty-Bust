@@ -108,6 +108,7 @@
                 {{-- ====================================== --}}
                 {{-- 3. FORMULÁRIO PARA SUBMETER NOVA RESPOSTA --}}
                 {{-- ====================================== --}}
+                @auth
                 <h2 class="mt-5 mb-3">Submeter a Tua Resposta</h2>
 
                 {{-- Assumimos que a rota para submeter a resposta é 'answers.store' --}}
@@ -131,7 +132,10 @@
                         <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                     </div>
                 </form>
-
+                @else
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i> Por favor, <a href="/login">inicia sessão</a> para submeter uma resposta.
+                @endauth
             </div>
         </div>
     </div>
