@@ -6,12 +6,13 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Content;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Storage;
+
+use Illuminate\Notifications\Notifiable;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 
@@ -80,18 +81,18 @@ class User extends Authenticatable
     public function handlePFP(UploadedFile $uploadedFile)
     {
         $imageName = $this->id . '.jpg';
-        $imgPath = public_path('img/users');
+        $imgPath = 'users';
 
-        if (file_exists($imgPath . '/' . $imageName)) {
-            unlink($imgPath . '/' . $imageName);
-        }
+        Storage::disk('public')->delete($imgPath . '/' . $imageName);
 
         $manager = new ImageManager(new Driver());
         $img = $manager->read($uploadedFile->getRealPath());
 
        
         $img->cover(400,400,'center');
-        $img->encode(new JpegEncoder(quality: 90))->save($imgPath . '/' . $imageName);
+        $imgContent = $img->encode(new JpegEncoder(quality: 90));
+
+        Storage::disk('public')->put($imgPath . '/' . $imageName, $imgContent);
 
         return $imageName;
     }

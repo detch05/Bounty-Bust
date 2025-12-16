@@ -1,0 +1,26 @@
+.bounty-card {
+    #bountyImg {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+    }
+
+    span {
+        font-family: var(--heading-font);
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+
+    .text-truncate {
+        max-width: 45ch;
+    }
+
+    .cardContent {
+        width: 100%;
+        > div > p:last-child{
+            font-family: var(--heading-font);
+            font-weight: bold;
+            
+        }
+    }
+}

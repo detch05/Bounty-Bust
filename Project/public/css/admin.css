@@ -23,14 +23,21 @@ h2:first-child {
         }
     }
 
+    img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
     .user_role {
         width: 10ch;
         font-family: var(--heading-font);
         font-size: 1.1em;
         border-radius: 12.5%;
         text-align: center;
-       
-        color: white; 
+
+        color: white;
         &.user {
             border: 1px solid var(--primary-color);
             background-color: var(--primary-color);
@@ -39,7 +46,7 @@ h2:first-child {
             border: 1px solid var(--terciary-color);
             background-color: var(--terciary-color);
         }
-        &.mod{
+        &.mod {
             border: 1px solid var(--secondary-color);
             background-color: var(--secondary-color);
         }

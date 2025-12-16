@@ -52,12 +52,14 @@ CREATE TABLE bounty(
 id_content INT PRIMARY KEY,
 title VARCHAR(60) NOT NULL,
 reward INT DEFAULT 50 CHECK (reward>0),
+media TEXT,
 FOREIGN KEY (id_content) REFERENCES content(id) ON DELETE CASCADE
 );
 
 CREATE TABLE answer(
 id_content INT PRIMARY KEY,
 title VARCHAR(60),
+media TEXT,
 is_correct BOOLEAN NOT NULL DEFAULT FALSE,
 bounty_id INT NOT NULL REFERENCES bounty(id_content) ON DELETE CASCADE,
 FOREIGN KEY (id_content) REFERENCES content(id) ON DELETE CASCADE

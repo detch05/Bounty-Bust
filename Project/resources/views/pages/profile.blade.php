@@ -13,8 +13,8 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
                                 <div id="pfp">
-                                    <img src="{{asset('img/users/'.$user->id.'.jpg')}}" width="200" height="200"
-                                        id="profile_picture"  onerror="this.onerror=null; this.src='{{ asset('img/users/default.jpg') }}';">
+                                    <img src="{{Storage::url('users/' . $user->id . '.jpg')}}" width="200" height="200"
+                                        id="profile_picture"  onerror="this.onerror=null; this.src='{{ Storage::url('users/default.jpg') }}';">
                                 </div>
                                 <div id="profile_content" class="ms-3">
                                     <div class="name_container d-flex align-items-center gap-3 p-0 pb-1">

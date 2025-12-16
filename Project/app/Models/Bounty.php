@@ -2,28 +2,29 @@
 
 namespace App\Models;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Intervention\Image\ImageManager;
+use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bounty extends Model
 {
-    protected $table = 'bounty'; 
+    protected $table = 'bounty';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'id_content', 
-        'title', 
-        'media', 
+        'id_content',
+        'title',
+        'media',
         'reward'
     ];
 
     // CORREÇÃO 1: Define a chave primária correta
-    protected $primaryKey = 'id_content'; 
+    protected $primaryKey = 'id_content';
 
     use HasFactory;
 
@@ -37,47 +38,54 @@ class Bounty extends Model
         return $this->belongsToMany(Tag::class, 'bounty_tag', 'bounty_id', 'tag_id');
     }
 
-    public function handleBountyIMG(UploadedFile $uploadedFile){
-        $image_suffix =$this->id_content . '.jpg';
-        $normal_img_path = public_path('img/bounties/normal/') . $image_suffix;
-        $preview_img_path = public_path('img/bounties/preview/') . $image_suffix;
+    public function handleBountyIMG(UploadedFile $uploadedFile)
+    {
+        $image_suffix = $this->id_content . '.jpg';
+        $normal_img_path = 'bounties/normal/' . $image_suffix;
+        $preview_img_path = 'bounties/preview/' . $image_suffix;
 
-        if (file_exists($normal_img_path)) {
-            unlink($normal_img_path);
-        }
-
-        if (file_exists($preview_img_path)) {
-            unlink($preview_img_path);
-        }
-
+        Storage::disk('public')->delete(['normal_img_path','preview_img_path']);
+       
         $manager = new ImageManager(new Driver());
         $img = $manager->read($uploadedFile->getRealPath());
 
 
         $normal_img = clone $img;
-        $normal_img->cover(140,140,'center');
-        $normal_img->encode(new JpegEncoder(90))->save($normal_img_path);
-       
+        $img_data= $normal_img->cover(140, 140, 'center')->encode(new JpegEncoder(90));
+        Storage::disk('public')->put($normal_img_path,$img_data);
+
         $preview_img = clone $img;
-        $preview_img->cover(800, 600, 'center'); 
-        $preview_img->encode(new JpegEncoder(90))->save($preview_img_path);
+        $preview_data = $preview_img->cover(800, 600, 'center')->encode(new JpegEncoder(90));
+        Storage::disk('public')->put($preview_img_path,$preview_data);
+        
+
+       
     }
 
-    public function user(){
+    public function getImagePath(bool $isPreview)
+    {
+        $suffix = $this->id_content . '.jpg';
+        $main = $isPreview ? 'bounties/preview/' : 'bounties/normal/';
+        return $main . $suffix;
+    }
+
+
+    public function user()
+    {
         return $this->hasOneThrough(
-            User::class,      
-            Content::class,   
-            'id',             
-            'id',            
-            'id_content',     
-            'user_id'         
+            User::class,
+            Content::class,
+            'id',
+            'id',
+            'id_content',
+            'user_id'
         );
     }
 
     public function answers()
     {
-         return $this->hasMany(Answer::class, 'bounty_id', 'id_content');
+        return $this->hasMany(Answer::class, 'bounty_id', 'id_content');
     }
 
-   
+
 }

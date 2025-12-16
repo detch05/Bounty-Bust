@@ -8,7 +8,11 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <p>HELLO WORLD</p>
+      <article class="border p-3">
+        <h3>Question title</h3>
+        <img src="">
+
+      </article>
     </div>
     <div class="carousel-item">
       <p>HELLO WORLD</p>

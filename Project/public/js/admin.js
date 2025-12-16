@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function updateRoles() {
     document.querySelectorAll(".user_role").forEach((p) => {
-        const role = p.textContent.trim().toLowerCase();
+        const role = p.textContent.toLowerCase();
         p.classList.remove("user", "admin", "mod");
 
         if (role === "user") p.classList.add("user");

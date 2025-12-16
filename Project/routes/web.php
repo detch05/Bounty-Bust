@@ -60,7 +60,7 @@ Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store
 
 //ADMIN PAGE
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function(){
+Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(function(){
     Route::get('/',[AdminController::class,'panel'])->name('dashboard');
     Route::get('/users',[AdminController::class,'users'])->name('users');
     Route::get('/tags',[AdminController::class,'tags'])->name('tags');

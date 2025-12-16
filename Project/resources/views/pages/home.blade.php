@@ -1,26 +1,32 @@
 @extends('layouts.app')
 
+
+
+@section('styles')
+    <link href="{{ asset('css/cards.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
-                @include('partials.aside')
-                <div class="col-12 col-md-9 p-sm-5 me-2">
-                    <div class="row">
-                        <section class="col-md-10 d-flex d-column justify-content-center align-items-center">
-                            <div class="d-flex flex-column align-items-center p-3 mb-5" id="mostWanted">
-                                <h2 class="mb-3">Most Wanted</h2>
-                                @include('partials.homepage.mostWanted')
-                            </div>
-                        </section>
-                        <section class="col-md-2">
-                            <p>Hello</p>
-                        </section>
-                    </div>
-                </div >
+            @include('partials.aside')
+            <div class="col-12 col-md-9 p-sm-5 me-2">
+                <div class="row">
+                    <section class="col-md-10 d-flex flex-column justify-content-center">
+                        <div class="p-3 mb-5">
+                            
+                        </div>
+                        <div>
+                            @foreach ($bounties as $bounty)
+                                <x-bounty-card :bounty="$bounty" />
+                            @endforeach
+                        </div>
+                    </section>
+                    <section class="col-md-2">
+                    </section>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
-
-
-
 
