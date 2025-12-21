@@ -1,0 +1,31 @@
+.bountyHeader {
+    font-size: 0.8em;
+    > button:first-child {
+        background-color: gainsboro;
+        border: none;
+        opacity: 0.6;
+        transition: opacity 0.3s ease, background-color 0.3s ease;
+        &:hover {
+            opacity: 1;
+        }
+        i {
+            color: black;
+        }
+    }
+}
+
+#bountyImg {
+    width: 100%;
+    max-width: 640px;
+    max-height: 480px;
+    height: auto;
+    background-color: var(--terciary-color);
+    overflow: hidden;
+    border-radius: 8px;
+    > img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+}

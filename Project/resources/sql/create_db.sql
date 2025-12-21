@@ -30,6 +30,7 @@ CREATE TABLE content(
  rating INT DEFAULT 0 CHECK (rating >=0 AND rating <=5),
  user_id INT NOT NULL DEFAULT 1 REFERENCES users(id) ON DELETE SET DEFAULT,
  version INT NOT NULL DEFAULT 1,
+ views INT NOT NULL DEFAULT 0,
  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP, CHECK (updated_at>= created_at)
 );
 

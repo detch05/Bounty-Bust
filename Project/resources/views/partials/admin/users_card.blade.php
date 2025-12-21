@@ -2,7 +2,7 @@
     <article class="user_card border p-2 m-3 d-flex justify-content-between align-items-center">
         <div class="profilePreview ms-3">
             <a href="{{ route('profile', $user->id) }}" class="d-flex gap-2">
-                <img src="{{ Storage::url('users/' . $user->id . '.jpg') }}" onerror="this.onerror=null; this.src='{{ Storage::url('users/default.jpg') }}';">
+                <img src="{{ Storage::url('users/' . $user->id . '.jpg') }}" onerror="this.onerror=null; this.src='{{ Storage::url('users/default.jpg') }}';" class="profileIconL">
                 <div class="d-flex flex-column gap-0">
                     <p class="mb-0">{{ $user->name }}</p>
                     <p class="text-muted fs-6 mt-0">@<span>{{ $user->username }}</span></p>

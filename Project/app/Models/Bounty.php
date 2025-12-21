@@ -55,7 +55,7 @@ class Bounty extends Model
         Storage::disk('public')->put($normal_img_path,$img_data);
 
         $preview_img = clone $img;
-        $preview_data = $preview_img->cover(800, 600, 'center')->encode(new JpegEncoder(90));
+        $preview_data = $preview_img->cover(640, 480, 'center')->encode(new JpegEncoder(90));
         Storage::disk('public')->put($preview_img_path,$preview_data);
         
 

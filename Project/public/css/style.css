@@ -41,9 +41,15 @@ header ul.navbar-nav li:last-child i:hover {
     border-radius: 50%;
 }
 
-.profilePreview{
-    a{
+.profileIconL {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profilePreview {
+    a {
         text-decoration: none;
     }
 }
-

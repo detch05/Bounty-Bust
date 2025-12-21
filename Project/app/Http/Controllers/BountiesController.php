@@ -55,7 +55,7 @@ class BountiesController extends Controller
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer','exists:tag,id'],
-            //'media' => ['nullable', 'string'],
+            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
         // Array de mensagens personalizadas
         'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
@@ -78,6 +78,10 @@ class BountiesController extends Controller
         $bounty->reward = $request->reward;
         
         $bounty->save();
+
+         if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
 
         // Sync tags if provided (keeps many-to-many relationship in bounty_tag)
         if ($request->has('tags')) {
@@ -115,8 +119,12 @@ class BountiesController extends Controller
 
         $bounty->content->description = $request->description;
         $bounty->content->version += 1;             
-        $bounty->content->edit_date = now();       
+        $bounty->content->updated_at = now();       
         $bounty->content->save();
+
+         if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
 
         // Sync tags from form
         if ($request->has('tags')) {
@@ -131,7 +139,7 @@ class BountiesController extends Controller
     {
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
-
+        $bounty->content->increment('views'); 
         return view('pages.content.bounty.show_bounty', [
             'bounty' => $bounty
         ]);
