@@ -1,7 +1,7 @@
 -- INDEXES -- 
 
-CREATE INDEX content_date_idx ON content USING btree (date);
-CLUSTER content USING content_date_idx;
+CREATE INDEX content_time_idx ON content USING btree (created_at DESC);
+CLUSTER content USING content_time_idx;
 
 CREATE INDEX tag_name_idx ON tag USING hash(name);
 

@@ -61,3 +61,17 @@ CREATE TRIGGER prevent_comment_cycle
 BEFORE INSERT OR UPDATE ON comment 
 FOR EACH ROW
  EXECUTE FUNCTION trg_prevent_comment_cycle();
+
+
+ CREATE OR REPLACE FUNCTION on_update_trigger()
+ RETURNS TRIGGER AS $$ 
+ BEGIN 
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW; 
+ END; 
+ $$ LANGUAGE plpgsql;
+
+ CREATE TRIGGER update_content_timestamp
+ BEFORE UPDATE ON content
+ FOR EACH ROW
+ EXECUTE FUNCTION on_update_trigger();

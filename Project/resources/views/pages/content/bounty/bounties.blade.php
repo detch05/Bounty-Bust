@@ -103,7 +103,7 @@ $user_bounties = $user->bounties;
                                         <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
                                             <small class="text-muted">
                                                 <i class="bi bi-calendar"></i>
-                                                {{ $bounty->content->date}}
+                                                {{ $bounty->content->created_at->format('d-m-Y')}}
                                             </small>
                                             <a href="{{ route('bounties.show', $bounty->id_content) }}" class="btn btn-sm btn-outline-primary">
                                                 View

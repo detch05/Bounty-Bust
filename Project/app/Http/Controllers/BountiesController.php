@@ -22,8 +22,8 @@ class BountiesController extends Controller
         $bountiesQuery->join('content', 'bounty.id_content', '=', 'content.id');
 
         // 4. Ordena os resultados (ex: pela data mais recente)
-        // Nota: Assumimos que a data é a coluna 'date' da tabela 'content'.
-        $bountiesQuery->orderBy('content.date', 'desc');
+        // Nota: Assumimos que a data é a coluna 'created_at' da tabela 'content'.
+        $bountiesQuery->orderBy('content.created_at', 'desc');
 
         // 5. Aplica a lógica de pesquisa SE existir um termo 'q'
         if ($query) {

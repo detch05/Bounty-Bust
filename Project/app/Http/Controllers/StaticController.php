@@ -13,7 +13,7 @@ class StaticController extends Controller
     public function index()
     {
         $featured_bounties = Bounty::orderByDesc('reward')
-            ->orderBy(Content::select('date')->whereColumn('content.id', 'bounty.id_content'))
+            ->orderBy(Content::select('updated_at')->whereColumn('content.id', 'bounty.id_content'))
             ->take(3)
             ->get();
 
@@ -24,7 +24,7 @@ class StaticController extends Controller
             ->orderByDesc('reward')
             ->orderByDesc('answers_count')
             ->orderByDesc(
-                Content::select('date')
+                Content::select('updated_at')
                     ->whereColumn('content.id', 'bounty.id_content')
             )
             ->paginate(20);

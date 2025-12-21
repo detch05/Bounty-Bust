@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -10,16 +11,15 @@ class Content extends Model
 {
     protected $table = 'content'; 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'description',
         'user_id', 
         'version',
         'rating',
-        // 'date' e 'edit_date' são muitas vezes preenchidos automaticamente
     ];
-    
+
     // A chave primária é 'id' (o padrão do Laravel, mas explicitamos)
     protected $primaryKey = 'id';
     
@@ -38,4 +38,5 @@ class Content extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
+
 }

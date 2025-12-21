@@ -37,3 +37,5 @@ BEGIN
         (SELECT COUNT(*) FROM comment WHERE id_content = p_content_id) AS comments_count;
 END;
 $$ LANGUAGE plpgsql;
+
+
