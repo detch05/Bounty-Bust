@@ -1,10 +1,4 @@
 .bounty-card {
-    #bountyImg {
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
-    }
-
     span {
         font-family: var(--heading-font);
         color: var(--primary-color);
@@ -17,10 +11,55 @@
 
     .cardContent {
         width: 100%;
-        > div > p:last-child{
+        > div > p:last-child {
             font-family: var(--heading-font);
             font-weight: bold;
-            
+        }
+    }
+}
+
+.bountyImg,.wantedImg {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+}
+
+.wantedImg{
+    border:3px solid black;
+    filter: grayscale(0.8);
+}
+
+
+
+#mostWanted {
+  width: 100%;
+  max-width: 30em;
+  border: 5px solid #3b2a1a;
+  outline: 2px solid var(--wood-color);
+  outline-offset: -10px;
+  background-color: #d3c5b0;
+    > h1 {
+        font-size: 2.8em;
+        font-family: var(--logo-font);
+        color: var(--primary-color);
+        text-align: center;
+    }
+    .carousel-item {
+        h3 {
+            font-family: var(--heading-font);
+        }
+        > article div:last-child{
+            p:first-child{
+                font-family: var(--logo-font);
+                font-size: 1.7em;
+                font-weight: bold;
+            }
+            p:last-child{
+                font-family: var(--heading-font);
+                font-size: 1.5em;
+                color: var(--primary-color);
+                font-weight: bold;
+            }
         }
     }
 }

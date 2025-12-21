@@ -3,17 +3,17 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            @include('partials.aside') 
+            @include('partials.aside')
             <div class="col-md-9">
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="mb-0">Tags</h1>
                         @auth
-                            {{--@if(auth()->user()->isAdmin())
+                            {{-- @if (auth()->user()->isAdmin())
                                 <a href="{{ route('tags.create') }}" class="btn btn-primary">
                                     <i class="bi bi-plus-circle"></i> Create Tag
                                 </a>
-                            @endif--}}
+                            @endif --}}
                         @endauth
                     </div>
 
@@ -29,29 +29,34 @@
                                     <option value="bounties">Most Bounties</option>
                                 </select>
                             </div>
-                            
+
                         </div>
                     </div>
 
                     <!-- Tags Grid -->
-                    @if($tags && count($tags) > 0)
+                    @if ($tags && count($tags) > 0)
                         <div class="row g-4">
-                            @foreach($tags as $tag)
+                            @foreach ($tags as $tag)
                                 <div class="col-md-6 col-lg-4">
-                                    <div class="card h-100 shadow-sm border-0 transition-hover" style="cursor: pointer; border-left: 5px solid {{ $tag->color ?? '#007bff' }} !important;">
+                                    <div class="card h-100 shadow-sm border-0 transition-hover"
+                                        style="cursor: pointer; border-left: 5px solid {{ $tag->color ?? '#007bff' }} !important;">
                                         <!-- Card Header with Color Badge -->
-                                        <div class="card-header border-0 d-flex justify-content-between align-items-start" style="background-color: {{ $tag->color ?? '#007bff' }}20;">
+                                        <div class="card-header border-0 d-flex justify-content-between align-items-start"
+                                            style="background-color: {{ $tag->color ?? '#007bff' }}20;">
                                             <div class="flex-grow-1">
                                                 <h5 class="card-title mb-0">{{ $tag->name }}</h5>
                                             </div>
-                                            <div class="rounded px-2 py-1" style="background-color: {{ $tag->color ?? '#007bff' }}; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                                                <span style="color: white; font-weight: bold; font-size: 12px;">{{ strtoupper(substr($tag->name, 0, 2)) }}</span>
+                                            <div class="rounded px-2 py-1"
+                                                style="background-color: {{ $tag->color ?? '#007bff' }}; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                                                <span
+                                                    style="color: white; font-weight: bold; font-size: 12px;">{{ strtoupper(substr($tag->name, 0, 2)) }}</span>
                                             </div>
                                         </div>
 
                                         <!-- Card Body -->
                                         <div class="card-body">
-                                            <p class="card-text text-muted" style="height: 60px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                            <p class="card-text text-muted"
+                                                style="height: 60px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                                                 {{ $tag->description ?? 'No description available' }}
                                             </p>
 
@@ -70,24 +75,21 @@
                                             </div>
 
                                             <!-- Color Badge -->
-                                            
+
                                         </div>
 
                                         <!-- Card Footer -->
                                         <div class="card-footer bg-white border-top d-flex gap-2">
-                                            {{--<a href="{{ route('tags.show', $tag->id) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
+                                            {{-- <a href="{{ route('tags.show', $tag->id) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
                                                 <i class="bi bi-eye"></i> View
-                                            </a>--}}
+                                            </a> --}}
                                             @auth
-                                                {{--@if(auth()->user()->isFollowingTag($tag->id))
-                                                    <button class="btn btn-sm btn-danger" onclick="unfollowTag({{ $tag->id }})">
-                                                        <i class="bi bi-star-fill"></i> Following
-                                                    </button>
-                                                @elsẹ--}}
-                                                    <button class="btn btn-sm btn-outline-success" onclick="followTag({{ $tag->id }})">
-                                                        <i class="bi bi-star"></i> Follow
-                                                    </button>
-                                                {{--@endif--}}
+                                                <button
+                                                    class="btn btn-sm {{ auth()->user()->isFollowingTag($tag->id) ? 'btn-danger' : 'btn-outline-success' }} follow-btn"
+                                                    data-tag-id="{{ $tag->id }}">
+                                                    <i class="bi {{ auth()->user()->isFollowingTag($tag->id) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                                                    {{ auth()->user()->isFollowingTag($tag->id) ? 'Following' : 'Follow' }}
+                                                </button>
                                             @endauth
                                         </div>
                                     </div>
@@ -112,3 +114,8 @@
     </div>
 @endsection
 
+
+
+@section('scripts')
+    <script src="{{ asset('js/tags.js') }}"></script>
+@endsection

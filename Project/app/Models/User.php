@@ -141,4 +141,14 @@ class User extends Authenticatable
         return $this->role && $this->role->name === $role;
     }
 
+    public function followedTags()
+    {
+        return $this->belongsToMany(Tag::class, 'tag_follow', 'user_id', 'tag_id');
+    }
+
+    public function isFollowingTag($tagId)
+    {
+        return $this->followedTags()->where('tag_id', $tagId)->exists();
+    }
+
 }

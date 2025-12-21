@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-between align-items-center ">
-        <button class="btn btn-light d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#contentNav"
+        <button class="btn btn-light d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#contentNav"
             aria-expanded="false" aria-controls="sidebar">
             ☰
         </button>
 
         @include('partials.logo')
 
-        <form class="d-flex d-none d-md-block mx-auto" action="{{ route('bounties.index') }}" method="GET">
+        <form class="d-flex d-none d-lg-block mx-auto" action="{{ route('bounties.index') }}" method="GET">
             <div class="input-group" style="max-width: 400px;">
                 <span class="input-group-text">
                     <i class="bi bi-search"></i>

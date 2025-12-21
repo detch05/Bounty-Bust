@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
 
 // TAGS
 Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
+Route::middleware(['auth'])->post('/tags/{tagId}/follow', [TagsController::class, 'followTag'])->name('tags.follow');
+Route::middleware(['auth'])->post('/tags/{tagId}/unfollow', [TagsController::class, 'unfollowTag'])->name('tags.unfollow');
 
 // USER RELATED
 Route::middleware(['auth'])->group(function () {

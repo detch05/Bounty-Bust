@@ -10,25 +10,35 @@ use Illuminate\Http\Request;
 
 class StaticController extends Controller
 {
-        public function index(){
-            $query = Bounty::with(['user','tags'])
+    public function index()
+    {
+        $featured_bounties = Bounty::orderByDesc('reward')
+            ->orderBy(Content::select('date')->whereColumn('content.id', 'bounty.id_content'))
+            ->take(3)
+            ->get();
+
+        $featuredIds = $featured_bounties->pluck('id_content');
+        $bounties = Bounty::with(['user', 'tags'])
             ->withCount('answers')
+            ->whereNotIn('id_content', $featuredIds)
             ->orderByDesc('reward')
             ->orderByDesc('answers_count')
             ->orderByDesc(
-                 Content::select('date')
-                ->whereColumn('content.id', 'bounty.id_content')
-            );
+                Content::select('date')
+                    ->whereColumn('content.id', 'bounty.id_content')
+            )
+            ->paginate(20);
 
-            $bounties = $query->paginate(20);
-            return view('pages.home',compact('bounties'));
-        }
+        return view('pages.home', compact('bounties', 'featured_bounties'));
+    }
 
-    public function login(){
+    public function login()
+    {
         return view('pages.auth.login');
     }
 
-    public function register(){
+    public function register()
+    {
         return view('pages.auth.register');
     }
 

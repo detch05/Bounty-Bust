@@ -79,8 +79,8 @@ class UserController extends Controller
 
 
         // NOT WORKING STILL
-       $deletePFP = public_path('img/users/' . $id . '.jpg');
-       if (file_exists($deletePFP)) {
+        $deletePFP = public_path('img/users/' . $id . '.jpg');
+        if (file_exists($deletePFP)) {
             unlink($deletePFP);
         }
 

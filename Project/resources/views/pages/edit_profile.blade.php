@@ -26,3 +26,4 @@
 
 @section('scripts')
     <script src="{{ asset('js/forms.js') }}"></script>
+@endsection

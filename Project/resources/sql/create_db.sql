@@ -50,7 +50,7 @@ color CHAR(7) DEFAULT '#ffffff' CHECK (color ~ '^#[0-9A-Fa-f]{6}$')
 
 CREATE TABLE bounty(
 id_content INT PRIMARY KEY,
-title VARCHAR(60) NOT NULL,
+title VARCHAR(50) NOT NULL,
 reward INT DEFAULT 50 CHECK (reward>0),
 media TEXT,
 FOREIGN KEY (id_content) REFERENCES content(id) ON DELETE CASCADE
@@ -58,7 +58,7 @@ FOREIGN KEY (id_content) REFERENCES content(id) ON DELETE CASCADE
 
 CREATE TABLE answer(
 id_content INT PRIMARY KEY,
-title VARCHAR(60),
+title VARCHAR(50),
 media TEXT,
 is_correct BOOLEAN NOT NULL DEFAULT FALSE,
 bounty_id INT NOT NULL REFERENCES bounty(id_content) ON DELETE CASCADE,

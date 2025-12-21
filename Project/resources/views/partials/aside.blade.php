@@ -1,4 +1,4 @@
-<aside class="collapse d-md-block col col-md-2 border-end min-vh-100 ms-0 ms-lg-3 p-3" id="contentNav">
+<aside class="collapse d-lg-block col col-lg-2 border-end min-vh-100 ms-0 ms-lg-3 p-3" id="contentNav">
     <nav class="nav flex-column">
         <section id="mainFeatures">
             <div class="d-flex align-items-center">

@@ -50,7 +50,7 @@ class BountiesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:60'],
+            'title' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:10000'], // Campo Content
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',

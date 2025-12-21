@@ -1,8 +1,8 @@
 <article class="bounty-card p-3 position-relative border">
     <div class="d-flex gap-3 align-items-center">
         <a href="{{ route('bounties.show', $bounty->id_content) }}" class="stretched-link text-decoration-none"></a>
-        <div>
-            <img src="{{ Storage::url($bounty->getImagePath(true)) }}" id="bountyImg"
+        <div class="d-none d-xl-block">
+            <img src="{{ Storage::url($bounty->getImagePath(true)) }}" class="bountyImg"
                 onerror="this.onerror=null; this.src='{{ Storage::url('bounties/default.jpg') }}';">
         </div>
         <div class="cardContent">

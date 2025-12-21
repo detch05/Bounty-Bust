@@ -30,4 +30,18 @@ class TagsController extends Controller
             'tags' => $tags
         ]);
     }
+
+    public function followTag($tagId)
+    {
+        $tag = Tag::findOrFail($tagId);
+        $tag->followers()->attach(auth()->id());
+        return response()->json(['success' => true]);
+    }
+
+    public function unfollowTag($tagId)
+    {
+        $tag = Tag::findOrFail($tagId);
+        $tag->followers()->detach(auth()->id());
+        return response()->json(['success' => true]);
+    }
 }

@@ -12,5 +12,10 @@ class Tag extends Model
     {
         return $this->belongsToMany(Bounty::class, 'bounty_tag', 'tag_id', 'bounty_id');
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'tag_follow', 'tag_id', 'user_id');
+    }
 }
 

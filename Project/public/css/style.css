@@ -47,12 +47,3 @@ header ul.navbar-nav li:last-child i:hover {
     }
 }
 
-
-#mostWanted{
-    border: 1px solid var(--sand-color);
-    background-color: #efdfcd;
-    > h2{
-        font-family: var(--heading-font);
-        color: var(--primary-color);
-    }
-}
