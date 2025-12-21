@@ -21,7 +21,7 @@ class AdminController extends Controller
 
     public function tags(){
         $tags = Tag::all();
-        return view('partials.admin.tags_card');
+        return view('partials.admin.tags_card',compact('tags'));
     }
 
     public function appeals(){

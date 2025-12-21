@@ -12,7 +12,7 @@ h2:first-child {
 }
 
 #admin_content {
-    border: 1px solid goldenrod;
+    border: 2px solid var(--wood-color);
     border-radius: 0.25em;
 }
 
@@ -55,4 +55,13 @@ h2:first-child {
     div > i:first-child {
         color: rgba(255, 0, 0, 0.705);
     }
+}
+
+.tagHeading {
+    font-family: var(--heading-font);
+    color: var(--secondary-color);
+}
+
+.tagcard{
+    border-radius: 12.5%;
 }

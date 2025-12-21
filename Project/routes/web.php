@@ -47,7 +47,7 @@ Route::prefix('tags')->name('tags.')->group(function(){
         Route::post('/{tagId}/follow', [TagsController::class, 'followTag'])->name('follow');
         Route::post('/{tagId}/unfollow', [TagsController::class, 'unfollowTag'])->name('unfollow');
     });
-    Route::middlewate(['isAdmin'])->group(function(){
+    Route::middleware(['isAdmin'])->group(function(){
         Route::get('/create',[TagsController::class,'createForm'])->name('create');
         Route::post('/store',[TagsController::class,'store'])->name('store');
         Route::get('/{id}/edit',[TagsController::class,'editForm'])->name('edit');
