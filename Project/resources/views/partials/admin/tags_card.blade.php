@@ -1,1 +1,1 @@
-<p>HELLO WORLD</p>
+<a href="{{ route('') }}"></a>

@@ -38,9 +38,23 @@ Route::middleware(['auth'])->group(function () {
 
 
 // TAGS
-Route::get('/tags', [TagsController::class, 'index'])->name('tags.index');
-Route::middleware(['auth'])->post('/tags/{tagId}/follow', [TagsController::class, 'followTag'])->name('tags.follow');
-Route::middleware(['auth'])->post('/tags/{tagId}/unfollow', [TagsController::class, 'unfollowTag'])->name('tags.unfollow');
+
+
+
+Route::prefix('tags')->name('tags.')->group(function(){
+    Route::get('/',[TagsController::class,'index'])->name('index');
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/{tagId}/follow', [TagsController::class, 'followTag'])->name('follow');
+        Route::post('/{tagId}/unfollow', [TagsController::class, 'unfollowTag'])->name('unfollow');
+    });
+    Route::middlewate(['isAdmin'])->group(function(){
+        Route::get('/create',[TagsController::class,'createForm'])->name('create');
+        Route::post('/store',[TagsController::class,'store'])->name('store');
+        Route::get('/{id}/edit',[TagsController::class,'editForm'])->name('edit');
+        Route::put('/{id}',[TagsController::class,'update'])->name('update');
+        Route::delete('/{id}/delete',[TagsController::class,'destroy'])->name('destroy');
+    });
+});
 
 // USER RELATED
 Route::middleware(['auth'])->group(function () {
