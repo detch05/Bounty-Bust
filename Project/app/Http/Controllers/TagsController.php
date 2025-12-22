@@ -14,7 +14,10 @@ class TagsController extends Controller
 
         // 2. Inicia o Query Builder no Model Tag
         // **RECOMENDADO:** Ordenar as tags por nome para uma melhor UX
-        $tagsQuery = Tag::query()->orderBy('name', 'asc');
+        // Eager load bounties count and followers count
+        $tagsQuery = Tag::query()
+            ->withCount(['bounty as bountiesCount', 'followers as followersCount'])
+            ->orderBy('name', 'asc');
 
         // 3. Aplica a lógica de pesquisa SE existir um termo 'q'
         if ($query) {

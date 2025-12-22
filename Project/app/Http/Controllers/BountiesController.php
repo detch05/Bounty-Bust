@@ -22,7 +22,7 @@ class BountiesController extends Controller
         $bountiesQuery->join('content', 'bounty.id_content', '=', 'content.id');
 
         // 4. Ordena os resultados (ex: pela data mais recente)
-        // Nota: Assumimos que a data é a coluna 'created_at' da tabela 'content'.
+        // Nota: Usamos a coluna padrão 'created_at' da tabela 'content'.
         $bountiesQuery->orderBy('content.created_at', 'desc');
 
         // 5. Aplica a lógica de pesquisa SE existir um termo 'q'
@@ -50,12 +50,12 @@ class BountiesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:50'],
+            'title' => ['required', 'string', 'max:60'],
             'description' => ['required', 'string', 'max:10000'], // Campo Content
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer','exists:tag,id'],
-            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            //'media' => ['nullable', 'string'],
         ], [
         // Array de mensagens personalizadas
         'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
@@ -78,10 +78,6 @@ class BountiesController extends Controller
         $bounty->reward = $request->reward;
         
         $bounty->save();
-
-         if($request->hasFile('bountyImage')){
-            $bounty->handleBountyIMG($request->file('bountyImage'));
-        }
 
         // Sync tags if provided (keeps many-to-many relationship in bounty_tag)
         if ($request->has('tags')) {
@@ -119,12 +115,8 @@ class BountiesController extends Controller
 
         $bounty->content->description = $request->description;
         $bounty->content->version += 1;             
-        $bounty->content->updated_at = now();       
+        $bounty->content->edit_date = now();       
         $bounty->content->save();
-
-         if($request->hasFile('bountyImage')){
-            $bounty->handleBountyIMG($request->file('bountyImage'));
-        }
 
         // Sync tags from form
         if ($request->has('tags')) {
@@ -139,7 +131,7 @@ class BountiesController extends Controller
     {
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
-        $bounty->content->increment('views'); 
+
         return view('pages.content.bounty.show_bounty', [
             'bounty' => $bounty
         ]);
