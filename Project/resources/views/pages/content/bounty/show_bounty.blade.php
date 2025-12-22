@@ -37,7 +37,7 @@
                                         </span>
                                     @endforeach
                                 @else
-                                    <span class="text-muted small">Nenhuma tag atribuída.</span>
+                                    <span class="text-muted small">No tags assigned.</span>
                                 @endif
                             </div>
                         </div>
@@ -47,11 +47,11 @@
                             class="card-footer bg-light d-flex justify-content-between align-items-center small text-muted">
                             <div>
                                 <i class="bi bi-person-circle"></i>
-                                Postado por: {{ $bounty->content->user->name ?? 'Anónimo' }}
+                                Posted by: {{ $bounty->content->user->name ?? 'Anonymous' }}
                             </div>
                             <div class="d-flex align-items-center gap-3">
                                 @auth
-                                    @if(Auth::id() === $bounty->content->user_id)
+                                    @if(Auth::id() === $bounty->content->user_id || Auth::user()->user_role === 2 || Auth::user()->user_role === 3)
                                         <form action="{{ route('bounties.destroy', $bounty->id_content) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -64,7 +64,7 @@
                                     @endif
                                 @endauth
                                 <i class="bi bi-calendar"></i>
-                                Criado em: {{ $bounty->content->date }}
+                                Created at: {{ $bounty->content->date }}
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                 {{-- ====================================== --}}
                 {{-- 2. SECÇÃO DE RESPOSTAS --}}
                 {{-- ====================================== --}}
-                <h2 class="mb-4">{{ $bounty->answers->count() }} Respostas</h2>
+                <h2 class="mb-4">{{ $bounty->answers->count() }} Answers</h2>
 
                 @forelse ($bounty->answers as $answer)
                     <div class="card mb-3 shadow-sm @if($answer->is_correct) border-success border-3 @else border-light @endif">
@@ -86,12 +86,11 @@
                                 class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center small text-muted">
                                 <div>
                                     <i class="bi bi-person-fill"></i>
-                                    Respondido por: {{ $answer->content->user->name ?? 'Anónimo' }}
+                                    Answered by: {{ $answer->content->user->name ?? 'Anonymous' }}
                                 </div>
                                 <div>
                                     @if ($answer->is_correct)
-                                        <span class="badge bg-success ms-3"><i class="bi bi-check-circle-fill"></i> Resposta
-                                            Aceite</span>
+                                        <span class="badge bg-success ms-3"><i class="bi bi-check-circle-fill"></i> Accepted Answer</span>
                                     @endif
                                     <i class="bi bi-calendar"></i>
                                     {{ $answer->content->date }}
@@ -101,7 +100,7 @@
                     </div>
                 @empty
                     <div class="alert alert-warning">
-                        <i class="bi bi-info-circle"></i> Sê o primeiro a responder a esta questão!
+                        <i class="bi bi-info-circle"></i> Be the first to answer this question!
                     </div>
                 @endforelse
 
@@ -109,7 +108,7 @@
                 {{-- 3. FORMULÁRIO PARA SUBMETER NOVA RESPOSTA --}}
                 {{-- ====================================== --}}
                 @auth
-                <h2 class="mt-5 mb-3">Submeter a Tua Resposta</h2>
+                <h2 class="mt-5 mb-3">Submit Your Answer</h2>
 
                 {{-- Assumimos que a rota para submeter a resposta é 'answers.store' --}}
                 <form action="{{ route('answers.store') }}" method="POST">
@@ -119,7 +118,7 @@
                     <input type="hidden" name="bounty_id" value="{{ $bounty->id_content }}">
 
                     <div class="mb-3">
-                        <label for="answerContent" class="form-label">A tua Solução Detalhada</label>
+                        <label for="answerContent" class="form-label">Your Detailed Solution</label>
                         {{-- O campo 'description' aqui corresponde ao campo de conteúdo (media/description) que
                         definiste --}}
                         <textarea class="form-control" id="answerContent" name="description" rows="6" required></textarea>
@@ -134,8 +133,10 @@
                 </form>
                 @else
                     <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Por favor, <a href="/login">inicia sessão</a> para submeter uma resposta.
+                        <i class="bi bi-info-circle"></i> Please <a href="/login">log in</a> to submit an answer.
+                    </div>
                 @endauth
+            
             </div>
         </div>
     </div>
