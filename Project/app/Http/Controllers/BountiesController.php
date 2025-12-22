@@ -140,7 +140,7 @@ class BountiesController extends Controller
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
         $bounty->content->increment('views'); 
-        return view('pages.content.bounty.show_bounty', [
+        return view('pages.content.bounty.show1_bounty', [
             'bounty' => $bounty
         ]);
     }

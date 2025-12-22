@@ -88,8 +88,8 @@ class User extends Authenticatable
         $manager = new ImageManager(new Driver());
         $img = $manager->read($uploadedFile->getRealPath());
 
-       
-        $img->cover(400,400,'center');
+
+        $img->cover(400, 400, 'center');
         $imgContent = $img->encode(new JpegEncoder(quality: 90));
 
         Storage::disk('public')->put($imgPath . '/' . $imageName, $imgContent);
@@ -97,7 +97,7 @@ class User extends Authenticatable
         return $imageName;
     }
 
-      protected function makeName(string $firstName, string $lastName): string
+    protected function makeName(string $firstName, string $lastName): string
     {
         // No whitespaces should be presented in each of the fields
         $str1 = trim($firstName);
@@ -130,6 +130,15 @@ class User extends Authenticatable
         );
     }
 
+    public function votes()
+    {
+        return $this->hasMany(ContentVote::class, 'user_id', 'id');
+    }
+
+    public function getVoteOnContent($contentId)
+    {
+        return $this->votes()->where('content_id', $contentId)->value('vote') ?? 0;
+    }
 
     public function role()
     {

@@ -29,23 +29,39 @@
                                 {{ $bounty->content->views != 1 ? 'views' : 'view' }}
                             </p>
                         </div>
-                        <div class="bountyMain ms-5 d-flex flex-column gap-2">
-                            <div>
-                                <h3 class="mb-0">{{ $bounty->title }}</h3>
-                                @foreach ($bounty->tags->take(3) as $tag)
-                                    <span class="badge mt-0"
-                                        style="background-color: {{ $tag->color ?? '#007bff' }}; color: white;">{{ $tag->name }}</span>
-                                @endforeach
+                        <div class="d-flex align-items-center gap-3">
+                            <aside class="voteZone d-flex flex-column align-items-center me-3" data-content-id="{{ $bounty->content->id }}" data-user-vote="{{ auth()->user()->getVoteOnContent($bounty->content->id) }}">
+                                <button class="upvoteBtn btn btn-light  btn-sm ">
+                                    <i class="bi bi-arrow-up-circle fs-2"></i>
+                                </button>
+                                <span class="rating fs-5 fw-bold my-2">{{ $bounty->content->rating()}}</span>
+                                <button class="downvoteBtn btn btn-light btn-sm ">
+                                <i class="bi bi-arrow-down-circle fs-2"></i>
+                                </button>
+                            </aside>
+                            <div class="bountyMain d-flex flex-column gap-2">
+                                <div>
+                                    <h3 class="mb-0">{{ $bounty->title }}</h3>
+                                    @foreach ($bounty->tags->take(3) as $tag)
+                                        <span class="badge mt-0"
+                                            style="background-color: {{ $tag->color ?? '#007bff' }}; color: white;">{{ $tag->name }}</span>
+                                    @endforeach
+                                </div>
+                                <div id="bountyImg" class="d-flex align-items-center justify-content-center">
+                                    <img src="{{ Storage::url($bounty->getImagePath(true)) }}"
+                                        onerror="this.onerror=null; this.src='{{ Storage::url('bounties/default.jpg') }}';">
+                                </div>
+                                <p class="mt-2">{{ $bounty->content->description }}</p>
                             </div>
-                            <div id="bountyImg" class="d-flex align-items-center justify-content-center">
-                                <img src="{{ Storage::url($bounty->getImagePath(true)) }}"
-                                    onerror="this.onerror=null; this.src='{{ Storage::url('bounties/default.jpg') }}';">
-                            </div>
-                            <p class="mt-2">{{ $bounty->content->description }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('scripts')
+<script src="{{ asset('js/content.js') }}"></script>
 @endsection

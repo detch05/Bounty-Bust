@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
-use App\Http\Controllers\TagsController;
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\ContentController;
 use App\Http\Controllers\BountiesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\UserController;
 
 
 
@@ -38,8 +39,6 @@ Route::middleware(['auth'])->group(function () {
 
 
 // TAGS
-
-
 
 Route::prefix('tags')->name('tags.')->group(function(){
     Route::get('/',[TagsController::class,'index'])->name('index');
@@ -81,4 +80,9 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(fu
     Route::get('/users',[AdminController::class,'users'])->name('users');
     Route::get('/tags',[AdminController::class,'tags'])->name('tags');
     Route::get('/appeals',[AdminController::class,'appeals'])->name('appeals');
+});
+
+// CONTENT 
+Route::middleware(['auth'])->prefix('content')->group(function(){
+    Route::post('/{content}/vote',[ContentController::class,'vote'])->name('content.vote');
 });

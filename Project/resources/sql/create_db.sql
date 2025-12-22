@@ -27,7 +27,6 @@ CREATE TABLE content(
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
  description TEXT NOT NULL,
- rating INT DEFAULT 0 CHECK (rating >=0 AND rating <=5),
  user_id INT NOT NULL DEFAULT 1 REFERENCES users(id) ON DELETE SET DEFAULT,
  version INT NOT NULL DEFAULT 1,
  views INT NOT NULL DEFAULT 0,
@@ -92,12 +91,18 @@ tag_id INT NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
 PRIMARY KEY (user_id,tag_id)
 );
 
+CREATE TABLE content_vote(
+  user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  content_id integer NOT NULL REFERENCES content(id) ON DELETE CASCADE,
+  vote integer NOT NULL CHECK (vote IN (1,-1)),
+  PRIMARY KEY (user_id, content_id)
+);
+
 CREATE TABLE tag_management(   -- The check on id will be handled in the backend--
     admin_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     tag_id INT NOT NULL REFERENCES tag(id) ON DELETE CASCADE,
     PRIMARY KEY (admin_id, tag_id)
 );
-
 
 CREATE TABLE user_rate(
 user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
