@@ -47,4 +47,14 @@ class Content extends Model
     public function rating(){
         return $this->votes()->sum('vote');
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'content_follow',
+            'content_id',
+            'user_id'
+        );
+    }
 }

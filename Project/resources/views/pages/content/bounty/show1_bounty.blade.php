@@ -30,14 +30,19 @@
                             </p>
                         </div>
                         <div class="d-flex align-items-center gap-3">
-                            <aside class="voteZone d-flex flex-column align-items-center me-3" data-content-id="{{ $bounty->content->id }}" data-user-vote="{{ auth()->user()->getVoteOnContent($bounty->content->id) }}">
-                                <button class="upvoteBtn btn btn-light  btn-sm ">
-                                    <i class="bi bi-arrow-up-circle fs-2"></i>
-                                </button>
-                                <span class="rating fs-5 fw-bold my-2">{{ $bounty->content->rating()}}</span>
-                                <button class="downvoteBtn btn btn-light btn-sm ">
-                                <i class="bi bi-arrow-down-circle fs-2"></i>
-                                </button>
+                            <aside class="utils me-3 d-flex flex-column align-items-center gap-3">
+                                <div class="voteZone d-flex flex-column align-items-center"
+                                    data-content-id="{{ $bounty->content->id }}"
+                                    data-user-vote="{{ auth()->user()->getVoteOnContent($bounty->content->id) }}">
+                                    <button class="upvoteBtn btn btn-light btn-sm ">
+                                        <i class="bi bi-arrow-up-circle fs-4"></i>
+                                    </button>
+                                    <span class="rating fs-5 fw-bold my-2">{{ $bounty->content->rating() }}</span>
+                                    <button class="downvoteBtn btn btn-light btn-sm ">
+                                        <i class="bi bi-arrow-down-circle fs-4"></i>
+                                    </button>
+                                </div>
+                                <button class="followBtn btn btn-light btn-sm" data-content-id="{{ $bounty->content->id }}" data-is-following="{{ auth()->user()->isFollowingContent($bounty->content->id) }}"><i class="bi bi-bookmark fs-5"></i></button>
                             </aside>
                             <div class="bountyMain d-flex flex-column gap-2">
                                 <div>
@@ -63,5 +68,5 @@
 
 
 @section('scripts')
-<script src="{{ asset('js/content.js') }}"></script>
+    <script src="{{ asset('js/content.js') }}"></script>
 @endsection

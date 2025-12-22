@@ -18,15 +18,13 @@ document.querySelectorAll(".voteZone").forEach((section) => {
     }
 
     function sendVote(vote) {
-        const token = document
-            .querySelector('meta[name="csrf-token"]')
-            ?.getAttribute("content");
-      
         fetch(`/content/${contentId}/vote`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRF-TOKEN": token,
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
             },
             body: JSON.stringify({ vote }),
         })
@@ -47,5 +45,39 @@ document.querySelectorAll(".voteZone").forEach((section) => {
     downvoteBtn.addEventListener("click", () => {
         userVote = userVote === -1 ? 0 : -1;
         sendVote(userVote);
+    });
+});
+
+document.querySelectorAll(".followBtn").forEach((button) => {
+    const contentId = button.dataset.contentId;
+    
+    let isFollowing = button.dataset.isFollowing === "1";
+    const icon = button.querySelector("i");
+
+    function update() {
+        button.innerHTML = isFollowing
+            ? '<i class="bi bi-bookmark-fill fs-5"></i>'
+            : '<i class="bi bi-bookmark fs-5"></i>';
+        const icon = button.querySelector("i");
+        icon.style.color = isFollowing ? "var(--secondary-color)" : "black";
+    }
+
+    update();
+
+    button.addEventListener("click", () => {
+        fetch(`/content/${contentId}/follow`, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document
+                    .querySelector('meta[name="csrf-token"]')
+                    .getAttribute("content"),
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                isFollowing = data.isFollowing;
+                button.dataset.isFollowing = isFollowing;
+                update();
+            });
     });
 });

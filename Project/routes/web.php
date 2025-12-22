@@ -85,4 +85,5 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(fu
 // CONTENT 
 Route::middleware(['auth'])->prefix('content')->group(function(){
     Route::post('/{content}/vote',[ContentController::class,'vote'])->name('content.vote');
+    Route::post('/{content}/follow',[ContentController::class,'follow'])->name('content.follow');
 });

@@ -34,4 +34,22 @@ class ContentController extends Controller
             'rating' => $content->rating()
         ]);
     }
+
+    public function follow(Request $request, Content $content)
+    {
+        $user = $request->user();
+
+        if ($user->isFollowingContent($content->id)) {
+            $user->followedContent()->detach($content->id);
+            $isFollowing = false;
+        } else {
+            $user->followedContent()->syncWithoutDetaching([$content->id]);
+            $isFollowing = true;
+        }
+
+        return response()->json([
+            'success' => true,
+            'isFollowing' => $isFollowing
+        ]);
+    }
 }

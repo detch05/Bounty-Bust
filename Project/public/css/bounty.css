@@ -40,3 +40,14 @@
     color: var(--primary-color);
     font-weight: bold;
 }
+
+.utils{
+    button{
+        background-color: transparent;
+        border: none;
+        &:hover{
+            color: var(--secondary-color);
+        }
+    }
+
+}

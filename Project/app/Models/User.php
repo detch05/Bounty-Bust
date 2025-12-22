@@ -155,9 +155,26 @@ class User extends Authenticatable
         return $this->belongsToMany(Tag::class, 'tag_follow', 'user_id', 'tag_id');
     }
 
+
+    public function followedContent()
+    {
+        return $this->belongsToMany(
+            Content::class,
+            'content_follow',
+            'user_id',
+            'content_id'
+        );
+    }
+
+
     public function isFollowingTag($tagId)
     {
         return $this->followedTags()->where('tag_id', $tagId)->exists();
+    }
+
+    public function isFollowingContent($contentId)
+    {
+        return $this->followedContent()->where('content_id', $contentId)->exists();
     }
 
 }
