@@ -22,6 +22,9 @@
                 <input type="checkbox" class="form-check-input" id="check">
                 <label class="form-check-label mb-0" for="check">Check me out</label>
             </div>
+            <div class="mt-2 mb-3">
+                <a href="{{ route('password.request') }}" class="text-decoration-none small">Forgot your password?</a>
+            </div>
             <button type="submit" class="btn btn-primary mt-0">Submit</button>
         </form>
         <p>Don't have an account? </p>
