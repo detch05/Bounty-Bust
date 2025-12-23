@@ -26,7 +26,9 @@ class LoginController extends Controller
             return redirect('/')->withSuccess('Login successful! Welcome back to BountyBust.');
         }
  
-        // Authentication failed: return back with an error message.
-        return back()->withError( 'The provided credentials do not match our records.')->onlyInput('username');
+        // Authentication failed: return back with a validation error message.
+        return back()
+            ->withErrors(['login' => 'The provided credentials do not match our records.'])
+            ->onlyInput('username');
     }
 }

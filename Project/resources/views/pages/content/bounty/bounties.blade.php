@@ -19,29 +19,14 @@ $user_bounties = $user->bounties;
 
                     <!-- Search and Filter Section -->
                     <div class="mb-4">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <select class="form-select" id="sortSelect">
-                                    <option value="recent">Security</option>
-                                    <option value="reward">Java</option>
-                                    <option value="popular">Linux</option>
-                                </select>
+                        <form method="GET" action="{{ route('bounties.index') }}" class="row g-3 align-items-end">
+                            <div class="input-group">
+                                <input type="text" name="tag" id="tagInput" class="form-control" placeholder="e.g. PostgreSQL" value="{{ request('tag') }}">
+                                <a href="{{ route('bounties.index') }}" class="btn btn-outline-secondary" title="Clear">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
                             </div>
-                            <div class="col-md-3">
-                                <select class="form-select" id="sortSelect">
-                                    <option value="recent">Most Recent</option>
-                                    <option value="reward">Highest Reward</option>
-                                    <option value="popular">Most Popular</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select" id="filterSelect">
-                                    <option value="all">All Bounties</option>
-                                    <option value="open">Open</option>
-                                    <option value="closed">Closed</option>
-                                </select>
-                            </div>
-                        </div>
+                        </form>
                     </div>
 
                     <!-- Bounties Grid -->
