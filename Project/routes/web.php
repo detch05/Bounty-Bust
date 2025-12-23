@@ -81,9 +81,10 @@ Route::middleware(['auth'])->prefix('users')->group(function(){
 Route::middleware(['auth'])->prefix('answers')->group(function(){
     Route::get('/create/{bountyId}', [AnswerController::class, 'create'])->name('answers.create');
     Route::delete('/{id}/delete', [AnswerController::class,'delete'])->name('answers.delete');
-    Route::get('/{id}/edit', [AnswerController::class,'editBounty'])->name('answers.editForm');
+    Route::get('/{id}/edit', [AnswerController::class,'editAnswer'])->name('answers.editForm');
     Route::put('/{id}/edit', [AnswerController::class,'update'])->name('answers.update');
     Route::post('/store', [AnswerController::class, 'store'])->name('answers.store');
+    Route::get('/answer/{answerId}', [AnswerController::class, 'getAnswer'])->name('answers.show');
 });
 
 //ADMIN PAGE

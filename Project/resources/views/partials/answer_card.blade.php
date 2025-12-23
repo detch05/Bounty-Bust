@@ -8,6 +8,7 @@
         <span class="text-secondary">&bull;</span>
         <p class=" mb-0">{{ $answer->content->created_at->diffForHumans() }}</p>
         @if ($answer->content->isEdited())
+            <span class="text-secondary">&bull;</span>
             <p class="mb-0">modified {{ $answer->content->updated_at->diffForHumans() }}</p>
         @endif
     </div>
@@ -30,7 +31,11 @@
                     <i class="bi bi-arrow-down-circle fs-6"></i>
                 </button>
             </div>
-            <a href="#commentHeader" class="btn btn-sm btn-light rounded">{{ $answer->comments()->count() }} <i class="bi bi-chat ms-1"></i></a>
+            @if (!empty($disableCommentsButton))
+                <button class="btn btn-sm btn-light rounded" disabled>{{ $answer->comments()->count() }} <i class="bi bi-chat ms-1"></i></button>
+            @else
+                <a href="{{ route('answers.show', $answer->id_content) }}" class="btn btn-sm btn-light rounded">{{ $answer->comments()->count() }} <i class="bi bi-chat ms-1"></i></a>
+            @endif
             <button class="followBtn btn btn-light btn-sm rounded" data-content-id="{{ $answer->content->id }}"
             @auth
                 data-is-following="{{ auth()->user()->isFollowingContent($answer->content->id) }}"><i

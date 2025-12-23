@@ -1,0 +1,29 @@
+.answer-card {
+    border: none !important;
+    .answerBody {
+        > h4 {
+            font-size: 2.2em;
+        }
+    }
+}
+
+#answerBack {
+    background-color: gainsboro;
+    border: none;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    &:hover {
+        opacity: 1;
+    }
+    i {
+        color: black;
+    }
+}
+
+#answerComments {
+    > h3 {
+        font-family: var(--heading-font);
+        color: var(--secondary-color);
+        font-size: 2.4em;
+    }
+}

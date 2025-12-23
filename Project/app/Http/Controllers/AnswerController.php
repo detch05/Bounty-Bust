@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
+use App\Models\Bounty;
+use App\Models\Comment;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +35,7 @@ class AnswerController extends Controller
             'bounty_id' => $bountyId,
         ]);
 
-        if($request->hasFile('answerImage')){
+        if ($request->hasFile('answerImage')) {
             $answer->handleAnswerIMG($request->file('answerImage'));
         }
 
@@ -54,7 +56,7 @@ class AnswerController extends Controller
         $answer->content->updated_at = now();
         $answer->content->save();
 
-        if($request->hasFile('answerImage')){
+        if ($request->hasFile('answerImage')) {
             $answer->handleAnswerIMG($request->file('answerImage'));
         }
 
@@ -66,9 +68,18 @@ class AnswerController extends Controller
         return view('pages.content.answer.create_answer', ['bounty_id' => $bountyId]);
     }
 
-    public function editBounty($id){
-        $answer= Answer::with('content')->findOrFail($id);
+    public function editAnswer($id)
+    {
+        $answer = Answer::with('content')->findOrFail($id);
         return view('pages.content.answer.edit_answer', compact('answer'));
+    }
+
+    public function getAnswer($answerId)
+    {
+        $answer = Answer::with('content.user')->findOrFail($answerId);
+        $bounty = Bounty::with('content')->findOrFail($answer->bounty_id);
+        $comments = Comment::with('content.user')->where('answer_id', $answer->id_content)->get();
+        return view('pages.content.answer.show_answer', compact('answer', 'comments', 'bounty'));
     }
 
     public function delete($id)

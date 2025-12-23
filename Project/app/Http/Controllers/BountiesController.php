@@ -149,7 +149,7 @@ class BountiesController extends Controller
             ->where('bounty_id', $bounty->id_content)
             ->get();
 
-        return view('pages.content.bounty.show1_bounty', [
+        return view('pages.content.bounty.show_bounty', [
             'bounty' => $bounty,
             'comments' => $comments,
             'answers' => $answers,
