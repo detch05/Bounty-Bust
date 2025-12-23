@@ -22,7 +22,7 @@
         @endif
         <div class="d-flex align-items-center gap-3">
             <div class="voteZone d-flex flex align-items-center" data-content-id="{{ $answer->content->id }}"
-                data-user-vote="{{ auth()->user()->getVoteOnContent($answer->content->id) }}">
+                data-user-vote="{{ optional(auth()->user())->getVoteOnContent($answer->content->id) ?? 0 }}">
                 <button class="upvoteBtn btn btn-light btn-sm ">
                     <i class="bi bi-arrow-up-circle fs-6"></i>
                 </button>
@@ -55,9 +55,15 @@
                     </ul>
                 </div>
                 @endif
+                @if(auth()->user()->id === $bounty->content->user->id && !$answer->isCorrect())
+                    <form method="POST" action="{{ route('answers.markCorrect', $answer->id_content) }}" class="mark-correct-form d-inline" data-answer-id="{{ $answer->id_content }}">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-success ms-2">Mark as Correct</button>
+                    </form>
+                @endif
             @endauth
-            @if ($answer->isCorrect())
-                <span class="badge bg-success ms-3">Correct Answer<i class="bi bi-check"></i></span>
+            @if($answer->isCorrect())
+                    <span class="badge bg-success ms-3">Correct Answer<i class="bi bi-check"></i></span>
             @endif
         </div>
 </article>

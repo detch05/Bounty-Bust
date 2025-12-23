@@ -82,6 +82,22 @@ class AnswerController extends Controller
         return view('pages.content.answer.show_answer', compact('answer', 'comments', 'bounty'));
     }
 
+    public function markCorrect($id)
+    {
+        $answer = Answer::with(['content.user', 'bounty'])->findOrFail($id);
+
+        $answer->is_correct = true;
+        $answer->save();
+
+        $user = $answer->content->user ?? null;
+        if ($user) {
+            $user->points = ($user->points ?? 0) + ($answer->bounty->reward ?? 0);
+            $user->save();
+        }
+
+        return response()->json(['success' => 'Answer marked as correct!']);
+    }
+
     public function delete($id)
     {
         $answer = Answer::with('content')->findOrFail($id);

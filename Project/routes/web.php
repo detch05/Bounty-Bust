@@ -85,6 +85,7 @@ Route::middleware(['auth'])->prefix('answers')->group(function(){
     Route::put('/{id}/edit', [AnswerController::class,'update'])->name('answers.update');
     Route::post('/store', [AnswerController::class, 'store'])->name('answers.store');
     Route::get('/answer/{answerId}', [AnswerController::class, 'getAnswer'])->name('answers.show');
+    Route::post('/{id}/markCorrect', [AnswerController::class,'markCorrect'])->name('answers.markCorrect');
 });
 
 //ADMIN PAGE

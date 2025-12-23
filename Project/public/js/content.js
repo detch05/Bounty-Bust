@@ -116,3 +116,27 @@ document.addEventListener('click', function(e){
     btn.textContent = hidden ? 'Show less' : 'Show more';
   }
 });
+
+
+document.querySelectorAll('.mark-correct-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const action = form.getAttribute('action');
+
+        fetch(action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.success) {
+                    const btn = form.querySelector('button[type="submit"]');
+                    if (btn) btn.remove();
+                }
+            });
+    });
+});
