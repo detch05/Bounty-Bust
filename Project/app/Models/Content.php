@@ -9,20 +9,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Content extends Model
 {
-    protected $table = 'content'; 
+    protected $table = 'content';
 
     public $timestamps = true;
 
     protected $fillable = [
         'description',
-        'user_id', 
+        'user_id',
         'version',
         'rating',
     ];
 
     // A chave primária é 'id' (o padrão do Laravel, mas explicitamos)
     protected $primaryKey = 'id';
-    
+
     // Se não tiveres colunas 'created_at' e 'updated_at', deves usar:
     // public $timestamps = false; 
 
@@ -44,7 +44,8 @@ class Content extends Model
         return $this->hasMany(ContentVote::class, 'content_id', 'id');
     }
 
-    public function rating(){
+    public function rating()
+    {
         return $this->votes()->sum('vote');
     }
 
@@ -56,5 +57,10 @@ class Content extends Model
             'content_id',
             'user_id'
         );
+    }
+
+    public function isEdited(): bool
+    {
+        return !$this->created_at->equalTo($this->updated_at);
     }
 }

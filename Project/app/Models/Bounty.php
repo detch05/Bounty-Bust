@@ -87,5 +87,10 @@ class Bounty extends Model
         return $this->hasMany(Answer::class, 'bounty_id', 'id_content');
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'bounty_id', 'id_content');
+    }
+
 
 }

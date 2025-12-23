@@ -82,6 +82,14 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(fu
     Route::get('/appeals',[AdminController::class,'appeals'])->name('appeals');
 });
 
+// COMMENTS
+Route::middleware(['auth'])->prefix('comments')->group(function(){
+    Route::post('/store',[App\Http\Controllers\CommentController::class,'store'])->name('comments.store');
+    Route::delete('/{id}/delete',[App\Http\Controllers\CommentController::class,'delete'])->name('comments.delete');
+    Route::put('/{id}/edit',[App\Http\Controllers\CommentController::class,'update'])->name('comments.edit');
+    Route::get('/{id}/edit',[App\Http\Controllers\CommentController::class,'editForm'])->name('comments.editForm');
+});
+
 // CONTENT 
 Route::middleware(['auth'])->prefix('content')->group(function(){
     Route::post('/{content}/vote',[ContentController::class,'vote'])->name('content.vote');

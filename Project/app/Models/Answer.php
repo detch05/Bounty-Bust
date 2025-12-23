@@ -33,5 +33,10 @@ class Answer extends Model
     {
         return $this->belongsTo(Bounty::class, 'bounty_id', 'id_content'); 
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'answer_id', 'id_content');
+    }
     
 }

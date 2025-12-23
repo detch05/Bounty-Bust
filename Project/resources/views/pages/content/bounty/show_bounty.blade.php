@@ -51,7 +51,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-3">
                                 @auth
-                                    @if(Auth::id() === $bounty->content->user_id)
+                                    @if(Auth::id() === $bounty->content->user_id || !Auth::user()->hasRole('user'))
                                         <form action="{{ route('bounties.destroy', $bounty->id_content) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

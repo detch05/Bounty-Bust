@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bounty;
+use App\Models\Comment;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -140,8 +141,14 @@ class BountiesController extends Controller
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
         $bounty->content->increment('views'); 
+
+        $comments = Comment::with(['user','content'])
+        ->where('bounty_id', $bounty->id_content)
+        ->get();
+        
         return view('pages.content.bounty.show1_bounty', [
-            'bounty' => $bounty
+            'bounty' => $bounty,
+            'comments' => $comments
         ]);
     }
 

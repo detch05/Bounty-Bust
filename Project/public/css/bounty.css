@@ -30,17 +30,6 @@
     }
 }
 
-
-#upvoteBtn > i:hover{
-    color: var(--terciary-color);
-    font-weight: bold;
-}
-
-#downvoteBtn > i:hover{
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
 .utils{
     button{
         background-color: transparent;
@@ -50,4 +39,28 @@
         }
     }
 
+}
+
+#commentSection {
+    > h3{
+        font-family: var(--heading-font);
+        color: var(--primary-color);
+        margin-bottom: 1em;
+        font-size: 2em;
+    }
+}
+
+.toggle-icon.dropdown-toggle::after {
+    display: none;
+}
+
+.commentHeader{
+    >p:last-child{
+        font-size: 0.9em;
+    }
+}
+
+.comment-edit-form{
+    margin-top: 2em;
+    display: none;
 }
