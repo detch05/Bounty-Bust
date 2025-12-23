@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bounty;
 use App\Models\Content;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,29 +12,39 @@ class BountiesController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Captura o termo de pesquisa 'q' da URL
-        $query = $request->input('q');
+        // Filters: search, tag, status, sort
+        $search = $request->input('q');
+        $tag = $request->input('tag');
 
-        // 2. Inicia o Query Builder no Model Bounty
-        $bountiesQuery = Bounty::query();
+        // Base query joining content for ordering and description search
+        $bountiesQuery = Bounty::query()
+            ->with(['content.user', 'tags'])
+            ->join('content', 'bounty.id_content', '=', 'content.id');
 
-        // 3. LIGA a tabela 'content' (essencial para ordenar e pesquisar na descrição)
-        // Usamos o JOIN para eficiência, pois estamos a ordenar por uma coluna ligada.
-        $bountiesQuery->join('content', 'bounty.id_content', '=', 'content.id');
-
-        // 4. Ordena os resultados (ex: pela data mais recente)
-        // Nota: Usamos a coluna padrão 'created_at' da tabela 'content'.
-        $bountiesQuery->orderBy('content.created_at', 'desc');
-
-        // 5. Aplica a lógica de pesquisa SE existir um termo 'q'
-        if ($query) {
-            // Pesquisa nos títulos e na descrição do conteúdo (usando ILIKE para PostgreSQL insensível)
-            $bountiesQuery->where('title', 'ILIKE', "%{$query}%")
-                          ->orWhere('content.description', 'ILIKE', "%{$query}%");
+        // Search by title or description
+        if ($search) {
+            $bountiesQuery->where(function($q) use ($search) {
+                $q->where('bounty.title', 'ILIKE', "%{$search}%")
+                  ->orWhere('content.description', 'ILIKE', "%{$search}%");
+            });
         }
 
-        // 6. Paginação (usa paginate() no Query Builder)
-        $bounties = $bountiesQuery->paginate(15); 
+        // Tag filter by tag name using EXISTS subquery to avoid duplicate rows
+        if (!empty($tag)) {
+            $bountiesQuery->whereExists(function($q) use ($tag) {
+                $q->select(DB::raw(1))
+                  ->from('bounty_tag')
+                  ->join('tag', 'tag.id', '=', 'bounty_tag.tag_id')
+                  ->whereColumn('bounty_tag.bounty_id', 'bounty.id_content')
+                  ->where('tag.name', 'ILIKE', '%' . $tag . '%');
+            });
+        }
+
+        $bountiesQuery->orderBy('content.created_at', 'desc');
+    
+
+        // Paginate and preserve filters in links
+        $bounties = $bountiesQuery->paginate(15)->appends($request->query()); 
         
         // 7. Retorna a View
         return view('pages.content.bounty.bounties', [
