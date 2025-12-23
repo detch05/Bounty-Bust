@@ -3,34 +3,22 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
+            {{-- Inclui a barra lateral no layout da coluna --}}
             @include('partials.aside')
-            <div class="col-md-9">
-                <div class="p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1 class="mb-0">Tags</h1>
-                        @auth
-                            {{-- @if (auth()->user()->isAdmin())
-                                <a href="{{ route('tags.create') }}" class="btn btn-primary">
-                                    <i class="bi bi-plus-circle"></i> Create Tag
-                                </a>
-                            @endif --}}
-                        @endauth
-                    </div>
-
-                    <!-- Search and Filter Section -->
+                <div class="col-md-9">
+                    <div class="p-4">
                     <div class="mb-4">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Search tags..." id="searchInput">
+                        <form method="GET" action="{{ route('tags.index') }}">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-4">
+                                    <select class="form-select" id="sortSelect" name="sort" onchange="this.form.submit()">
+                                        <option value="popularity" {{ request('sort') === 'popularity' ? 'selected' : '' }}>Most Popular</option>
+                                        <option value="bounties" {{ request('sort') === 'bounties' ? 'selected' : '' }}>Most Bounties</option>
+                                        <option value="name" {{ request('sort') === 'name' ? 'selected' : '' }}>Name (A-Z)</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                <select class="form-select" id="sortSelect">
-                                    <option value="popularity">Most Popular</option>
-                                    <option value="bounties">Most Bounties</option>
-                                </select>
-                            </div>
-
-                        </div>
+                        </form>
                     </div>
 
                     <!-- Tags Grid -->
