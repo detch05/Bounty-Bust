@@ -71,7 +71,7 @@
                                             data-bs-trigger="hover focus" data-bs-placement ="top" title ="Bounty Reward"
                                             data-bs-content="Bounty points if your answer is marked as correct">
                                             {{ $bounty->reward }} <i class="bi bi-award fs-6"></i></button>
-                                        <a href="#"
+                                        <a href="#answerHeader"
                                             class="btn btn-sm btn-outline-secondary rounded">{{ $bounty->answers()->count() }}
                                             <i class="bi bi-crosshair2"></i></a>
                                         <a href="#commentHeader"
@@ -95,6 +95,15 @@
                                         @endauth
                                     </div>
                                 </nav>
+                                <section class="mt-3" id="answerSection">
+                                    <div class="d-flex align-items-center justify-content-between mb-5">
+                                        <h3 class="mb-0" id="answerHeader">Answers</h3>
+                                        <a href="{{ route('answers.create', ['bountyId' => $bounty->id_content]) }}" class="btn btn-primary">Give Answer</a>
+                                    </div>
+                                    @foreach($answers as $answer)
+                                        @include('partials.answer_card', ['answer' => $answer])
+                                    @endforeach
+                                </section>
                                 <section class="mt-3" id="commentSection">
                                     <h3 class="mb-3" id="commentHeader">Comments</h3>
                                     <form method="POST" action="{{ route('comments.store') }}">
@@ -107,7 +116,7 @@
                                         </div>
                                         <div class="d-flex gap-2 align-items-center">
                                             <button type="submit" class="btn btn-primary">Add Comment</button>
-                                        </div>    
+                                        </div>
                                     </form>
                                     <hr>
                                     @include('partials.comment_card', ['comments' => $comments])

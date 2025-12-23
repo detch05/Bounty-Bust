@@ -30,48 +30,55 @@
     }
 }
 
-.utils{
-    button{
+.utils {
+    button {
         background-color: transparent;
         border: none;
-        &:hover{
+        &:hover {
             color: var(--secondary-color);
         }
     }
-
 }
 
 #commentSection {
-    > h3{
+    > h3 {
         font-family: var(--heading-font);
         color: var(--primary-color);
         margin-bottom: 1em;
-        font-size: 2em;
+        font-size: 2.4em;
     }
+}
+
+.answer-card {
+    #answerHeader {
+        font-family: var(--heading-font);
+        color: var(--terciary-color);
+        font-size: 2.4em;
+    }
+    
 }
 
 .toggle-icon.dropdown-toggle::after {
     display: none;
 }
 
-.commentHeader{
-    >p:last-child{
+.commentHeader {
+    > p:last-child {
         font-size: 0.9em;
     }
 }
 
-.comment-edit-form{
+.comment-edit-form {
     margin-top: 2em;
     display: none;
 }
 
-
 .replies-container {
-    border-left: 2px solid #edeff1; 
+    border-left: 2px solid #edeff1;
     padding-left: 0.5em;
     transition: border-color 0.2s ease;
-    &:hover{
-        border-left-color: #878a8c; 
+    &:hover {
+        border-left-color: #878a8c;
     }
 }
 

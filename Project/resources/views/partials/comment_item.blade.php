@@ -1,12 +1,11 @@
 <article class="comment_card p-2 m-3 d-flex flex-column align-items-start">
     <div class="commentHeader d-flex align-items-center gap-2">
-        <img src="{{ Storage::url('users/' . (optional($comment->content->user)->id ?: 'default') . '.jpg') }}"
-            class="profileIcon">
+        <img src="{{ Storage::url('users/' . $bounty->user->id . '.jpg') }}" class="profileIcon"
+            onerror="this.onerror=null; this.src='{{ Storage::url('users/default.jpg') }}';">
         <p class="fw-bold mb-0">{{ optional($comment->content->user)->username ?? 'Unknown' }}</p>
         <span class="text-secondary">&bull;</span>
         @if ($comment->content->isEdited())
-            <p class="mb-0">{{ $comment->content->updated_at->diffForHumans() }}<i
-                    class="bi bi-pencil-fill ms-2"></i>
+            <p class="mb-0">{{ $comment->content->updated_at->diffForHumans() }}<i class="bi bi-pencil-fill ms-2"></i>
             </p>
         @else
             <p class="mb-0">{{ $comment->content->created_at->diffForHumans() }}</p>
@@ -40,8 +39,8 @@
                             <li><button class="dropdown-item" type="submit">Delete</button></li>
                         </form>
 
-                        <li><a href="{{ route('comments.editForm', $comment->id_content) }}"
-                                class="dropdown-item">Edit</a></li>
+                        <li><a href="{{ route('comments.editForm', $comment->id_content) }}" class="dropdown-item">Edit</a>
+                        </li>
                     </ul>
                 </div>
             @endif
@@ -51,7 +50,7 @@
     <div class="reply-form d-none mx-3 mt-2 w-75">
         <form method="POST" action="{{ route('comments.store') }}">
             @csrf
-            <input type="hidden" name="parent_id" value="{{ $comment->id_content}}">
+            <input type="hidden" name="parent_id" value="{{ $comment->id_content }}">
             <input type="hidden" name="bounty_id" value="{{ $comment->bounty_id }}">
             <div class="text_area">
                 <textarea name="text" class="form-control" rows="3" required minlength="15"></textarea>
@@ -61,7 +60,7 @@
                 <button type="submit" class="btn btn-sm btn-primary ">Reply</button>
             </div>
         </form>
-        </div>
+    </div>
 
     @if ($comment->replies && $comment->replies->count())
         <div class="replies-container ms-3 w-100">

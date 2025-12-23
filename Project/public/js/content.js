@@ -50,14 +50,14 @@ document.querySelectorAll(".voteZone").forEach((section) => {
 
 document.querySelectorAll(".followBtn").forEach((button) => {
     const contentId = button.dataset.contentId;
-    
+
     let isFollowing = button.dataset.isFollowing === "1";
     const icon = button.querySelector("i");
 
     function update() {
         button.innerHTML = isFollowing
-            ? '<i class="bi bi-bookmark-fill fs-5"></i>'
-            : '<i class="bi bi-bookmark fs-5"></i>';
+            ? '<i class="bi bi-bookmark-fill fs-6"></i>'
+            : '<i class="bi bi-bookmark fs-6"></i>';
         const icon = button.querySelector("i");
         icon.style.color = isFollowing ? "var(--secondary-color)" : "black";
     }

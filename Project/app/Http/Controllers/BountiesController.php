@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bounty;
 use App\Models\Comment;
 use App\Models\Content;
-use Illuminate\Support\Facades\DB;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,39 +13,29 @@ class BountiesController extends Controller
 {
     public function index(Request $request)
     {
-        // Filters: search, tag, status, sort
-        $search = $request->input('q');
-        $tag = $request->input('tag');
+        // 1. Captura o termo de pesquisa 'q' da URL
+        $query = $request->input('q');
 
-        // Base query joining content for ordering and description search
-        $bountiesQuery = Bounty::query()
-            ->with(['content.user', 'tags'])
-            ->join('content', 'bounty.id_content', '=', 'content.id');
+        // 2. Inicia o Query Builder no Model Bounty
+        $bountiesQuery = Bounty::query();
 
-        // Search by title or description
-        if ($search) {
-            $bountiesQuery->where(function($q) use ($search) {
-                $q->where('bounty.title', 'ILIKE', "%{$search}%")
-                  ->orWhere('content.description', 'ILIKE', "%{$search}%");
-            });
-        }
+        // 3. LIGA a tabela 'content' (essencial para ordenar e pesquisar na descrição)
+        // Usamos o JOIN para eficiência, pois estamos a ordenar por uma coluna ligada.
+        $bountiesQuery->join('content', 'bounty.id_content', '=', 'content.id');
 
-        // Tag filter by tag name using EXISTS subquery to avoid duplicate rows
-        if (!empty($tag)) {
-            $bountiesQuery->whereExists(function($q) use ($tag) {
-                $q->select(DB::raw(1))
-                  ->from('bounty_tag')
-                  ->join('tag', 'tag.id', '=', 'bounty_tag.tag_id')
-                  ->whereColumn('bounty_tag.bounty_id', 'bounty.id_content')
-                  ->where('tag.name', 'ILIKE', '%' . $tag . '%');
-            });
-        }
-
+        // 4. Ordena os resultados (ex: pela data mais recente)
+        // Nota: Assumimos que a data é a coluna 'created_at' da tabela 'content'.
         $bountiesQuery->orderBy('content.created_at', 'desc');
 
+        // 5. Aplica a lógica de pesquisa SE existir um termo 'q'
+        if ($query) {
+            // Pesquisa nos títulos e na descrição do conteúdo (usando ILIKE para PostgreSQL insensível)
+            $bountiesQuery->where('title', 'ILIKE', "%{$query}%")
+                          ->orWhere('content.description', 'ILIKE', "%{$query}%");
+        }
 
-        // Paginate and preserve filters in links
-        $bounties = $bountiesQuery->paginate(15)->appends($request->query());
+        // 6. Paginação (usa paginate() no Query Builder)
+        $bounties = $bountiesQuery->paginate(15);
 
         // 7. Retorna a View
         return view('pages.content.bounty.bounties', [
@@ -62,7 +52,7 @@ class BountiesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:60'],
+            'title' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:10000'], // Campo Content
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable', 'array'],
@@ -78,7 +68,6 @@ class BountiesController extends Controller
             'description' => $request->description,
             'user_id' => Auth::id(), // ID do utilizador logado
             'version' => 1,          // Primeira versão
-            'rating' => 0,           // Rating inicial
         ]);
 
         $bounty = new Bounty();
@@ -90,7 +79,7 @@ class BountiesController extends Controller
 
         $bounty->save();
 
-        if($request->hasFile('bountyImage')){
+         if($request->hasFile('bountyImage')){
             $bounty->handleBountyIMG($request->file('bountyImage'));
         }
 
@@ -120,7 +109,6 @@ class BountiesController extends Controller
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable','array'],
             'tags.*' => ['integer','exists:tag,id'],
-            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $bounty = Bounty::with('content')->findOrFail($id);
@@ -134,10 +122,11 @@ class BountiesController extends Controller
         $bounty->content->updated_at = now();
         $bounty->content->save();
 
-        if($request->hasFile('bountyImage')){
+         if($request->hasFile('bountyImage')){
             $bounty->handleBountyIMG($request->file('bountyImage'));
         }
 
+        // Sync tags from form
         if ($request->has('tags')) {
             $bounty->tags()->sync($request->input('tags', []));
         }
@@ -148,25 +137,30 @@ class BountiesController extends Controller
 
     public function show(Bounty $bounty)
     {
-        // Eager load answers with their content and the content's user
-        $bounty->load(['content', 'answers.content.user']);
-        $bounty->content->increment('views', 1, []);
+
+        $bounty->content->increment('views');
 
         $comments = Comment::with(['user','content'])
-        ->where('bounty_id', $bounty->id_content)
-        ->get();
+            ->where('bounty_id', $bounty->id_content)
+            ->get();
+
+
+        $answers = Answer::with('content.user')
+            ->where('bounty_id', $bounty->id_content)
+            ->get();
 
         return view('pages.content.bounty.show1_bounty', [
             'bounty' => $bounty,
-            'comments' => $comments
+            'comments' => $comments,
+            'answers' => $answers,
         ]);
-    }
 
+    }
 
     public function destroy($id){
         $bounty = Bounty::with('content')->findOrFail($id);
+        $bounty->content->delete();
         $bounty->delete();
-
         return redirect()->route('bounties.index')->with('success', 'Bounty deleted successfully.');
     }
 }

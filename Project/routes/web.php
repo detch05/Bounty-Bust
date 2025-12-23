@@ -78,8 +78,13 @@ Route::middleware(['auth'])->prefix('users')->group(function(){
 });
 
 // ANSWERS
-
-Route::post('/answers', [AnswerController::class, 'store'])->name('answers.store');
+Route::middleware(['auth'])->prefix('answers')->group(function(){
+    Route::get('/create/{bountyId}', [AnswerController::class, 'create'])->name('answers.create');
+    Route::delete('/{id}/delete', [AnswerController::class,'delete'])->name('answers.delete');
+    Route::get('/{id}/edit', [AnswerController::class,'editBounty'])->name('answers.editForm');
+    Route::put('/{id}/edit', [AnswerController::class,'update'])->name('answers.update');
+    Route::post('/store', [AnswerController::class, 'store'])->name('answers.store');
+});
 
 //ADMIN PAGE
 
@@ -98,7 +103,7 @@ Route::middleware(['auth'])->prefix('comments')->group(function(){
     Route::get('/{id}/edit',[CommentController::class,'editForm'])->name('comments.editForm');
 });
 
-// CONTENT 
+// CONTENT
 Route::middleware(['auth'])->prefix('content')->group(function(){
     Route::post('/{content}/vote',[ContentController::class,'vote'])->name('content.vote');
     Route::post('/{content}/follow',[ContentController::class,'follow'])->name('content.follow');

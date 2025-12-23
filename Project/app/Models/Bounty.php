@@ -45,7 +45,7 @@ class Bounty extends Model
         $preview_img_path = 'bounties/preview/' . $image_suffix;
 
         Storage::disk('public')->delete(['normal_img_path','preview_img_path']);
-       
+
         $manager = new ImageManager(new Driver());
         $img = $manager->read($uploadedFile->getRealPath());
 
@@ -57,9 +57,6 @@ class Bounty extends Model
         $preview_img = clone $img;
         $preview_data = $preview_img->cover(640, 480, 'center')->encode(new JpegEncoder(90));
         Storage::disk('public')->put($preview_img_path,$preview_data);
-        
-
-       
     }
 
     public function getImagePath(bool $isPreview)
