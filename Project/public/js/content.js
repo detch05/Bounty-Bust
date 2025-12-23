@@ -104,3 +104,15 @@ document.querySelectorAll(".cancel-btn").forEach((btn) => {
         replyForm.classList.add("d-none");
     });
 });
+
+
+
+document.addEventListener('click', function(e){
+  if(e.target && e.target.id === 'showMore'){
+    const extras = document.querySelectorAll('.extra-answer');
+    const btn = e.target;
+    const hidden = Array.from(extras).some(el => el.classList.contains('d-none'));
+    extras.forEach(el => el.classList.toggle('d-none', !hidden)); // show if hidden, hide if shown
+    btn.textContent = hidden ? 'Show less' : 'Show more';
+  }
+});

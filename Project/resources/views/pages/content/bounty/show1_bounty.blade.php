@@ -98,11 +98,23 @@
                                 <section class="mt-3" id="answerSection">
                                     <div class="d-flex align-items-center justify-content-between mb-5">
                                         <h3 class="mb-0" id="answerHeader">Answers</h3>
-                                        <a href="{{ route('answers.create', ['bountyId' => $bounty->id_content]) }}" class="btn btn-primary">Give Answer</a>
+                                        <a href="{{ route('answers.create', ['bountyId' => $bounty->id_content]) }}"
+                                            class="btn btn-primary">Give Answer</a>
                                     </div>
-                                    @foreach($answers as $answer)
-                                        @include('partials.answer_card', ['answer' => $answer])
-                                    @endforeach
+                                    @php $initial = 3; @endphp
+                                    <div id="answersList">
+                                        @foreach ($answers as $i => $answer)
+                                            <div class="answer-item {{ $i >= $initial ? 'd-none extra-answer' : '' }}">
+                                                @include('partials.answer_card', ['answer' => $answer])
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    @if (count($answers) > $initial)
+                                        <div class="text-center my-3">
+                                            <button id="showMore" class="btn btn-outline-primary">Show more</button>
+                                        </div>
+                                    @endif
                                 </section>
                                 <section class="mt-3" id="commentSection">
                                     <h3 class="mb-3" id="commentHeader">Comments</h3>

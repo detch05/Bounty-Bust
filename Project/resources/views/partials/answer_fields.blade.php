@@ -3,7 +3,9 @@
     $description = $description ?? '';
 @endphp
 
+@if(!($isEdit ?? false))
 <input type="hidden" name="bounty_id" value="{{ $bounty_id }}">
+@endif
 
 <div class="mb-3">
     <label for="title" class="form-label">Title</label>
