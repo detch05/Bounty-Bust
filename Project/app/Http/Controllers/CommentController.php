@@ -12,14 +12,15 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'content_id' => 'required|integer|exists:content,id',
-            'text' => 'required|string|max:400',
+            'bounty_id' => 'required|integer|exists:bounty,id_content',
+            'text' => 'required|string|min:15|max:250',
             'answer_id' => 'nullable|integer|exists:answer,id_content',
             'parent_id' => 'nullable|integer|exists:comment,id_content',
         ]);
 
+        
         $user = $request->user();
-        $parentContentId = $request->input('content_id'); 
+        $bountyId = $request->input('bounty_id');
         $answerId = $request->input('answer_id');
         $parentId = $request->input('parent_id');
 
@@ -31,12 +32,12 @@ class CommentController extends Controller
 
         $newComment = Comment::create([
             'id_content' => $newContent->id,
-            'bounty_id' => $parentContentId,
+            'bounty_id' => $bountyId,
             'answer_id' => $answerId ?: null,
             'parent_id' => $parentId ?: null,
         ]);
 
-        $created = ['content_id' => $newContent->id, 'bounty_id' => $parentContentId];
+        $created = ['content_id' => $newContent->id, 'bounty_id' => $bountyId];
 
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
@@ -66,7 +67,6 @@ class CommentController extends Controller
  
         return redirect()->back()->with('success', 'Comment updated successfully.');
     }
-
 
     public function delete($id)
     {

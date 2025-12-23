@@ -143,8 +143,7 @@ class BountiesController extends Controller
     {
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
-<<<<<<< HEAD
-        $bounty->content->increment('views'); 
+        $bounty->content->increment('views', 1, []); 
 
         $comments = Comment::with(['user','content'])
         ->where('bounty_id', $bounty->id_content)
@@ -153,11 +152,6 @@ class BountiesController extends Controller
         return view('pages.content.bounty.show1_bounty', [
             'bounty' => $bounty,
             'comments' => $comments
-=======
-
-        return view('pages.content.bounty.show_bounty', [
-            'bounty' => $bounty
->>>>>>> 18c577583474374ee19f5cbf404f74aa28d151e4
         ]);
     }
 

@@ -99,11 +99,11 @@
                                     <h3 class="mb-3" id="commentHeader">Comments</h3>
                                     <form method="POST" action="{{ route('comments.store') }}">
                                         @csrf
-                                        <input type="hidden" name="content_id" value="{{ $bounty->content->id }}">
+                                        <input type="hidden" name="bounty_id" value="{{ $bounty->id_content }}">
                                         <input type="hidden" name="answer_id" id="comment_answer_id" value="">
                                         <input type="hidden" name="parent_id" id="comment_parent_id" value="">
                                         <div class="mb-3">
-                                            <textarea class="form-control" id="commentText" name="text" rows="3" required></textarea>
+                                            <textarea class="form-control" id="commentText" name="text" rows="3" minlength="15" required></textarea>
                                         </div>
                                         <div class="d-flex gap-2 align-items-center">
                                             <button type="submit" class="btn btn-primary">Add Comment</button>

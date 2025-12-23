@@ -64,3 +64,18 @@
     margin-top: 2em;
     display: none;
 }
+
+
+.replies-container {
+    border-left: 2px solid #edeff1; 
+    padding-left: 0.5em;
+    transition: border-color 0.2s ease;
+    &:hover{
+        border-left-color: #878a8c; 
+    }
+}
+
+.comment_card {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}

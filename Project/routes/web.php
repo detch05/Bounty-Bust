@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\StaticController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\BountiesController;
 use App\Http\Controllers\Auth\LoginController;
@@ -91,10 +92,10 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->name('admin.')->group(fu
 
 // COMMENTS
 Route::middleware(['auth'])->prefix('comments')->group(function(){
-    Route::post('/store',[App\Http\Controllers\CommentController::class,'store'])->name('comments.store');
-    Route::delete('/{id}/delete',[App\Http\Controllers\CommentController::class,'delete'])->name('comments.delete');
-    Route::put('/{id}/edit',[App\Http\Controllers\CommentController::class,'update'])->name('comments.edit');
-    Route::get('/{id}/edit',[App\Http\Controllers\CommentController::class,'editForm'])->name('comments.editForm');
+    Route::post('/store',[CommentController::class,'store'])->name('comments.store');
+    Route::delete('/{id}/delete',[CommentController::class,'delete'])->name('comments.delete');
+    Route::put('/{id}/edit',[CommentController::class,'update'])->name('comments.edit');
+    Route::get('/{id}/edit',[CommentController::class,'editForm'])->name('comments.editForm');
 });
 
 // CONTENT 

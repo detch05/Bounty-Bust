@@ -81,3 +81,26 @@ document.querySelectorAll(".followBtn").forEach((button) => {
             });
     });
 });
+
+document.querySelectorAll(".replyBtn").forEach((btn)=>{
+    btn.addEventListener("click", () => {
+        const commentCard = btn.closest(".comment_card");
+        const replyForm = commentCard.querySelector(".reply-form");
+
+        document.querySelectorAll(".reply-form").forEach(f => {
+            if (f !== replyForm) f.classList.add("d-none");
+        });
+
+         replyForm.classList.toggle("d-none");
+
+        const textarea = replyForm.querySelector("textarea");
+        textarea.focus();
+    });
+});
+
+document.querySelectorAll(".cancel-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const replyForm = btn.closest(".reply-form");
+        replyForm.classList.add("d-none");
+    });
+});
