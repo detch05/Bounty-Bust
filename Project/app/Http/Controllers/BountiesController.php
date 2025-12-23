@@ -42,11 +42,11 @@ class BountiesController extends Controller
         }
 
         $bountiesQuery->orderBy('content.created_at', 'desc');
-    
+
 
         // Paginate and preserve filters in links
-        $bounties = $bountiesQuery->paginate(15)->appends($request->query()); 
-        
+        $bounties = $bountiesQuery->paginate(15)->appends($request->query());
+
         // 7. Retorna a View
         return view('pages.content.bounty.bounties', [
             'bounties' => $bounties
@@ -67,35 +67,38 @@ class BountiesController extends Controller
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['integer','exists:tag,id'],
-            //'media' => ['nullable', 'string'],
+            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
         // Array de mensagens personalizadas
         'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
-        'reward.min' => 'A recompensa mínima deve ser 1.', 
+        'reward.min' => 'A recompensa mínima deve ser 1.',
         ]);
-        
+
         $content = Content::create([
             'description' => $request->description,
             'user_id' => Auth::id(), // ID do utilizador logado
             'version' => 1,          // Primeira versão
             'rating' => 0,           // Rating inicial
         ]);
-        
+
         $bounty = new Bounty();
-        
+
         // CAMPOS DA TABELA BOUNTY:
         $bounty->id_content = $content->id; // CHAVE CRÍTICA: ID do Content recém-criado
         $bounty->title = $request->title;
-        $bounty->media = /*$request->media ??*/ null; 
         $bounty->reward = $request->reward;
-        
+
         $bounty->save();
+
+        if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
 
         // Sync tags if provided (keeps many-to-many relationship in bounty_tag)
         if ($request->has('tags')) {
             $bounty->tags()->sync($request->input('tags', []));
         }
-        
+
         return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
     }
 
@@ -113,10 +116,11 @@ class BountiesController extends Controller
     public function update($id,Request $request){
         $this->validate($request,[
             'title' => ['required', 'string', 'max:60'],
-            'description' => ['required', 'string', 'max:10000'], 
+            'description' => ['required', 'string', 'max:10000'],
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable','array'],
             'tags.*' => ['integer','exists:tag,id'],
+            'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $bounty = Bounty::with('content')->findOrFail($id);
@@ -126,11 +130,14 @@ class BountiesController extends Controller
         $bounty->save();
 
         $bounty->content->description = $request->description;
-        $bounty->content->version += 1;             
-        $bounty->content->edit_date = now();       
+        $bounty->content->version += 1;
+        $bounty->content->updated_at = now();
         $bounty->content->save();
 
-        // Sync tags from form
+        if($request->hasFile('bountyImage')){
+            $bounty->handleBountyIMG($request->file('bountyImage'));
+        }
+
         if ($request->has('tags')) {
             $bounty->tags()->sync($request->input('tags', []));
         }
@@ -138,17 +145,17 @@ class BountiesController extends Controller
         return redirect()->route('bounties.index', $bounty->id_content)->with('success', 'Bounty updated successfully!');
     }
 
-    
+
     public function show(Bounty $bounty)
     {
         // Eager load answers with their content and the content's user
         $bounty->load(['content', 'answers.content.user']);
-        $bounty->content->increment('views', 1, []); 
+        $bounty->content->increment('views', 1, []);
 
         $comments = Comment::with(['user','content'])
         ->where('bounty_id', $bounty->id_content)
         ->get();
-        
+
         return view('pages.content.bounty.show1_bounty', [
             'bounty' => $bounty,
             'comments' => $comments
