@@ -8,6 +8,8 @@ use App\Models\Content;
 use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BountiesController extends Controller
 {
@@ -64,31 +66,68 @@ class BountiesController extends Controller
         'reward.min' => 'A recompensa mínima deve ser 1.',
         ]);
 
-        $content = Content::create([
-            'description' => $request->description,
-            'user_id' => Auth::id(), // ID do utilizador logado
-            'version' => 1,          // Primeira versão
-        ]);
+        $user = Auth::user();
+        $reward = $request->reward;
 
-        $bounty = new Bounty();
-
-        // CAMPOS DA TABELA BOUNTY:
-        $bounty->id_content = $content->id; // CHAVE CRÍTICA: ID do Content recém-criado
-        $bounty->title = $request->title;
-        $bounty->reward = $request->reward;
-
-        $bounty->save();
-
-         if($request->hasFile('bountyImage')){
-            $bounty->handleBountyIMG($request->file('bountyImage'));
+        // Validate user has sufficient points
+        if ($user->points < $reward) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['reward' => 'Você não tem pontos suficientes. Pontos disponíveis: ' . $user->points]);
         }
 
-        // Sync tags if provided (keeps many-to-many relationship in bounty_tag)
-        if ($request->has('tags')) {
-            $bounty->tags()->sync($request->input('tags', []));
-        }
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso!');
+            // Deduct points from user
+            $user->points -= $reward;
+            $user->save();
+
+            Log::info('Points deducted for bounty creation', [
+                'user_id' => $user->id,
+                'reward' => $reward,
+                'remaining_points' => $user->points
+            ]);
+
+            $content = Content::create([
+                'description' => $request->description,
+                'user_id' => Auth::id(), // ID do utilizador logado
+                'version' => 1,          // Primeira versão
+            ]);
+
+            $bounty = new Bounty();
+
+            // CAMPOS DA TABELA BOUNTY:
+            $bounty->id_content = $content->id; // CHAVE CRÍTICA: ID do Content recém-criado
+            $bounty->title = $request->title;
+            $bounty->reward = $reward;
+
+            $bounty->save();
+
+            if($request->hasFile('bountyImage')){
+                $bounty->handleBountyIMG($request->file('bountyImage'));
+            }
+
+            // Sync tags if provided (keeps many-to-many relationship in bounty_tag)
+            if ($request->has('tags')) {
+                $bounty->tags()->sync($request->input('tags', []));
+            }
+
+            DB::commit();
+
+            return redirect()->route('bounties.index')->with('success', 'Bounty criado com sucesso! ' . $reward . ' pontos foram descontados.');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error creating bounty', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage()
+            ]);
+            
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Erro ao criar bounty. Tente novamente.']);
+        }
     }
 
     public function getBounty($id)

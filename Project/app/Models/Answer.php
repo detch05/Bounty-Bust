@@ -28,6 +28,7 @@ class Answer extends Model
         'title',
         'id_content',
         'bounty_id',
+        'is_correct',
     ];
 
     public function content()

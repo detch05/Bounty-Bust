@@ -1,4 +1,4 @@
-<article class="answer-card p-3 mb-4 border">
+<article class="answer-card p-3 mb-4 border {{ $answer->isCorrect() ? 'border-success border-2 bg-success-subtle' : '' }}">
     <div class="answerHeader d-flex gap-2 align-items-center">
             <div class="d-flex align-items-center gap-2 ms-2 py-0">
             <img src="{{ Storage::url('users/' . (optional($answer->content->user)->id ?: 'default') . '.jpg') }}" class="profileIcon"
@@ -55,7 +55,8 @@
                     </ul>
                 </div>
                 @endif
-                @if(auth()->user()->id === $bounty->content->user->id && !$answer->isCorrect())
+                @php $hasCorrect = $hasCorrect ?? false; @endphp
+                @if(auth()->user()->id === $bounty->content->user->id && !$answer->isCorrect() && !$hasCorrect)
                     <form method="POST" action="{{ route('answers.markCorrect', $answer->id_content) }}" class="mark-correct-form d-inline" data-answer-id="{{ $answer->id_content }}">
                         @csrf
                         <button type="submit" class="btn btn-sm btn-success ms-2">Mark as Correct</button>

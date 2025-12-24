@@ -123,6 +123,7 @@ document.querySelectorAll('.mark-correct-form').forEach((form) => {
         e.preventDefault();
 
         const action = form.getAttribute('action');
+        const card = form.closest('.answer-card');
 
         fetch(action, {
             method: 'POST',
@@ -134,9 +135,28 @@ document.querySelectorAll('.mark-correct-form').forEach((form) => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
-                    const btn = form.querySelector('button[type="submit"]');
-                    if (btn) btn.remove();
+                    // remove all "mark as correct" buttons to enforce single correct answer visually
+                    document.querySelectorAll('.mark-correct-form').forEach(f => f.remove());
+
+                    // highlight the accepted answer
+                    if (card) {
+                        card.classList.add('border-success', 'border-2', 'bg-success-subtle');
+                        // add badge if missing
+                        const existingBadge = card.querySelector('.correct-badge');
+                        if (!existingBadge) {
+                            const badge = document.createElement('span');
+                            badge.className = 'badge bg-success ms-3 correct-badge';
+                            badge.innerHTML = 'Correct Answer <i class="bi bi-check"></i>';
+                            const actionsRow = card.querySelector('.d-flex.align-items-center.gap-3');
+                            if (actionsRow) actionsRow.appendChild(badge);
+                        }
+                    }
+                } else if (data.error) {
+                    alert(data.error);
                 }
+            })
+            .catch(() => {
+                alert('Failed to mark as correct. Please try again.');
             });
     });
 });

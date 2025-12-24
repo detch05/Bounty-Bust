@@ -101,6 +101,7 @@
                                         <a href="{{ route('answers.create', ['bountyId' => $bounty->id_content]) }}"
                                             class="btn btn-primary">Give Answer</a>
                                     </div>
+                                    @php $hasCorrect = $answers->contains(fn($a) => $a->isCorrect()); @endphp
                                     @php $initial = 3; @endphp
                                     <div id="answersList">
                                         @foreach ($answers as $i => $answer)
