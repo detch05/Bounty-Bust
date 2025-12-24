@@ -33,7 +33,7 @@ class BountiesController extends Controller
         if ($query) {
             // Pesquisa nos títulos e na descrição do conteúdo (usando ILIKE para PostgreSQL insensível)
             $bountiesQuery->where('title', 'ILIKE', "%{$query}%")
-                ->orWhere('content.description', 'ILIKE', "%{$query}%");
+                          ->orWhere('content.description', 'ILIKE', "%{$query}%");
         }
 
         // 6. Paginação (usa paginate() no Query Builder)
@@ -58,12 +58,12 @@ class BountiesController extends Controller
             'description' => ['required', 'string', 'max:10000'], // Campo Content
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
             'tags' => ['nullable', 'array'],
-            'tags.*' => ['integer', 'exists:tag,id'],
+            'tags.*' => ['integer','exists:tag,id'],
             'bountyImage' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
-            // Array de mensagens personalizadas
-            'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
-            'reward.min' => 'A recompensa mínima deve ser 1.',
+        // Array de mensagens personalizadas
+        'reward.max' => 'A recompensa máxima permitida é de 200 pontos. Por favor, ajuste o valor.',
+        'reward.min' => 'A recompensa mínima deve ser 1.',
         ]);
 
         $user = Auth::user();
@@ -104,7 +104,7 @@ class BountiesController extends Controller
 
             $bounty->save();
 
-            if ($request->hasFile('bountyImage')) {
+            if($request->hasFile('bountyImage')){
                 $bounty->handleBountyIMG($request->file('bountyImage'));
             }
 
@@ -136,25 +136,21 @@ class BountiesController extends Controller
         return $bounty;
     }
 
-    public function editBounty($id)
-    {
-        $bounty = $this->getBounty($id);
-        $this->authorize('update', $bounty);
+    public function editBounty($id){
+        $bounty= $this->getBounty($id);
         return view('pages.content.bounty.edit_bounty', compact('bounty'));
     }
 
-    public function update($id, Request $request)
-    {
-        $this->validate($request, [
+    public function update($id,Request $request){
+        $this->validate($request,[
             'title' => ['required', 'string', 'max:60'],
             'description' => ['required', 'string', 'max:10000'],
             'reward' => ['required', 'numeric', 'min:1', 'max:200'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['integer', 'exists:tag,id'],
+            'tags' => ['nullable','array'],
+            'tags.*' => ['integer','exists:tag,id'],
         ]);
 
         $bounty = Bounty::with('content')->findOrFail($id);
-        $this->authorize('update', $bounty);
 
         $bounty->title = $request->title;
         $bounty->reward = $request->reward;
@@ -165,7 +161,7 @@ class BountiesController extends Controller
         $bounty->content->updated_at = now();
         $bounty->content->save();
 
-        if ($request->hasFile('bountyImage')) {
+         if($request->hasFile('bountyImage')){
             $bounty->handleBountyIMG($request->file('bountyImage'));
         }
 
@@ -183,7 +179,7 @@ class BountiesController extends Controller
 
         $bounty->content->increment('views');
 
-        $comments = Comment::with(['user', 'content'])
+        $comments = Comment::with(['user','content'])
             ->where('bounty_id', $bounty->id_content)
             ->get();
 
@@ -200,10 +196,8 @@ class BountiesController extends Controller
 
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id){
         $bounty = Bounty::with('content')->findOrFail($id);
-        $this->authorize('delete', $bounty);
         $bounty->content->delete();
         $bounty->delete();
         return redirect()->route('bounties.index')->with('success', 'Bounty deleted successfully.');

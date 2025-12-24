@@ -27,7 +27,7 @@
 <div class="mb-3">
     <label for="reward" class="form-label">Reward</label>
     <input type="number" class="form-control @error('reward') is-invalid @enderror" id="reward" name="reward"
-        value="{{ old('reward', $reward) }}" required>
+        value="{{ old('reward', $reward) }}" min="0" required>
     @error('reward')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror

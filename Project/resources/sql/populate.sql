@@ -7,7 +7,12 @@ INSERT INTO roles (role_id,name) VALUES
 -- 0. DADOS INICIAIS (Ajustados para incluir 'bio' e 'location') PASSWORD: 123456
 INSERT INTO users (username, email, password, "name", bio, location, points, user_role) VALUES
 ('alice', 'alice@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Alice Martins', 'Senior Developer focused on Databases and Performance.', 'Lisbon, Portugal', 150, 3),
-('oDiscordMod', 'discordmod@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Discord Mod', 'Professional Discord Mod', 'Leiria, Portugal', 300, 2);
+('oDiscordMod', 'discordmod@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Discord Mod', 'Professional Discord Mod', 'Leiria, Portugal', 300, 2),
+('mariana', 'mariana@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Mariana Alves', 'Frontend engineer experienced with React and accessibility.', 'Lisbon, Portugal', 95, 1),
+('pedro', 'pedro@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Pedro Gomes', 'Community moderator and backend engineer.', 'Porto, Portugal', 210, 2),
+('sara', 'sara@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Sara Pinto', 'Site administrator and developer advocate.', 'Madrid, Spain', 500, 3),
+('luis', 'luis@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Luís Ferreira', 'Performance engineer focused on DB and web performance.', 'Barcelona, Spain', 160, 1),
+('ana', 'ana@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Ana Silva', 'QA engineer with strong testing automation background.', 'Berlin, Germany', 125, 1);
 
 INSERT INTO users (username, email, password, "name", bio, location, points) VALUES
 ('bruno', 'bruno@example.com', '$2y$12$Az4RNB.Jmxke8z9wk3P2gus0UPqHmpa2zml2YAFsxxLE84KNOn31C', 'Bruno Silva', 'Python enthusiast and machine learning amateur.', 'Porto, Portugal', 120),
@@ -20,7 +25,12 @@ INSERT INTO tag (name, description, color) VALUES
 ('Python', 'Questions about Python programming', '#f7df1e'),
 ('WebDev', 'Web development topics (HTML, CSS, JS)', '#4caf50'),
 ('Databases', 'Design and performance of databases', '#2196f3'),
-('AI', 'Artificial intelligence and machine learning', '#9c27b0');
+('AI', 'Artificial intelligence and machine learning', '#9c27b0'),
+('React', 'Questions about React and its ecosystem', '#61dafb'),
+('Docker', 'Containerization and Docker best practices', '#2496ed'),
+('Performance', 'Performance tuning for web and DB', '#ff9800'),
+('Testing', 'Unit/integration/e2e testing practices', '#8bc34a');
+
 
 INSERT INTO content (description, user_id) VALUES
 ('How can I join two tables efficiently in PostgreSQL?', 1), -- ID 1 (Bounty 1)
@@ -28,6 +38,7 @@ INSERT INTO content (description, user_id) VALUES
 ('Best practices for designing relational databases?', 3), -- ID 3 (Bounty 3)
 ('How to center a div in CSS?', 4), -- ID 4 (Bounty 4)
 ('What is backpropagation in neural networks?', 5); -- ID 5 (Bounty 5)
+
 -- Transformando todos os 5 conteúdos iniciais em Bounties
 INSERT INTO bounty (id_content, title, media, reward) VALUES
 (1, 'Optimize SQL Join Performance', NULL, 100),
@@ -81,6 +92,7 @@ INSERT INTO content (description, user_id) VALUES
 ('How to create a responsive dashboard using Bootstrap 5 and Chart.js?', 4), -- ID 18
 ('Explain the concept of Generative Adversarial Networks (GANs).', 1), -- ID 19
 ('How to write effective unit tests in Java with JUnit?', 2); -- ID 20
+
 
 -- Bounties (ID_content de 6 a 20)
 INSERT INTO bounty (id_content, title, media, reward) VALUES
@@ -213,3 +225,7 @@ INSERT INTO bounty_answer_notification (notification_id, bounty_id) VALUES
 
 INSERT INTO comment_rating_notification (notification_id, comment_id) VALUES
 (5, 36); -- Notificação de rating para o comentário 36
+
+
+
+
