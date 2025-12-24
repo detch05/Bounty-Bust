@@ -20,9 +20,6 @@
                             @endforeach
                         </div>
                     </section>
-                    <section class="col-xl-3 col-lg-2 d-none d-lg-block">
-                        <p>Test</p>
-                    </section>
                 </div>
             </div>
         </div>
