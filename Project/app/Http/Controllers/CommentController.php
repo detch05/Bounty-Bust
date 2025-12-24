@@ -18,13 +18,13 @@ class CommentController extends Controller
             'parent_id' => 'nullable|integer|exists:comment,id_content',
         ]);
 
-        
+
         $user = $request->user();
         $bountyId = $request->input('bounty_id');
         $answerId = $request->input('answer_id');
         $parentId = $request->input('parent_id');
 
-        
+
         $newContent = Content::create([
             'description' => $request->input('text'),
             'user_id' => $user->id,
@@ -45,6 +45,7 @@ class CommentController extends Controller
     public function editForm($id)
     {
         $comment = Comment::with('content')->findOrFail($id);
+        $this->authorize('update', $comment);
         return view('pages.content.comment.edit_comment', compact('comment'));
     }
 
@@ -55,6 +56,7 @@ class CommentController extends Controller
         ]);
 
         $comment = Comment::with('content')->findOrFail($id);
+        $this->authorize('update', $comment);
         $comment->content->description = $request->input('text');
         $comment->content->updated_at = now();
         $comment->content->save();
@@ -64,13 +66,14 @@ class CommentController extends Controller
                 ->with('success', 'Comment updated successfully.');
         }
 
- 
+
         return redirect()->back()->with('success', 'Comment updated successfully.');
     }
 
     public function delete($id)
     {
         $comment = Comment::with('content')->findOrFail($id);
+        $this->authorize('delete', $comment);
         $comment->delete();
 
         return redirect()->back()->with('success', 'Comment deleted successfully.');

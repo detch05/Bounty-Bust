@@ -68,6 +68,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/account/delete',[UserController::class,'userDeleteAccount'])->name('account.destroy');
 });
 
+Route::middleware(['isAdmin'])->group(function () {
+    Route::delete('/users/{id}/delete',[UserController::class,'destroy'])->name('users.destroy');
+});
+
 Route::middleware(['auth'])->prefix('users')->group(function(){
     Route::get('/{id}',[UserController::class,'showProfile'])->name('profile');
     Route::get('/{id}/edit',[UserController::class,'editProfileForm'])->name('profile.edit');

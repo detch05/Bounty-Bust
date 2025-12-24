@@ -45,9 +45,6 @@ h2:first-child {
         }
     }
 
-    div > i:first-child {
-        color: rgba(255, 0, 0, 0.705);
-    }
 }
 
 .tagHeading {

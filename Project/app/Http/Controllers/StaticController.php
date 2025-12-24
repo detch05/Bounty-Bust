@@ -27,7 +27,7 @@ class StaticController extends Controller
                 Content::select('updated_at')
                     ->whereColumn('content.id', 'bounty.id_content')
             )
-            ->paginate(20);
+            ->get();
 
         return view('pages.home', compact('bounties', 'featured_bounties'));
     }

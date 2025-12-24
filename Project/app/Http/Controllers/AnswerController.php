@@ -52,6 +52,7 @@ class AnswerController extends Controller
         ]);
 
         $answer = Answer::with('content')->findOrFail($id);
+        $this->authorize('update', $answer);
 
         $answer->title = $request->input('title');
         $answer->content->description = $request->input('description');
@@ -73,6 +74,7 @@ class AnswerController extends Controller
     public function editAnswer($id)
     {
         $answer = Answer::with('content')->findOrFail($id);
+        $this->authorize('update', $answer);
         return view('pages.content.answer.edit_answer', compact('answer'));
     }
 
@@ -88,38 +90,39 @@ class AnswerController extends Controller
     {
         try {
             DB::beginTransaction();
-            
+
             $answer = Answer::with(['content.user', 'bounty'])->findOrFail($id);
-            
+            $this->authorize('update', $answer);
+
             // Check if there's already a correct answer for this bounty
             $existingCorrect = Answer::where('bounty_id', $answer->bounty_id)
-                                     ->where('is_correct', true)
-                                     ->where('id_content', '!=', $id)
-                                     ->first();
-            
+                ->where('is_correct', true)
+                ->where('id_content', '!=', $id)
+                ->first();
+
             if ($existingCorrect) {
                 return response()->json([
                     'error' => 'This bounty already has a correct answer.'
                 ], 400);
             }
-            
+
             // Mark answer as correct
             $answer->is_correct = true;
             $saved = $answer->save();
-            
+
             Log::info('Answer marked as correct', [
                 'answer_id' => $id,
                 'saved' => $saved,
                 'is_correct_value' => $answer->is_correct
             ]);
-            
+
             // Award points to the answer's author
             $user = $answer->content->user ?? null;
             if ($user && $answer->bounty) {
                 $reward = $answer->bounty->reward ?? 0;
                 $user->points = ($user->points ?? 0) + $reward;
                 $userSaved = $user->save();
-                
+
                 Log::info('User points updated', [
                     'user_id' => $user->id,
                     'reward' => $reward,
@@ -127,14 +130,14 @@ class AnswerController extends Controller
                     'saved' => $userSaved
                 ]);
             }
-            
+
             DB::commit();
-            
+
             return response()->json([
                 'success' => 'Answer marked as correct!',
                 'points_awarded' => $reward ?? 0
             ]);
-            
+
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error marking answer as correct', [
@@ -142,7 +145,7 @@ class AnswerController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return response()->json([
                 'error' => 'Failed to mark answer as correct: ' . $e->getMessage()
             ], 500);
@@ -152,6 +155,7 @@ class AnswerController extends Controller
     public function delete($id)
     {
         $answer = Answer::with('content')->findOrFail($id);
+        $this->authorize('delete', $answer);
         $bountyId = $answer->bounty_id;
 
         $answer->content->delete();

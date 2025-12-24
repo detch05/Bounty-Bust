@@ -22,6 +22,7 @@ class UserController extends Controller
     public function editProfileForm($id)
     {
         $User = User::findorFail($id);
+        $this->authorize('update', $User);
         $parsed_name = explode(' ', trim($User->name), 2);
         $firstName = $parsed_name[0];
         $lastName = $parsed_name[1];
@@ -32,6 +33,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('update', $user);
         $request->validate([
             'firstName' => 'sometimes|string|max:30',
             'lastName' => 'sometimes|string|max:30',
@@ -77,6 +79,8 @@ class UserController extends Controller
             return redirect(route('homepage'));
         }
 
+        $this->authorize('delete', $user);
+
 
         // NOT WORKING STILL
         $deletePFP = public_path('img/users/' . $id . '.jpg');
@@ -85,7 +89,7 @@ class UserController extends Controller
         }
 
         $user->delete();
-        return redirect(route('homepage'));
+        return redirect(route('admin.dashboard'))->with('success', 'User deleted successfully.');
     }
 
     public function userDeleteAccount()
@@ -94,6 +98,7 @@ class UserController extends Controller
         if (!$user) {
             return redirect(route('homepage'));
         }
+        $this->authorize('delete', $user);
         $user->delete();
         Auth::logout();
 

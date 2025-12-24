@@ -28,12 +28,14 @@
                 <a class="nav-link" href="#">Contacts</a>
             </div>
         </section>
+        @if(Auth::check() && Auth::user()->hasRole('admin'))
         <section id="adminPanel">
             <div class="d-flex align-items-center">
                 <i class="bi bi-tools fs-4"></i>
                 <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Panel</a>
             </div>
         </section>
+        @endif
     </nav>
 </aside>
 
